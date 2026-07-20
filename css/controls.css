@@ -1,0 +1,336 @@
+/* ============================================
+   Финансовый помощник для самозанятых
+   Контролы калькулятора — segmented / amount-field / month-picker / btn-pill
+   Подключается после tokens.css, перед styles.css.
+   ============================================ */
+
+/* Скрытый нативный input/select — остаётся источником правды для JS расчётов
+   (restoreState/saveState читают/пишут именно эти элементы), визуально не показан,
+   но доступен для фокуса и скринридеров через связанный видимый контрол. */
+.control-native,
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* ============================================
+   Группа контролов (grouped list, как в iOS Settings)
+   ============================================ */
+.control-group {
+    background: var(--color-surface);
+    border-radius: 20px;
+    border: 1px solid var(--color-line);
+    padding: 4px 20px;
+}
+
+.control-group__row {
+    padding: 12px 0;
+}
+
+.control-group__row + .control-group__row {
+    border-top: 1px solid var(--color-line);
+}
+
+/* ============================================
+   Segmented control
+   ============================================ */
+.segmented-field {
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+
+.segmented {
+    position: relative;
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: 1fr;
+    background: var(--color-line);
+    border-radius: 14px;
+    padding: 4px;
+    gap: 4px;
+}
+
+.segmented__option {
+    position: relative;
+    z-index: 1;
+    min-height: 44px;
+    padding: 10px 12px;
+    border: none;
+    background: transparent;
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 0.9375rem;
+    color: var(--color-muted);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: color var(--dur-base) var(--ease-out);
+    text-align: center;
+    /* На узких экранах длинные подписи («Юрлицо/ИП») должны переноситься,
+       а не обрезаться. См. ТЗ-аудит §B1. */
+    min-width: 0;
+    overflow-wrap: anywhere;
+    line-height: 1.25;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.segmented__option.is-active {
+    color: var(--color-ink);
+}
+
+.segmented__thumb {
+    position: absolute;
+    top: 4px;
+    bottom: 4px;
+    left: 4px;
+    width: calc(50% - 4px);
+    background: var(--color-surface);
+    border-radius: 10px;
+    box-shadow: 0 1px 3px rgba(30, 42, 56, 0.12);
+    transition: transform 320ms var(--ease-spring);
+    pointer-events: none;
+}
+
+.segmented[data-count="2"] .segmented__thumb { width: calc(50% - 4px); }
+
+@media (prefers-reduced-motion: reduce) {
+    .segmented__thumb { transition: none; }
+}
+
+/* ============================================
+   Amount field — крупное поле суммы/счётчика
+   ============================================ */
+.amount-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+/* Несколько amount-field в одной .control-group__row (напр. режим с двумя полями) */
+.amount-field + .amount-field {
+    margin-top: var(--spacing-md, 24px);
+}
+
+/* Явный верхний отступ (напр., risk-trudovyh) */
+.amount-field--mt {
+    margin-top: 20px;
+}
+
+.amount-field__label {
+    font-size: 0.9375rem;
+    color: var(--color-muted);
+    font-weight: 500;
+}
+
+.amount-field__control {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+}
+
+.amount-field__input {
+    flex: 1;
+    min-width: 0;
+    min-height: 44px;
+    border: none;
+    background: transparent;
+    font-family: var(--font-mono);
+    font-size: var(--fs-figure);
+    font-weight: 700;
+    color: var(--color-ink);
+    outline: none;
+    padding: 0;
+}
+
+.amount-field__input::placeholder {
+    color: var(--color-line);
+}
+
+/* Compact-вариант для НЕ-денежных полей: месяц, текст, дата.
+   Крупный --fs-figure уместен только для hero-сумм; для type=month он
+   делает контрол непропорционально огромным. ТЗ UI-раунд 2 §4. */
+.amount-field__input--compact,
+.amount-field__input[type="month"],
+.amount-field__input[type="date"] {
+    font-size: 1rem;
+    font-weight: 500;
+    font-family: var(--font-body);
+    min-height: 44px;
+    padding: 0 0.5rem;
+    line-height: 1.4;
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-control);
+    background: var(--color-surface);
+    color: var(--color-ink);
+}
+
+.amount-field__input[type="month"]:focus-visible,
+.amount-field__input[type="date"]:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+}
+
+.amount-field__suffix {
+    font-family: var(--font-mono);
+    font-size: var(--fs-h3);
+    color: var(--color-muted);
+    white-space: nowrap;
+}
+
+.amount-field__input:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 4px;
+    border-radius: 4px;
+}
+
+.amount-field__hint {
+    font-size: var(--fs-caption);
+    color: var(--color-muted);
+}
+
+/* ============================================
+   Текст ошибки валидации (аналог hint, но красный)
+   ============================================ */
+.amount-field__error {
+    display: none;
+    font-size: var(--fs-caption);
+    color: var(--color-accent-red);
+}
+
+.amount-field__error.is-visible {
+    display: block;
+}
+
+/* Временная подсветка незаполненного поля (для генератора договора) */
+.field-highlight {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+    border-radius: 4px;
+    animation: field-pulse 0.5s ease-out 2;
+}
+
+@keyframes field-pulse {
+    0%, 100% { outline-color: var(--color-accent); }
+    50% { outline-color: var(--color-accent-red); }
+}
+
+/* ============================================
+   Month picker — горизонтальные чипсы со snap-прокруткой
+   ============================================ */
+.month-picker__label {
+    display: block;
+    font-size: 0.9375rem;
+    color: var(--color-muted);
+    font-weight: 500;
+    margin-bottom: 8px;
+}
+
+.month-picker__track {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    padding: 4px 2px;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.month-picker__track::-webkit-scrollbar {
+    display: none;
+}
+
+.month-picker__chip {
+    scroll-snap-align: center;
+    flex: 0 0 auto;
+    min-height: 44px;
+    min-width: 44px;
+    padding: 0 16px;
+    border-radius: 999px;
+    border: 1px solid var(--color-line);
+    background: var(--color-surface);
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 0.9375rem;
+    color: var(--color-muted);
+    cursor: pointer;
+    transition: background var(--dur-base) var(--ease-out), color var(--dur-base) var(--ease-out), border-color var(--dur-base) var(--ease-out);
+}
+
+.month-picker__chip.is-active {
+    background: var(--color-ink);
+    border-color: var(--color-ink);
+    color: var(--color-paper);
+}
+
+@media (min-width: 1024px) {
+    .month-picker__track {
+        flex-wrap: wrap;
+        overflow-x: visible;
+    }
+}
+
+/* ============================================
+   Pill-кнопка (вторичное действие)
+   ============================================ */
+.btn-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 44px;
+    padding: 0 20px;
+    border-radius: 999px;
+    border: 1px solid var(--color-line);
+    background: var(--color-surface);
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 0.9375rem;
+    color: var(--color-ink);
+    cursor: pointer;
+    transition: transform var(--dur-fast) var(--ease-out), background var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);
+}
+
+.btn-pill:hover {
+    background: var(--color-line);
+}
+
+.btn-pill:active {
+    transform: scale(0.97);
+}
+
+.btn-pill--copied {
+    /* Затемнено относительно --color-green, иначе белый текст даёт <4.5:1
+       в тёмной теме (проверено по формуле WCAG). */
+    background: color-mix(in srgb, var(--color-green), black 15%);
+    border-color: color-mix(in srgb, var(--color-green), black 15%);
+    color: #fff;
+}
+
+/* focus-visible для всех новых интерактивных элементов (совпадает с глобальным
+   правилом в styles.css, дублируется здесь на случай изменения порядка подключения).
+   .segmented__option — это <label>, реальный фокус получает вложенный скрытый
+   input[type=radio], поэтому кольцо вешается через :has(). */
+.segmented__option:has(:focus-visible) {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+}
+.month-picker__chip:focus-visible,
+.btn-pill:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+}
+
+/* Скрытый select месяца управляется с клавиатуры нативно — при его фокусе
+   подсвечиваем активный чип, чтобы фокус был виден зрячему клавиатурному пользователю. */
+.month-picker.is-focused .month-picker__chip.is-active {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+}

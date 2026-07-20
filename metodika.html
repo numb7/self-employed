@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Методика и источники — финансовый помощник для самозанятых</title>
+    <meta name="description" content="Принципы расчёта, нормативные параметры и источники данных калькуляторов для самозанятых. Ставки НПД, лимиты, взносы СФР.">
+    <meta name="robots" content="index, follow">
+
+    <meta name="theme-color" content="#6F5DC9">
+
+    <!-- Раннее применение темы ДО первой отрисовки — предотвращает FOUC.
+         Светлая тема — дефолт по ТЗ §2.1; тёмная включается вручную. -->
+    <script>
+    (function(){try{var t=localStorage.getItem('theme');if(t==='dark'){document.documentElement.setAttribute('data-theme','dark');}}catch(e){}})();
+    </script>
+
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Методика и источники — финансовый помощник для самозанятых">
+    <meta property="og:description" content="Принципы расчёта, нормативные параметры и источники данных калькуляторов для самозанятых.">
+    <meta property="og:url" content="https://samozanyatye.vercel.app/metodika.html">
+    <meta property="og:locale" content="ru_RU">
+    <meta property="og:image" content="https://samozanyatye.vercel.app/assets/og-image.png">
+    <meta name="twitter:card" content="summary">
+
+    <link rel="canonical" href="https://samozanyatye.vercel.app/metodika.html">
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="preconnect" href="https://mc.yandex.ru">
+    <link rel="preload" href="assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="assets/fonts/lora-cyrillic-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+
+    <link rel="stylesheet" href="css/tokens.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/profile.css">
+
+    <script type="text/javascript" data-metrika-placeholder>
+    (function(){var ID=window.YANDEX_METRIKA_ID;if(!ID)return;(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,k.setAttribute("data-metrika-id",ID),a.parentNode.insertBefore(k,a)})(window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");ym(ID,"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true});})();
+    </script>
+    <noscript><div><img src="https://mc.yandex.ru/watch/YANDEX_METRIKA_ID" style="position:absolute;left:-9999px" alt="" /></div></noscript>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": "Методика и источники — финансовый помощник для самозанятых",
+      "description": "Принципы расчёта, нормативные параметры и источники данных калькуляторов для самозанятых.",
+      "url": "https://samozanyatye.vercel.app/metodika.html",
+      "dateModified": "2026-07-18",
+      "inLanguage": "ru"
+    }
+    </script>
+    <script type="application/ld+json">
+{
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://samozanyatye.vercel.app/index.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Методика",
+          "item": "https://samozanyatye.vercel.app/metodika.html"
+        }
+      ]
+    }
+    </script>
+</head>
+<body>
+    <a href="#main" class="skip-link">Перейти к содержанию</a>
+    <nav class="page-nav">
+        <div class="container page-nav-inner">
+            <a href="index.html" class="nav-back">← Все инструменты</a>
+            <div class="page-nav-actions">
+                <button class="btn-icon" type="button" data-action="share" aria-label="Поделиться">
+                    <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.59 13.51 6.83 3.98"/><path d="m15.41 6.51-6.82 3.98"/></svg>
+                </button>
+                <button class="btn-icon" type="button" data-action="print" aria-label="Печать">
+                    <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 14h12v8H6z"/></svg>
+                </button>
+                <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Переключить тему" aria-pressed="false">🌙</button>
+            </div>
+        </div>
+    </nav>
+
+    <header class="page-hero">
+        <div class="container">
+            <nav class="breadcrumbs" aria-label="Хлебные крошки" data-breadcrumbs='[{"name":"Home","url":"index.html"},{"name":"Методика"}]'></nav>
+            <span class="page-hero__eyebrow">Методика · 2026</span>
+            <h1 class="page-hero__title">Методика и <em>источники</em></h1>
+            <p class="page-hero__subtitle">
+                Откуда берутся цифры в калькуляторах, по каким формулам считается и что считать ориентировочным.
+            </p>
+        </div>
+    </header>
+
+    <main class="main" id="main">
+        <div class="container">
+
+            <section class="section">
+                <h2 class="section-title">Назначение сервиса</h2>
+                <p class="section-description">
+                    Результаты всех калькуляторов — <strong>справочные и ориентировочные</strong>.
+                    Сервис не является ФНС, СФР, банком, юридической или бухгалтерской организацией.
+                    Точные расчёты производятся в приложении «Мой налог» и на официальных ресурсах СФР.
+                </p>
+            </section>
+
+            <section class="section">
+                <h2 class="section-title">Принципы расчёта</h2>
+                <div class="faq-list">
+                    <details class="faq-item" open>
+                        <summary class="faq-question">Вводимые данные</summary>
+                        <div class="faq-answer">
+                            <p>Пользователь вводит суммы дохода, оплаты, количества месяцев или часов. Все данные обрабатываются в браузере и не передаются на сервер.</p>
+                        </div>
+                    </details>
+                    <details class="faq-item">
+                        <summary class="faq-question">Применяемые ставки и лимиты</summary>
+                        <div class="faq-answer">
+                            <p>Ставки НПД (4% и 6%), лимит дохода (2 400 000 ₽), вычет (10 000 ₽), тариф больничного (3,84%), стоимость пенсионного стажа — берутся из единого файла нормативных параметров <code>js/rules-2026.js</code> и обновляются ежегодно.</p>
+                        </div>
+                    </details>
+                    <details class="faq-item">
+                        <summary class="faq-question">Округление</summary>
+                        <div class="faq-answer">
+                            <p>Денежные суммы округляются до целого рубля по правилам математического округления. Пенсионный стаж в режиме «Сколько стажа даст сумма» — до одного знака после запятой.</p>
+                        </div>
+                    </details>
+                    <details class="faq-item">
+                        <summary class="faq-question">Ограничения применимости</summary>
+                        <div class="faq-answer">
+                            <ul class="faq-checklist">
+                                <li>Сравнение НПД и ИП — для ИП без работников на УСН «Доходы» 6% без патента и региональных льгот.</li>
+                                <li>Расчёт больничного не учитывает стаж, количество дней и конкретные условия — итоговую сумму определяет СФР.</li>
+                                <li>Концентрация дохода — эвристический индикатор, не юридический вердикт.</li>
+                                <li>Шаблон договора — справочный, требует проверки под конкретную сделку.</li>
+                            </ul>
+                        </div>
+                    </details>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2 class="section-title">Нормативные параметры 2026</h2>
+                <p class="section-description">Актуально на 16 июля 2026 года.</p>
+
+                <div class="calculator">
+                    <table class="concentration-table">
+                        <thead>
+                            <tr>
+                                <th>Параметр</th>
+                                <th class="ta-right">Значение</th>
+                                <th>Период</th>
+                                <th>Источник</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Лимит дохода НПД</td>
+                                <td class="mono ta-right">2 400 000 ₽</td>
+                                <td>2026</td>
+                                <td><a href="https://www.nalog.gov.ru/rn78/news/smi/12272618/" target="_blank" rel="noopener noreferrer">ФНС: НПД</a></td>
+                            </tr>
+                            <tr>
+                                <td>Ставка НПД для физлиц</td>
+                                <td class="mono ta-right">4%</td>
+                                <td>2026</td>
+                                <td><a href="https://www.nalog.gov.ru/rn78/news/smi/12272618/" target="_blank" rel="noopener noreferrer">ФНС: НПД</a></td>
+                            </tr>
+                            <tr>
+                                <td>Ставка НПД для юрлиц и ИП</td>
+                                <td class="mono ta-right">6%</td>
+                                <td>2026</td>
+                                <td><a href="https://www.nalog.gov.ru/rn78/news/smi/12272618/" target="_blank" rel="noopener noreferrer">ФНС: НПД</a></td>
+                            </tr>
+                            <tr>
+                                <td>Налоговый вычет НПД</td>
+                                <td class="mono ta-right">10 000 ₽</td>
+                                <td>2026</td>
+                                <td><a href="https://www.nalog.gov.ru/rn78/news/smi/12272618/" target="_blank" rel="noopener noreferrer">ФНС: НПД</a></td>
+                            </tr>
+                            <tr>
+                                <td>Тариф больничного (добровольное соцстрахование)</td>
+                                <td class="mono ta-right">3,84%</td>
+                                <td>2026–2028</td>
+                                <td><a href="https://sfr.gov.ru/files/id/press_center/pr/liflet/2026/Pensionnoe_i_sotsialnoe_obespechenie_samozanyatyih-platelschikov_NPD_2026_16_05.pdf" target="_blank" rel="noopener noreferrer">СФР</a>, № 456-ФЗ</td>
+                            </tr>
+                            <tr>
+                                <td>Страховые суммы больничного</td>
+                                <td class="mono ta-right">35 000 / 50 000 ₽</td>
+                                <td>2026–2028</td>
+                                <td><a href="https://sfr.gov.ru/files/id/press_center/pr/liflet/2026/Pensionnoe_i_sotsialnoe_obespechenie_samozanyatyih-platelschikov_NPD_2026_16_05.pdf" target="_blank" rel="noopener noreferrer">СФР</a>, № 456-ФЗ</td>
+                            </tr>
+                            <tr>
+                                <td>Скидка на взнос 10%</td>
+                                <td class="mono ta-right">с 19-го месяца</td>
+                                <td>2026–2028</td>
+                                <td><a href="https://publication.pravo.gov.ru/document/0001202512150018" target="_blank" rel="noopener noreferrer">№ 456-ФЗ, ст. 5</a></td>
+                            </tr>
+                            <tr>
+                                <td>Скидка на взнос 30%</td>
+                                <td class="mono ta-right">с 25-го месяца</td>
+                                <td>2026–2028</td>
+                                <td><a href="https://publication.pravo.gov.ru/document/0001202512150018" target="_blank" rel="noopener noreferrer">№ 456-ФЗ, ст. 5</a></td>
+                            </tr>
+                            <tr>
+                                <td>Добровольные пенсионные взносы (год стажа)</td>
+                                <td class="mono ta-right">71 525,52 ₽</td>
+                                <td>2026</td>
+                                <td><a href="https://sfr.gov.ru/files/id/press_center/pr/liflet/2026/Pensionnoe_i_sotsialnoe_obespechenie_samozanyatyih-platelschikov_NPD_2026_16_05.pdf" target="_blank" rel="noopener noreferrer">СФР</a>, ФЗ № 167-ФЗ</td>
+                            </tr>
+                            <tr>
+                                <td>МРОТ (основа для расчёта ОПС)</td>
+                                <td class="mono ta-right">22 440 ₽</td>
+                                <td>2026</td>
+                                <td>ФЗ о МРОТ</td>
+                            </tr>
+                            <tr>
+                                <td>Фиксированные взносы ИП «за себя»</td>
+                                <td class="mono ta-right">57 390 ₽</td>
+                                <td>2026</td>
+                                <td><a href="https://www.nalog.gov.ru/rn25/ifns/r25_16/info/16603713/" target="_blank" rel="noopener noreferrer">ФНС: взносы ИП 2026</a></td>
+                            </tr>
+                            <tr>
+                                <td>Доп. взнос ИП (1% свыше 300 000 ₽)</td>
+                                <td class="mono ta-right">1%, макс. 321 818 ₽</td>
+                                <td>2026</td>
+                                <td><a href="https://www.nalog.gov.ru/rn25/ifns/r25_16/info/16603713/" target="_blank" rel="noopener noreferrer">ФНС: взносы ИП 2026</a></td>
+                            </tr>
+                            <tr>
+                                <td>УСН «Доходы»</td>
+                                <td class="mono ta-right">6%</td>
+                                <td>2026</td>
+                                <td>НК РФ</td>
+                            </tr>
+                            <tr>
+                                <td>УСН «Доходы минус расходы»</td>
+                                <td class="mono ta-right">15%</td>
+                                <td>2026</td>
+                                <td>НК РФ</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section class="section">
+                <h2 class="section-title">Официальные источники</h2>
+                <div class="faq-list">
+                    <details class="faq-item" open>
+                        <summary class="faq-question">Первоисточники</summary>
+                        <div class="faq-answer">
+                            <ul class="sources-list">
+                                <li><a href="https://www.nalog.gov.ru/rn78/news/smi/12272618/" target="_blank" rel="noopener noreferrer">ФНС: налог на профессиональный доход — ставки, лимит, вычет</a></li>
+                                <li><a href="https://www.nalog.gov.ru/rn25/ifns/r25_16/info/16603713/" target="_blank" rel="noopener noreferrer">ФНС: фиксированные взносы ИП за себя в 2026 году</a></li>
+                                <li><a href="https://www.nalog.gov.ru/rn77/program/" target="_blank" rel="noopener noreferrer">Приложение «Мой налог»</a></li>
+                                <li><a href="https://sfr.gov.ru/files/id/press_center/pr/liflet/2026/Pensionnoe_i_sotsialnoe_obespechenie_samozanyatyih-platelschikov_NPD_2026_16_05.pdf" target="_blank" rel="noopener noreferrer">СФР: памятка самозанятым о соцобеспечении (2026)</a></li>
+                                <li><a href="https://gosuslugi.ru/" target="_blank" rel="noopener noreferrer">Госуслуги</a></li>
+                                <li><a href="https://publication.pravo.gov.ru/" target="_blank" rel="noopener noreferrer">Официальный портал правовой информации</a></li>
+                                <li><a href="https://publication.pravo.gov.ru/document/view/0001201811270056" target="_blank" rel="noopener noreferrer">ФЗ № 422-ФЗ от 27.11.2018</a> — закон о НПД</li>
+                                <li><a href="https://publication.pravo.gov.ru/document/0001202512150018" target="_blank" rel="noopener noreferrer">ФЗ № 456-ФЗ от 15.12.2025</a> — эксперимент по больничным для самозанятых</li>
+                                <li><a href="https://pravo.gov.ru/proxy/ips/?docbody=&firstDoc=1&lastDoc=1&nd=102073909" target="_blank" rel="noopener noreferrer">ФЗ № 167-ФЗ</a> — об обязательном пенсионном страховании (добровольное участие)</li>
+                                <li>НК РФ — УСН, страховые взносы ИП</li>
+                            </ul>
+                        </div>
+                    </details>
+                </div>
+            </section>
+
+            <section class="section related-tools">
+                <h2 class="related-tools-title">Документы</h2>
+                <div class="related-tools-grid">
+                    <a href="privacy.html" class="calc-card">
+                        <span class="calc-card__title">Политика конфиденциальности</span>
+                        <span class="calc-card__caption">Как обрабатываются данные в браузере</span>
+                    </a>
+                    <a href="disclaimer.html" class="calc-card">
+                        <span class="calc-card__title">Ограничение ответственности</span>
+                        <span class="calc-card__caption">Справочный характер результатов</span>
+                    </a>
+                    <a href="index.html" class="calc-card">
+                        <span class="calc-card__title">Все калькуляторы</span>
+                        <span class="calc-card__caption">Вернуться на главную</span>
+                    </a>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-disclaimer">
+                <p>Не финансовая консультация. Ставки и лимиты — по данным ФНС и СФР на 2026.</p>
+            </div>
+
+            <div class="footer-columns">
+                <div class="footer-column">
+                    <h3>Калькуляторы</h3>
+                    <ul>
+                        <li><a href="otlozhit-na-nalog.html">Сколько налога заплатить</a></li>
+                        <li><a href="limit-dohoda.html">Лимит дохода 2,4 млн</a></li>
+                        <li><a href="ip-ili-samozanyatyy.html">ИП или самозанятость</a></li>
+                        <li><a href="stavka-v-chas.html">Ставка в час</a></li>
+                        <li><a href="bolnichny.html">Взносы на больничный</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Риски и документы</h3>
+                    <ul>
+                        <li><a href="risk-trudovyh.html">Риск переквалификации</a></li>
+                        <li><a href="koncentracia-dohoda.html">Концентрация дохода</a></li>
+                        <li><a href="chasy-289-fz.html">Часы по 289-ФЗ</a></li>
+                        <li><a href="dogovor-akt.html">Договор и акт</a></li>
+                        <li><a href="master-vybora-rezhima.html">Мастер выбора режима</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Полезное</h3>
+                    <ul>
+                        <li><a href="poleznoe.html">Статьи и гайды</a></li>
+                        <li><a href="pensiya.html">Пенсионный стаж</a></li>
+                        <li><a href="metodika.html">Методика и источники</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Проект</h3>
+                    <ul>
+                        <li><a href="privacy.html">Политика конфиденциальности</a></li>
+                        <li><a href="disclaimer.html">Ограничение ответственности</a></li>
+                    </ul>
+                    <p class="footer-version">v4 · 2026 · B-first</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/theme.js" defer></script>
+    <script src="js/components.js" defer></script>
+    <script src="js/profile.js" defer></script>
+</body>
+</html>

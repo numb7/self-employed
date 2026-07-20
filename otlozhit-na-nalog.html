@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Сколько отложить на налог НПД — калькулятор самозанятого 2026</title>
+    <meta name="description" content="Рассчитайте, сколько отложить с каждой оплаты на налог НПД (4% или 6%), а сколько можно тратить сразу. Быстрый расчёт для самозанятых.">
+
+    <meta name="robots" content="index, follow">
+
+    <meta name="theme-color" content="#6F5DC9">
+
+    <!-- Раннее применение темы ДО первой отрисовки — предотвращает FOUC.
+         Светлая тема — дефолт по ТЗ §2.1; тёмная включается вручную. -->
+    <script>
+    (function(){try{var t=localStorage.getItem('theme');if(t==='dark'){document.documentElement.setAttribute('data-theme','dark');}}catch(e){}})();
+    </script>
+
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Сколько отложить на налог — калькулятор для самозанятых">
+    <meta property="og:description" content="Пришла оплата — сколько отложить на НПД (4%/6%), а сколько можно тратить сразу.">
+    <meta property="og:url" content="https://samozanyatye.vercel.app/otlozhit-na-nalog.html">
+    <meta property="og:locale" content="ru_RU">
+    <meta property="og:image" content="https://samozanyatye.vercel.app/assets/og-image.png">
+    <meta name="twitter:card" content="summary">
+
+    <link rel="canonical" href="https://samozanyatye.vercel.app/otlozhit-na-nalog.html">
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="preconnect" href="https://mc.yandex.ru">
+    <link rel="preload" href="assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="assets/fonts/manrope-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="assets/fonts/lora-cyrillic-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+
+    <link rel="stylesheet" href="css/tokens.css">
+    <link rel="stylesheet" href="css/controls.css">
+
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/profile.css">
+
+    <!-- Yandex.Metrika placeholder -->
+    <script type="text/javascript" data-metrika-placeholder>
+    (function(){var ID=window.YANDEX_METRIKA_ID;if(!ID)return;(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,k.setAttribute("data-metrika-id",ID),a.parentNode.insertBefore(k,a)})(window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");ym(ID,"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true});})();
+    </script>
+    <noscript><div><img src="https://mc.yandex.ru/watch/YANDEX_METRIKA_ID" style="position:absolute;left:-9999px" alt="" /></div></noscript>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": "Отложить на налог — калькулятор самозанятого",
+      "description": "Сколько отложить с каждой оплаты на налог НПД (4% или 6%), а сколько можно тратить сразу.",
+      "url": "https://samozanyatye.vercel.app/otlozhit-na-nalog.html",
+      "dateModified": "2026-07-18",
+      "inLanguage": "ru"
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {"@type":"Question","name":"Сколько откладывать на налог самозанятому?","acceptedAnswer":{"@type":"Answer","text":"4% с дохода от физлиц и 6% от юрлиц и ИП. Срок уплаты — до 28-го числа следующего месяца."}},
+        {"@type":"Question","name":"Что такое вычет 10 000 ₽?","acceptedAnswer":{"@type":"Answer","text":"Единовременный налоговый вычет для самозанятых: снижает ставку до 3% (физлица) и 4% (юрлица), пока не исчерпан."}},
+        {"@type":"Question","name":"Когда платить налог НПД?","acceptedAnswer":{"@type":"Answer","text":"До 28-го числа месяца, следующего за месяцем получения дохода. Налог не списывается автоматически."}}
+      ]
+    }
+    </script>
+    <script type="application/ld+json">
+{
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://samozanyatye.vercel.app/index.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Калькуляторы",
+          "item": "https://samozanyatye.vercel.app/index.html#tasks-anchor"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Отложить на налог",
+          "item": "https://samozanyatye.vercel.app/otlozhit-na-nalog.html"
+        }
+      ]
+    }
+    </script>
+</head>
+<body>
+    <noscript>
+        <div class="noscript-warning">
+            <strong>⚠️ Для работы калькулятора необходим JavaScript.</strong>
+        </div>
+    </noscript>
+    <a href="#main" class="skip-link">Перейти к содержанию</a>
+
+    <nav class="page-nav">
+        <div class="container page-nav-inner">
+            <a href="index.html" class="nav-back">← Все инструменты</a>
+            <div class="page-nav-actions">
+                <button class="btn-icon" type="button" data-action="share" aria-label="Поделиться">
+                    <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.59 13.51 6.83 3.98"/><path d="m15.41 6.51-6.82 3.98"/></svg>
+                </button>
+                <button class="btn-icon" type="button" data-action="print" aria-label="Печать">
+                    <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 14h12v8H6z"/></svg>
+                </button>
+                <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Переключить тему" aria-pressed="false">🌙</button>
+            </div>
+        </div>
+    </nav>
+
+    <header class="page-hero">
+        <div class="container">
+            <nav class="breadcrumbs" aria-label="Хлебные крошки" data-breadcrumbs='[{"name":"Home","url":"index.html"},{"name":"Калькуляторы","url":"index.html#tasks-anchor"},{"name":"Отложить на налог"}]'></nav>
+            <span class="page-hero__eyebrow">НПД · 2026</span>
+            <h1 class="page-hero__title">Сколько отложить с этой оплаты на <em>налог</em></h1>
+            <p class="page-hero__subtitle">
+                НПД не списывается автоматически — деньги на налог откладываете сами. Посчитайте сумму, чтобы не остаться должны. Срок уплаты — 28-е число следующего месяца.
+            </p>
+        </div>
+    </header>
+
+    <main class="main" id="main">
+        <div class="container">
+
+            <section class="section calculator-section">
+                <div class="b-flow" id="calculator-set-aside">
+                    <div class="b-flow__input">
+                        <span class="b-flow__step-label">Шаг 1 — введите данные</span>
+                        <h2 class="b-flow__title">Параметры оплаты</h2>
+                        <p class="b-flow__desc">Самозанятый получает всю сумму на руки и сам откладывает налог — 4% с физлиц или 6% с юрлиц и ИП.</p>
+
+                        <div class="control-group">
+                            <div class="control-group__row">
+                                <div class="amount-field">
+                                    <label class="amount-field__label" for="set-aside-payment">Пришла оплата</label>
+                                    <div class="amount-field__control">
+                                        <input class="amount-field__input" id="set-aside-payment" type="text" inputmode="numeric" autocomplete="off" aria-describedby="set-aside-payment-hint set-aside-payment-error" placeholder="0">
+                                        <span class="amount-field__suffix">₽</span>
+                                    </div>
+                                    <span id="set-aside-payment-hint" class="amount-field__hint">Например, 30 000</span>
+                                    <span id="set-aside-payment-error" class="amount-field__error" role="alert" data-error-for="set-aside-payment"></span>
+                                </div>
+                            </div>
+                            <div class="control-group__row">
+                                <fieldset class="segmented-field">
+                                    <legend class="amount-field__label">От кого</legend>
+                                    <div class="segmented" data-count="2">
+                                        <label class="segmented__option is-active">
+                                            <input type="radio" name="setAsideClientType" value="individual" checked class="control-native">
+                                            <span>Физлицо</span>
+                                        </label>
+                                        <label class="segmented__option">
+                                            <input type="radio" name="setAsideClientType" value="business" class="control-native">
+                                            <span>Юрлицо/ИП</span>
+                                        </label>
+                                        <span class="segmented__thumb" aria-hidden="true"></span>
+                                    </div>
+                                </fieldset>
+                            </div>
+                            <div class="control-group__row">
+                                <div class="amount-field">
+                                    <label class="amount-field__label" for="set-aside-deduction-remaining">Остаток вычета 10 000 ₽, если есть</label>
+                                    <div class="amount-field__control">
+                                        <input class="amount-field__input" id="set-aside-deduction-remaining" type="text" inputmode="numeric" autocomplete="off" aria-describedby="set-aside-deduction-remaining-hint set-aside-deduction-remaining-error" placeholder="0">
+                                        <span class="amount-field__suffix">₽</span>
+                                    </div>
+                                    <span id="set-aside-deduction-remaining-hint" class="amount-field__hint">Оставьте пустым, если вычет уже израсходован</span>
+                                    <span id="set-aside-deduction-remaining-error" class="amount-field__error" role="alert" data-error-for="set-aside-deduction-remaining"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="b-flow__result" id="set-aside-results" aria-live="polite" role="status">
+                        <p class="b-flow__empty">Введите сумму оплаты, чтобы увидеть расчёт</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section sources">
+                <details class="how-it-works faq-item" open>
+                    <summary class="faq-question">Как это считается: откуда цифры</summary>
+                    <div class="faq-answer">
+                        <p>Ставки НПД — 4% с физлиц, 6% с юрлиц и ИП, а также единовременный налоговый вычет 10 000 ₽ установлены Федеральным законом о НПД и не зависят от изменений лимита дохода.</p>
+                        <p class="result-note">Расчёт ориентировочный. Дата актуальности: 18 июля 2026. <a href="metodika.html">Подробнее о методике →</a></p>
+                        <ul class="sources-list">
+                            <li>ФЗ № 422-ФЗ от 27.11.2018 — основной закон о НПД</li>
+                            <li><a href="https://www.nalog.gov.ru/rn77/program/" target="_blank" rel="noopener noreferrer">nalog.gov.ru</a> — приложение «Мой налог», точный расчёт по вашим платежам</li>
+                        </ul>
+                    </div>
+                </details>
+            </section>
+
+            <section class="section related-tools">
+                <h2 class="related-tools-title">Похожие инструменты</h2>
+                <div class="related-tools-grid">
+                    <a href="limit-dohoda.html" class="calc-card">
+                        <span class="calc-card__title">Лимит дохода</span>
+                        <span class="calc-card__caption">Сколько ещё можно заработать до конца года без риска потери статуса НПД</span>
+                    </a>
+                    <a href="stavka-v-chas.html" class="calc-card">
+                        <span class="calc-card__title">Реальная ставка в час</span>
+                        <span class="calc-card__caption">Сколько вы реально получаете в час с учётом всех правок</span>
+                    </a>
+                    <a href="bolnichny.html" class="calc-card">
+                        <span class="calc-card__title">Взносы на больничный</span>
+                        <span class="calc-card__caption">Сколько стоит добровольное страхование и когда появится право на выплату</span>
+                    </a>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-disclaimer">
+                <p>Не финансовая консультация. Ставки и лимиты — по данным ФНС на 2026.</p>
+            </div>
+
+            <div class="footer-columns">
+                <div class="footer-column">
+                    <h3>Калькуляторы</h3>
+                    <ul>
+                        <li><a href="otlozhit-na-nalog.html">Сколько налога заплатить</a></li>
+                        <li><a href="limit-dohoda.html">Лимит дохода 2,4 млн</a></li>
+                        <li><a href="ip-ili-samozanyatyy.html">ИП или самозанятость</a></li>
+                        <li><a href="stavka-v-chas.html">Ставка в час</a></li>
+                        <li><a href="bolnichny.html">Взносы на больничный</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Риски и документы</h3>
+                    <ul>
+                        <li><a href="risk-trudovyh.html">Риск переквалификации</a></li>
+                        <li><a href="koncentracia-dohoda.html">Концентрация дохода</a></li>
+                        <li><a href="chasy-289-fz.html">Часы по 289-ФЗ</a></li>
+                        <li><a href="dogovor-akt.html">Договор и акт</a></li>
+                        <li><a href="master-vybora-rezhima.html">Мастер выбора режима</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Полезное</h3>
+                    <ul>
+                        <li><a href="poleznoe.html">Статьи и гайды</a></li>
+                        <li><a href="pensiya.html">Пенсионный стаж</a></li>
+                        <li><a href="metodika.html">Методика и источники</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Проект</h3>
+                    <ul>
+                        <li><a href="privacy.html">Политика конфиденциальности</a></li>
+                        <li><a href="disclaimer.html">Ограничение ответственности</a></li>
+                    </ul>
+                    <p class="footer-version">v4 · 2026 · B-first</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/theme.js" defer></script>
+    <script src="js/components.js" defer></script>
+    <script src="js/profile.js" defer></script>
+    <script src="js/rules-2026.js" defer></script>
+    <script src="js/calculators.js" defer></script>
+    <script src="js/controls.js" defer></script>
+    <script src="js/b-flow.js" defer></script>
+</body>
+</html>

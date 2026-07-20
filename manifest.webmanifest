@@ -1,0 +1,35 @@
+{
+  "name": "НПД.помощник — Финансовый помощник для самозанятых",
+  "short_name": "НПД.помощник",
+  "description": "Калькуляторы и инструменты для самозанятых в России 2026: налог, лимит дохода, ИП vs самозанятость, риски.",
+  "lang": "ru",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "theme_color": "#6F5DC9",
+  "background_color": "#FAF9FD",
+  "icons": [
+    {
+      "src": "assets/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "assets/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "assets/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

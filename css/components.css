@@ -1,0 +1,1510 @@
+/* ============================================
+   Финансовый помощник для самозанятых
+   Компоненты редизайна v3 — НОВЫЕ компоненты только.
+   Существующие селекторы (.btn-primary, .trust-badge и т.д.) остаются
+   в styles.css, если явно не заменены здесь (см. REDESIGN_V3_REPORT.md).
+   Подключается после styles.css (и wizard.css, если есть на странице).
+   ============================================ */
+
+/* ============================================
+   Иконки — общие правила для инлайновых SVG
+   ============================================ */
+.icon {
+    width: var(--icon-md);
+    height: var(--icon-md);
+    flex-shrink: 0;
+    stroke: currentColor;
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.icon--sm { width: var(--icon-sm); height: var(--icon-sm); }
+.icon--lg { width: var(--icon-lg); height: var(--icon-lg); }
+.icon--xl { width: var(--icon-xl); height: var(--icon-xl); }
+
+/* ============================================
+   Общий focus-visible для всех новых интерактивных элементов
+   ============================================ */
+.btn-ghost:focus-visible,
+.btn-outline:focus-visible,
+.btn-icon:focus-visible,
+.hub-search-field input:focus-visible,
+.category-filters .btn-pill:focus-visible,
+.tooltip-trigger:focus-visible,
+.nav-menu a:focus-visible,
+.article-card:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+    box-shadow: var(--shadow-focus-ring);
+}
+
+/* ============================================
+   Buttons — расширение существующей .btn-primary/.btn-secondary системы
+   ============================================ */
+.btn-primary.btn-sm,
+.btn-secondary.btn-sm {
+    padding: 8px 16px;
+    font-size: 0.875rem;
+    min-height: 36px;
+    display: none;
+}
+
+@media (min-width: 640px) {
+    .btn-primary.btn-sm,
+    .btn-secondary.btn-sm {
+        display: inline-block;
+    }
+}
+
+.btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 44px;
+    padding: var(--spacing-sm, 16px) var(--spacing-lg, 32px);
+    border-radius: var(--radius-sm, 8px);
+    border: 2px solid transparent;
+    background: transparent;
+    color: var(--color-ink);
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 1rem;
+    text-decoration: none;
+    cursor: pointer;
+    transition: border-color var(--dur-fast) var(--ease-out), background var(--dur-fast) var(--ease-out);
+}
+
+.btn-ghost:hover {
+    border-color: var(--color-line);
+    background: var(--color-surface);
+    text-decoration: none;
+}
+
+.btn-outline {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 44px;
+    padding: calc(var(--spacing-sm, 16px) - 2px) calc(var(--spacing-lg, 32px) - 2px);
+    border-radius: var(--radius-sm, 8px);
+    border: 2px solid var(--color-accent);
+    background: transparent;
+    color: var(--color-accent);
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 1rem;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out);
+}
+
+.btn-outline:hover {
+    background: var(--color-accent);
+    color: white;
+    text-decoration: none;
+}
+
+.btn-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-control, 10px);
+    background: var(--color-surface);
+    color: var(--color-ink);
+    cursor: pointer;
+    transition: border-color var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-out);
+}
+
+.btn-icon:hover {
+    border-color: var(--color-accent);
+}
+
+.btn-icon:active {
+    transform: scale(0.95);
+}
+
+[disabled],
+.btn-primary[disabled],
+.btn-secondary[disabled],
+.btn-ghost[disabled],
+.btn-outline[disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.is-loading {
+    position: relative;
+    color: transparent !important;
+    pointer-events: none;
+}
+
+.is-loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 18px;
+    height: 18px;
+    margin: -9px 0 0 -9px;
+    border-radius: 50%;
+    border: 2px solid rgba(255, 255, 255, 0.35);
+    border-top-color: #fff;
+    animation: btn-spin 700ms linear infinite;
+}
+
+@keyframes btn-spin {
+    to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .is-loading::after {
+        animation-duration: 0.001ms;
+    }
+}
+
+/* ============================================
+   Badge — унификация .trust-badge / .concentration-risk-badge
+   ============================================ */
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 10px;
+    border-radius: var(--radius-badge);
+    font-family: var(--font-body);
+    font-size: var(--fs-caption);
+    font-weight: 600;
+    white-space: nowrap;
+    border: 1px solid transparent;
+}
+
+.badge--success {
+    background: color-mix(in srgb, var(--color-green) 12%, transparent);
+    color: var(--color-green);
+    border-color: color-mix(in srgb, var(--color-green) 30%, transparent);
+}
+
+.badge--warning {
+    background: color-mix(in srgb, var(--color-accent-warning, #B45309) 12%, transparent);
+    color: var(--color-accent-warning, #B45309);
+    border-color: color-mix(in srgb, var(--color-accent-warning, #B45309) 30%, transparent);
+}
+
+.badge--error {
+    background: color-mix(in srgb, var(--color-red) 12%, transparent);
+    color: var(--color-red);
+    border-color: color-mix(in srgb, var(--color-red) 30%, transparent);
+}
+
+.badge--new {
+    background: var(--color-accent);
+    color: white;
+}
+
+.badge--neutral {
+    background: var(--color-line);
+    color: var(--color-muted);
+}
+
+/* Бейдж поверх карточки хаба ("Популярное") */
+.hub-card-badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    z-index: 1;
+}
+
+/* Освобождаем место под бейдж, чтобы он не наезжал на превью-чек карточки */
+.hub-card-badge + .hub-card-receipt {
+    margin-top: 28px;
+}
+
+/* ============================================
+   Tooltip
+   ============================================ */
+.tooltip-trigger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    padding: 0;
+    margin-left: 4px;
+    border: none;
+    background: transparent;
+    color: var(--color-muted);
+    cursor: pointer;
+    border-radius: 50%;
+    vertical-align: middle;
+}
+
+.tooltip-trigger:hover {
+    color: var(--color-accent);
+}
+
+.tooltip-trigger .icon {
+    width: var(--icon-sm);
+    height: var(--icon-sm);
+}
+
+.tooltip-wrap {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+}
+
+.tooltip {
+    position: absolute;
+    bottom: calc(100% + 8px);
+    left: 50%;
+    transform: translateX(-50%);
+    width: max-content;
+    max-width: 240px;
+    padding: 8px 12px;
+    background: var(--color-ink);
+    color: var(--color-paper);
+    font-size: var(--fs-caption);
+    line-height: 1.4;
+    border-radius: var(--radius-sm, 8px);
+    box-shadow: var(--shadow-elevated);
+    z-index: var(--z-dropdown);
+    pointer-events: none;
+}
+
+.tooltip[hidden] {
+    display: none;
+}
+
+/* ============================================
+   Toast
+   ============================================ */
+#toast-root {
+    position: fixed;
+    left: 50%;
+    bottom: 24px;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    z-index: var(--z-toast);
+    pointer-events: none;
+    width: max-content;
+    max-width: calc(100vw - 32px);
+}
+
+.toast {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 18px;
+    background: var(--color-ink);
+    color: var(--color-paper);
+    border-radius: var(--radius-sm, 8px);
+    box-shadow: var(--shadow-elevated);
+    font-family: var(--font-body);
+    font-size: 0.9rem;
+    font-weight: 600;
+    animation: toast-in var(--dur-base) var(--ease-spring) forwards;
+    pointer-events: auto;
+}
+
+.toast--leaving {
+    animation: toast-out var(--dur-fast) var(--ease-out) forwards;
+}
+
+.toast--success .icon {
+    color: var(--color-green);
+}
+
+.toast--achievement .icon {
+    color: var(--color-red);
+}
+
+@keyframes toast-in {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes toast-out {
+    from { opacity: 1; transform: translateY(0); }
+    to { opacity: 0; transform: translateY(12px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .toast { animation-duration: 0.001ms; }
+    .toast--leaving { animation-duration: 0.001ms; }
+}
+
+/* ============================================
+   Dropdown / мобильное меню хаба
+   ============================================ */
+.nav-menu-toggle {
+    display: inline-flex;
+}
+
+@media (min-width: 900px) {
+    .nav-menu-toggle {
+        display: none;
+    }
+}
+
+.nav-menu {
+    display: none;
+    flex-direction: column;
+    gap: 4px;
+    position: absolute;
+    top: calc(100% + 8px);
+    right: var(--spacing-sm, 16px);
+    left: var(--spacing-sm, 16px);
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-card, 16px);
+    box-shadow: var(--shadow-elevated);
+    padding: 8px;
+    z-index: var(--z-dropdown);
+}
+
+.nav-menu.is-open {
+    display: flex;
+}
+
+.nav-menu a {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 8px 12px;
+    border-radius: var(--radius-sm, 8px);
+    color: var(--color-ink);
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: 0.9375rem;
+    text-decoration: none;
+}
+
+.nav-menu a:hover {
+    background: var(--color-line);
+    text-decoration: none;
+}
+
+@media (min-width: 900px) {
+    .nav-menu {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        position: static;
+        border: none;
+        box-shadow: none;
+        background: transparent;
+        padding: 0;
+        gap: 4px;
+    }
+
+    .nav-menu a {
+        min-height: auto;
+        padding: 8px 12px;
+        font-size: 0.875rem;
+    }
+}
+
+/* ============================================
+   Empty state
+   ============================================ */
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 8px;
+    padding: var(--spacing-xl, 48px) var(--spacing-md, 24px);
+    color: var(--color-muted);
+}
+
+.empty-state[hidden] {
+    display: none;
+}
+
+.empty-state .icon {
+    width: var(--icon-xl);
+    height: var(--icon-xl);
+    color: var(--color-line);
+    margin-bottom: 4px;
+}
+
+.empty-state__title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    color: var(--color-ink);
+    font-size: var(--fs-h3);
+}
+
+.empty-state__desc {
+    font-size: 0.9rem;
+    max-width: 360px;
+}
+
+/* ============================================
+   Stat card — новый alias для .income-result-card
+   (используется только на НОВЫХ result-панелях, существующие
+   .income-result-card call sites не переименованы, см. отчёт)
+   ============================================ */
+.stat-card {
+    background: var(--color-bg-white, var(--color-surface));
+    padding: var(--spacing-md, 24px);
+    border-radius: var(--radius-sm, 8px);
+    text-align: center;
+    border: 2px solid var(--color-border, var(--color-line));
+}
+
+.stat-card--success { border-color: var(--color-green); background: color-mix(in srgb, var(--color-green) 6%, transparent); }
+.stat-card--warning { border-color: var(--color-accent-warning, #B45309); background: color-mix(in srgb, var(--color-accent-warning, #B45309) 6%, transparent); }
+.stat-card--error { border-color: var(--color-red); background: color-mix(in srgb, var(--color-red) 6%, transparent); }
+
+/* ============================================
+   Hub search field
+   ============================================ */
+.hub-search-field {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.hub-search-field .icon {
+    position: absolute;
+    left: 16px;
+    color: var(--color-muted);
+    pointer-events: none;
+}
+
+.hub-search-field input {
+    width: 100%;
+    min-height: 48px;
+    padding: 0 16px 0 44px;
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-control, 10px);
+    background: var(--color-surface);
+    color: var(--color-ink);
+    font-family: var(--font-body);
+    font-size: 1rem;
+}
+
+.hub-search-field input::placeholder {
+    color: var(--color-muted);
+}
+
+.hub-search-field input:focus-visible {
+    outline: none;
+    box-shadow: var(--shadow-focus-ring);
+    border-color: var(--color-green);
+}
+
+/* ============================================
+   Category filters
+   ============================================ */
+.category-filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+/* ============================================
+   Hero — блок хаба, 2 колонки
+   ============================================ */
+.hub-hero-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--spacing-xl, 48px);
+    align-items: center;
+}
+
+@media (min-width: 900px) {
+    .hub-hero-grid {
+        grid-template-columns: 1.1fr 0.9fr;
+    }
+}
+
+.hub-hero-cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: var(--spacing-md, 24px);
+    justify-content: center;
+}
+
+@media (min-width: 900px) {
+    .hub-hero-cta {
+        justify-content: flex-start;
+    }
+}
+
+.hero-receipt-preview {
+    display: flex;
+    justify-content: center;
+}
+
+.hero-receipt-preview .hub-card-receipt {
+    width: 100%;
+    max-width: 340px;
+    margin: 0;
+    padding: var(--spacing-md, 24px);
+    background: var(--color-surface);
+    border-radius: var(--radius-card, 16px);
+    box-shadow: var(--shadow-elevated);
+    transform: rotate(-2deg);
+    animation: hero-receipt-in var(--dur-slow) var(--ease-out) both;
+}
+
+.hero-receipt-preview .hub-card-receipt-line {
+    font-size: 0.95rem;
+    padding: 8px 0;
+}
+
+.hero-receipt-preview .hub-card-receipt::after {
+    display: none;
+}
+
+@keyframes hero-receipt-in {
+    from { opacity: 0; transform: rotate(-2deg) translateY(16px); }
+    to { opacity: 1; transform: rotate(-2deg) translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .hero-receipt-preview .hub-card-receipt {
+        animation: none;
+    }
+}
+
+/* ============================================
+   Advantages block
+   ============================================ */
+.advantages {
+    padding: var(--spacing-lg, 32px) 0;
+}
+
+.advantages-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
+}
+
+@media (max-width: 1024px) {
+    .advantages-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (max-width: 720px) {
+    .advantages-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 480px) {
+    .advantages-grid { grid-template-columns: 1fr; }
+}
+
+.advantage-card {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 20px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-card, 16px);
+    transition: transform var(--dur-base) var(--ease-out), box-shadow var(--dur-base) var(--ease-out);
+}
+
+.advantage-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-card-hover);
+}
+
+.advantage-card .icon {
+    width: var(--icon-lg);
+    height: var(--icon-lg);
+    color: var(--color-green);
+}
+
+.advantage-card h3 {
+    font-family: var(--font-display);
+    font-size: 0.9375rem;
+    font-weight: 700;
+    color: var(--color-ink);
+}
+
+.advantage-card p {
+    font-size: 0.85rem;
+    color: var(--color-muted);
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* ============================================
+   Time-to-use micro-copy на карточках хаба
+   ============================================ */
+.hub-card-time {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.75rem;
+    color: var(--color-muted);
+    margin-top: 4px;
+}
+
+/* ============================================
+   Calculator 2-column layout
+   ============================================ */
+.calculator-layout {
+    display: grid;
+    gap: var(--spacing-lg, 32px);
+}
+
+.calculator-layout .calculator-results {
+    /* Резервируем место под результат, чтобы переход от плейсхолдера
+       к полному расчёту не «дёргал» раскладку по высоте при вводе. */
+    min-height: 220px;
+}
+
+@media (min-width: 1024px) {
+    .calculator-layout {
+        grid-template-columns: 42fr 58fr;
+        align-items: start;
+    }
+
+    .calculator-layout .calculator-results,
+    .calculator-layout .receipt-lines.receipt-totals-block,
+    .calculator-layout > .calculator-results {
+        position: sticky;
+        top: calc(64px + 16px);
+    }
+}
+
+/* Мобильная sticky-плашка с главной цифрой результата — CSS готов,
+   HTML/JS-разметка НЕ подключена в этом заходе (nice-to-have по плану,
+   первое, что режется при нехватке времени — см. REDESIGN_V3_REPORT.md). */
+.mobile-result-bar {
+    display: none;
+}
+
+@media (max-width: 1023px) {
+    .mobile-result-bar.is-visible {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: var(--z-sticky-nav);
+        padding: 12px 16px;
+        background: color-mix(in srgb, var(--color-surface) 96%, transparent);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        border-top: 1px solid var(--color-line);
+        box-shadow: 0 -4px 16px rgba(30, 42, 56, 0.08);
+    }
+}
+
+.mobile-result-bar__label {
+    font-size: 0.75rem;
+    color: var(--color-muted);
+}
+
+.mobile-result-bar__value {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 1.125rem;
+    color: var(--color-green);
+}
+
+/* ============================================
+   Achievement stamp — "штамп" на квитанции
+   ============================================ */
+.achievement-stamp {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 700;
+}
+
+.achievement-stamp .icon {
+    color: var(--color-red);
+}
+
+.toast--achievement {
+    border: 1px dashed var(--color-red);
+}
+
+/* ============================================
+   Form-fill progress (нейтральный, для концентрации дохода)
+   ============================================ */
+.form-fill-progress {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 8px 0 16px;
+    font-size: var(--fs-caption);
+    color: var(--color-muted);
+}
+
+.form-fill-progress__track {
+    flex: 1;
+    height: 4px;
+    background: var(--color-line);
+    border-radius: 999px;
+    overflow: hidden;
+    max-width: 160px;
+}
+
+.form-fill-progress__fill {
+    height: 100%;
+    background: var(--color-accent);
+    border-radius: 999px;
+    transition: width var(--dur-base) var(--ease-out);
+}
+
+/* ============================================
+   Article card — poleznoe.html
+   ============================================ */
+.article-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 18px 20px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-card, 16px);
+    margin-bottom: 16px;
+    text-decoration: none;
+    color: inherit;
+}
+
+.article-card .icon {
+    width: var(--icon-lg);
+    height: var(--icon-lg);
+    color: var(--color-accent);
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.article-card__body {
+    flex: 1;
+}
+
+.article-card__title {
+    font-family: var(--font-display);
+    font-size: var(--fs-h3);
+    color: var(--color-ink);
+    margin-bottom: 4px;
+}
+
+.article-card__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    font-size: var(--fs-caption);
+    color: var(--color-muted);
+}
+
+.article-card__tag {
+    display: inline-flex;
+    padding: 2px 8px;
+    border-radius: var(--radius-badge);
+    background: var(--color-line);
+    color: var(--color-muted);
+    font-size: 0.72rem;
+    font-weight: 600;
+}
+
+/* ============================================
+   Footer — multi-column
+   ============================================ */
+.footer-columns {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 28px;
+    text-align: left;
+    margin-bottom: var(--spacing-lg, 32px);
+}
+
+@media (min-width: 720px) {
+    .footer-columns {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+.footer-column h3 {
+    font-family: var(--font-display);
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 10px;
+}
+
+.footer-column ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.footer-column a {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: underline;
+    font-size: 0.9rem;
+}
+
+.footer-column a:hover {
+    color: white;
+}
+
+.footer-column p {
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 0.85rem;
+    line-height: 1.5;
+    margin: 0;
+}
+
+.footer-version {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+/* ============================================
+   B-flow — единый шаблон калькулятора (§5 ТЗ)
+   Двухколоночный: слева ввод, справа результат.
+   ============================================ */
+.b-flow {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-card);
+    background: var(--color-surface);
+    overflow: hidden;
+}
+
+@media (max-width: 819px) {
+    .b-flow {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Левая колонка — ввод */
+.b-flow__input {
+    padding: 32px;
+    border-right: 1px solid var(--color-line);
+}
+
+@media (max-width: 819px) {
+    .b-flow__input {
+        border-right: none;
+        border-bottom: 1px solid var(--color-line);
+    }
+}
+
+.b-flow__step-label {
+    font-family: var(--font-head);
+    font-style: italic;
+    color: var(--color-accent);
+    font-size: 0.875rem;
+    margin-bottom: 8px;
+}
+
+.b-flow__title {
+    font-family: var(--font-head);
+    font-size: var(--fs-h2);
+    color: var(--color-ink);
+    margin: 0 0 8px;
+    line-height: 1.2;
+}
+
+.b-flow__desc {
+    color: var(--color-muted);
+    font-size: 0.9375rem;
+    margin: 0 0 24px;
+    line-height: 1.5;
+}
+
+/* Правая колонка — результат */
+.b-flow__result {
+    background: var(--color-lavender);
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.b-flow__result-label {
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.75rem;
+    color: var(--color-muted);
+    font-weight: 600;
+}
+
+.b-flow__result-big {
+    font-family: var(--font-head);
+    font-size: clamp(2.5rem, 2rem + 3vw, 4rem);
+    color: var(--color-accent);
+    line-height: 1;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+}
+
+.b-flow__result-big--muted {
+    color: var(--color-muted);
+}
+
+.b-flow__result-rate {
+    color: var(--color-accent);
+    font-size: 0.875rem;
+    margin-top: -12px;
+}
+
+/* Прогресс-бар (для лимитов/часов) */
+.b-flow__progress {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.b-flow__progress-bar {
+    height: 8px;
+    background: var(--color-line-2);
+    border-radius: var(--radius-badge);
+    overflow: hidden;
+}
+
+.b-flow__progress-fill {
+    height: 100%;
+    border-radius: var(--radius-badge);
+    transition: width var(--dur-base) var(--ease-out);
+}
+
+.b-flow__progress-fill--accent { background: var(--color-accent); }
+.b-flow__progress-fill--amber { background: var(--color-amber); }
+.b-flow__progress-fill--red { background: var(--color-red); }
+
+.b-flow__progress-text {
+    font-size: 0.8125rem;
+    color: var(--color-muted);
+}
+
+/* Блок «Почему столько» */
+.b-flow__block-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.8125rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-muted);
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
+.b-flow__block-title .icon {
+    width: var(--icon-sm);
+    height: var(--icon-sm);
+    color: var(--color-accent);
+}
+
+.b-flow__why-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.b-flow__why-item {
+    display: flex;
+    gap: 10px;
+    font-size: 0.9375rem;
+    color: var(--color-ink-2);
+    line-height: 1.5;
+}
+
+.b-flow__why-bullet {
+    color: var(--color-accent);
+    font-weight: 600;
+    flex-shrink: 0;
+}
+
+/* Блок «Риск» */
+.b-flow__risk {
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-card);
+    padding: 16px;
+    background: var(--color-surface);
+}
+
+.b-flow__risk--green { border-color: var(--color-green); background: color-mix(in srgb, var(--color-green) 8%, var(--color-surface)); }
+.b-flow__risk--amber { border-color: var(--color-amber); background: color-mix(in srgb, var(--color-amber) 10%, var(--color-surface)); }
+.b-flow__risk--red   { border-color: var(--color-red);   background: color-mix(in srgb, var(--color-red) 10%, var(--color-surface)); }
+
+.b-flow__risk-head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+}
+
+.b-flow__risk--green .b-flow__risk-head .icon { color: var(--color-green); }
+.b-flow__risk--amber .b-flow__risk-head .icon { color: var(--color-amber); }
+.b-flow__risk--red   .b-flow__risk-head .icon { color: var(--color-red); }
+
+.b-flow__risk-title {
+    font-weight: 600;
+    font-size: 0.9375rem;
+    color: var(--color-ink);
+}
+
+.b-flow__risk-desc {
+    margin: 0;
+    font-size: 0.875rem;
+    color: var(--color-muted);
+    line-height: 1.5;
+}
+
+/* Блок «Следующее действие» */
+.b-flow__next {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 14px 16px;
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-card);
+    color: var(--color-accent);
+    text-decoration: none;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    transition: background var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out);
+}
+
+.b-flow__next:hover {
+    background: var(--color-accent-soft);
+    border-color: var(--color-accent);
+}
+
+.b-flow__next .icon {
+    width: var(--icon-sm);
+    height: var(--icon-sm);
+}
+
+/* Trust-строка */
+.b-flow__trust {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 16px;
+    padding-top: 8px;
+    border-top: 1px solid var(--color-line);
+}
+
+.b-flow__trust-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.75rem;
+    color: var(--color-muted);
+}
+
+.b-flow__trust-item .icon {
+    width: 14px;
+    height: 14px;
+    color: var(--color-green);
+}
+
+/* Пустое состояние */
+.b-flow__empty {
+    color: var(--color-muted);
+    font-size: 0.9375rem;
+    margin: 0;
+    padding: 24px 0;
+    overflow-wrap: anywhere;
+}
+
+/* Кнопка сохранения в профиль */
+.b-flow__save {
+    align-self: flex-start;
+    background: var(--color-lavender-2);
+    color: var(--color-accent);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-control);
+    padding: 8px 16px;
+    font-size: 0.875rem;
+    font-family: var(--font-body);
+    cursor: pointer;
+    transition: background var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out);
+}
+
+.b-flow__save:hover {
+    background: var(--color-lavender);
+    border-color: var(--color-accent);
+}
+
+/* Состояния ошибки валидации в полях B-flow */
+.b-flow__field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 20px;
+}
+
+.b-flow__field-label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-ink-2);
+}
+
+.b-flow__field-error {
+    color: var(--color-red);
+    font-size: 0.8125rem;
+}
+
+.b-flow__field input[aria-invalid="true"],
+.b-flow__field select[aria-invalid="true"] {
+    border-color: var(--color-red);
+}
+
+/* ============================================
+   Хлебные крошки (§9.3)
+   ============================================ */
+.breadcrumbs {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    font-size: 0.8125rem;
+    color: var(--color-muted);
+    margin-bottom: 16px;
+}
+
+.breadcrumbs a {
+    color: var(--color-muted);
+    text-decoration: none;
+    transition: color var(--dur-fast) var(--ease-out);
+}
+
+.breadcrumbs a:hover {
+    color: var(--color-accent);
+}
+
+.breadcrumbs__sep {
+    color: var(--color-faint);
+    user-select: none;
+}
+
+.breadcrumbs__current {
+    color: var(--color-ink-2);
+    font-weight: 500;
+}
+
+/* ============================================
+   Заголовок страницы в новой стилистике (serif)
+   ============================================ */
+.page-hero {
+    background: linear-gradient(180deg, var(--color-lavender-2), var(--color-paper));
+    padding: 48px 0 40px;
+}
+
+.page-hero__eyebrow {
+    font-family: var(--font-head);
+    font-style: italic;
+    color: var(--color-accent);
+    font-size: 0.875rem;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.page-hero__title {
+    font-family: var(--font-head);
+    font-size: var(--fs-h1);
+    color: var(--color-ink);
+    margin: 0 0 12px;
+    line-height: 1.15;
+    font-weight: 500;
+}
+
+.page-hero__title em {
+    font-style: italic;
+    color: var(--color-accent);
+}
+
+.page-hero__subtitle {
+    color: var(--color-muted);
+    font-size: 1.0625rem;
+    line-height: 1.5;
+    max-width: 60ch;
+    margin: 0;
+}
+
+/* ============================================
+   Контролы B-flow: segmented / number input (§5.4–5.6)
+   — перекраска существующих .segmented/.amount-field
+   ============================================ */
+.b-flow .segmented {
+    border-color: var(--color-line);
+    border-radius: var(--radius-control);
+}
+
+.b-flow .segmented__option.is-active {
+    background: var(--color-lavender-2);
+    color: var(--color-accent);
+}
+
+.b-flow .amount-field__input {
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-control);
+}
+
+.b-flow .amount-field__input:focus {
+    border-color: var(--color-accent);
+    outline: none;
+    box-shadow: 0 0 0 1px var(--color-accent);
+}
+
+/* ============================================
+   Печать — только результат + почему (§11.4)
+   ============================================ */
+@media print {
+    .page-nav,
+    .page-hero,
+    .footer,
+    .b-flow__input,
+    .related-tools,
+    .sources,
+    .breadcrumbs,
+    .b-flow__save,
+    .b-flow__next {
+        display: none !important;
+    }
+
+    .b-flow {
+        border: none;
+        grid-template-columns: 1fr;
+    }
+
+    .b-flow__result {
+        background: white !important;
+        padding: 0;
+    }
+
+    body {
+        background: white;
+        color: black;
+    }
+}
+
+/* ============================================
+   A2 Decision Hub — список задач (§4.3)
+   ============================================ */
+.task-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid var(--color-line);
+}
+
+.task-list__item {
+    border-bottom: 1px solid var(--color-line);
+}
+
+.task-list__link {
+    display: flex;
+    align-items: baseline;
+    gap: 20px;
+    padding: 20px 4px;
+    text-decoration: none;
+    color: inherit;
+    transition: background var(--dur-fast) var(--ease-out);
+}
+
+.task-list__link:hover {
+    background: var(--color-lavender-2);
+}
+
+.task-list__num {
+    font-family: var(--font-head);
+    font-style: italic;
+    color: var(--color-faint);
+    font-size: 1.25rem;
+    flex-shrink: 0;
+    min-width: 36px;
+    transition: color var(--dur-fast) var(--ease-out);
+}
+
+.task-list__link:hover .task-list__num {
+    color: var(--color-accent);
+}
+
+.task-list__body {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    flex: 1;
+    /* На mobile длинные описания не должны обрезаться. min-width:0 разрешает
+       flex-элементу сжиматься, overflow-wrap — переносить длинные слова. */
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.task-list__title {
+    font-family: var(--font-head);
+    font-size: 1.125rem;
+    color: var(--color-ink);
+    font-weight: 500;
+}
+
+.task-list__badge {
+    display: inline-block;
+    background: var(--color-accent-soft);
+    color: var(--color-accent);
+    font-family: var(--font-body);
+    font-size: 0.625rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    padding: 2px 6px;
+    border-radius: var(--radius-badge);
+    vertical-align: middle;
+    margin-left: 4px;
+}
+
+.task-list__desc {
+    font-size: 0.875rem;
+    color: var(--color-muted);
+    line-height: 1.4;
+}
+
+.task-list__arrow {
+    color: var(--color-faint);
+    font-size: 1.25rem;
+    flex-shrink: 0;
+    transition: color var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-out);
+}
+
+.task-list__link:hover .task-list__arrow {
+    color: var(--color-accent);
+    transform: translateX(4px);
+}
+
+@media (max-width: 640px) {
+    .task-list__link {
+        gap: 12px;
+        padding: 16px 4px;
+    }
+    .task-list__num {
+        font-size: 1rem;
+        min-width: 28px;
+    }
+}
+
+/* ============================================
+   A2 Hub — «Как это работает» (§4.4)
+   ============================================ */
+.how-steps {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+}
+
+@media (max-width: 820px) {
+    .how-steps {
+        grid-template-columns: 1fr;
+    }
+}
+
+.how-step {
+    padding: 24px;
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-card);
+    background: var(--color-surface);
+}
+
+.how-step__num {
+    font-family: var(--font-head);
+    font-style: italic;
+    color: var(--color-accent);
+    font-size: 2rem;
+    line-height: 1;
+    display: block;
+    margin-bottom: 12px;
+}
+
+.how-step__title {
+    font-family: var(--font-head);
+    font-size: 1.125rem;
+    color: var(--color-ink);
+    margin: 0 0 6px;
+    font-weight: 500;
+}
+
+.how-step__desc {
+    font-size: 0.9375rem;
+    color: var(--color-muted);
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* ============================================
+   Чек-лист риска переквалификации (risk-trudovyh)
+   ============================================ */
+.risk-checklist {
+    border: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.risk-checklist legend {
+    margin-bottom: 12px;
+}
+
+.risk-check {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 14px;
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-control);
+    background: var(--color-surface);
+    cursor: pointer;
+    transition: background var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out);
+    font-size: 0.9375rem;
+    color: var(--color-ink-2);
+    line-height: 1.4;
+}
+
+.risk-check:hover {
+    background: var(--color-lavender-2);
+}
+
+.risk-check input {
+    margin-top: 2px;
+    accent-color: var(--color-accent);
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+}
+
+.risk-check:has(input:checked) {
+    background: var(--color-accent-soft);
+    border-color: var(--color-accent);
+    color: var(--color-ink);
+}

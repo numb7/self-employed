@@ -1,0 +1,2169 @@
+/* ============================================
+   Финансовый помощник для самозанятых
+   CSS стили — Этап 2: дизайн-доработка
+   ============================================ */
+
+/* Переменные — alias на css/tokens.css (подключается раньше styles.css).
+    Старые имена сохранены для обратной совместимости с остальным файлом;
+    значения теперь берутся из единого источника tokens.css. */
+:root {
+    --spacing-2xl: 96px;
+
+    --color-bg: var(--color-paper);
+    --color-bg-white: var(--color-surface);
+    --color-text: var(--color-ink);
+    --color-text-light: var(--color-muted);
+    --color-border: var(--color-line);
+
+    --color-accent-green: var(--color-green);
+    --color-accent-red: var(--color-red);
+    --color-accent-stamp: var(--color-accent);
+    --color-accent-warning: var(--color-amber);   /* Предупреждение — алиас на --color-amber из tokens.css */
+
+    /* Для обратной совместимости */
+    --color-primary: var(--color-accent-stamp);
+    --color-primary-dark: var(--color-accent-2);
+    --color-success: var(--color-accent-green);
+    --color-warning: var(--color-accent-warning);
+    --color-error: var(--color-accent-red);
+
+    /* Тени и радиусы — алиасы на tokens.css,
+       чтобы существующий CSS не сломался при постраничной перекраске. */
+    --shadow-sm: var(--shadow-card-rest);
+    --shadow-md: var(--shadow-card-hover);
+    --shadow-lg: var(--shadow-elevated);
+
+    --radius-sm: var(--radius-control);
+    --radius-md: var(--radius-card);
+    --radius-lg: 8px;
+
+    --font-display: var(--font-head);
+
+    --spacing-xs: 8px;
+    --spacing-sm: 16px;
+    --spacing-md: 24px;
+    --spacing-lg: 32px;
+    --spacing-xl: 48px;
+}
+
+/* Skip-link — доступность: быстрый переход к контенту с клавиатуры */
+/* Skip-link — accessibility-ссылка «пропустить к контенту» для клавиатурных
+   пользователей. Скрыта до фокуса стандартным visually-hidden-паттерном,
+   появляется при Tab-фокусе в левом верхнем углу. ТЗ UI-раунд 2 §1. */
+.skip-link {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+}
+.skip-link:focus {
+    position: fixed;
+    top: var(--spacing-sm, 16px);
+    left: var(--spacing-sm, 16px);
+    width: auto;
+    height: auto;
+    margin: 0;
+    padding: var(--spacing-xs, 8px) var(--spacing-sm, 16px);
+    overflow: visible;
+    clip: auto;
+    clip-path: none;
+    background: var(--color-accent);
+    color: #fff;
+    border-radius: var(--radius-control, 4px);
+    z-index: var(--z-toast, 400);
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+/* ============================================
+   Утилитарные классы выравнивания
+   ============================================ */
+.ta-right { text-align: right; }
+.ta-center { text-align: center; }
+
+/* Варианты hub-section: верхний отступ вместо inline-style */
+.hub-section--mt-md { margin-top: var(--spacing-xl, 48px); }
+.hub-section--mt-lg { margin-top: var(--spacing-2xl, 96px); }
+.hub-section--mt-sm { margin-top: var(--spacing-lg, 32px); }
+.mb-sm { margin-bottom: var(--spacing-sm, 16px); }
+
+/* Сброс и базовые стили */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    font-size: 16px;
+    scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+}
+
+body {
+    font-family: var(--font-body);
+    line-height: 1.6;
+    color: var(--color-text);
+    background-color: var(--color-bg);
+    /* Лёгкая бумажная текстура */
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+}
+
+/* Контейнер */
+.container {
+    width: 100%;
+    max-width: var(--container-max);
+    margin: 0 auto;
+    padding: 0 var(--spacing-sm);
+}
+
+/* Типографика */
+h1, h2, h3 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+}
+
+/* Fluid-размеры из tokens.css (clamp) — не переопределяем здесь,
+   чтобы заголовки масштабировались на всех экранах.
+   Исключение: .header-title и .section-title задают свои размеры ниже. */
+
+/* Моноширинный для цифр и чеков */
+.mono, .receipt-value, .receipt-line .amount {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+}
+
+p {
+    margin-bottom: var(--spacing-xs);
+}
+
+a {
+    color: var(--color-primary);
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+/* ============================================
+   Хедер / Hero
+   ============================================ */
+.header {
+    background: var(--color-bg);
+    color: var(--color-text);
+    padding: var(--spacing-lg) 0;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    border-bottom: 2px dashed var(--color-border);
+}
+
+.header-badge {
+    display: inline-block;
+    background: var(--color-accent-stamp);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: var(--spacing-sm);
+    /* Эффект штампа */
+    transform: rotate(-2deg);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+}
+
+.header-title {
+    margin-bottom: var(--spacing-sm);
+    font-size: 1.5rem;
+}
+
+.header-subtitle {
+    font-size: 1rem;
+    color: var(--color-text-light);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Визуал чека в Hero */
+.header-receipt {
+    margin-top: var(--spacing-lg);
+    background: var(--color-bg-white);
+    padding: var(--spacing-md);
+    border-radius: var(--radius-sm);
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+    box-shadow: var(--shadow-md);
+    /* Анимация "печати" */
+    animation: receipt-print 0.6s ease-out forwards;
+    transform-origin: top center;
+    /* Лёгкий наклон как у оторванного чека */
+    transform: rotate(1deg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .header-receipt {
+        animation: receipt-fade 0.3s ease-out forwards;
+    }
+}
+
+@keyframes receipt-print {
+    from {
+        opacity: 0;
+        transform: scaleY(0.1) rotate(1deg);
+    }
+    to {
+        opacity: 1;
+        transform: scaleY(1) rotate(1deg);
+    }
+}
+
+@keyframes receipt-fade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.header-receipt-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 4px 0;
+    font-family: var(--font-mono);
+    font-size: 0.875rem;
+    border-bottom: 1px dotted var(--color-border);
+}
+
+.header-receipt-line:last-of-type {
+    border-bottom: 2px solid var(--color-text);
+    font-weight: 700;
+    font-size: 1.125rem;
+    margin-top: var(--spacing-xs);
+    padding-top: var(--spacing-xs);
+}
+
+.header-receipt-line .label {
+    color: var(--color-text-light);
+}
+
+.header-receipt-line .value {
+    color: var(--color-accent-green);
+    font-weight: 600;
+}
+
+.header-receipt-line .value.total {
+    color: var(--color-text);
+}
+
+.header-receipt-footer {
+    text-align: right;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--color-text-light);
+    margin-top: var(--spacing-xs);
+}
+
+/* CTA-кнопка в hero */
+.header-cta-wrapper {
+    margin-top: var(--spacing-md);
+}
+
+/* ============================================
+   Основной контент
+   ============================================ */
+.main {
+    padding: var(--spacing-xl) 0;
+}
+
+.section {
+    background: transparent;
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+    margin-bottom: var(--spacing-lg);
+}
+
+.section-title {
+    margin-bottom: var(--spacing-sm);
+    color: var(--color-text);
+    font-family: var(--font-display);
+}
+
+.section-description {
+    color: var(--color-text-light);
+    margin-bottom: var(--spacing-md);
+}
+
+/* Ссылка-призыв в конце секции (например, «Все вопросы →») */
+.section-link {
+    margin-top: var(--spacing-md);
+    margin-bottom: 0;
+}
+.section-link a {
+    color: var(--color-accent);
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+}
+.section-link a:hover {
+    color: var(--color-accent-2);
+}
+
+/* ============================================
+   Блок «Что изменилось» — таймлайн с датами
+   ============================================ */
+.changes-timeline {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    position: relative;
+    padding-left: var(--spacing-md);
+}
+
+.changes-timeline::before {
+    content: '';
+    position: absolute;
+    left: 6px;
+    top: 10px;
+    bottom: 10px;
+    width: 2px;
+    background: var(--color-border);
+}
+
+.timeline-item-past,
+.timeline-item-current,
+.timeline-item-future,
+.timeline-item-end {
+    position: relative;
+    padding: var(--spacing-sm);
+    background: var(--color-bg-white);
+    border-radius: var(--radius-md);
+    border-left: 4px solid var(--color-border);
+}
+
+.timeline-item-past::before,
+.timeline-item-current::before,
+.timeline-item-future::before,
+.timeline-item-end::before {
+    content: '';
+    position: absolute;
+    left: calc(-1 * var(--spacing-md) + 2px);
+    top: 20px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--color-bg-white);
+    border: 2px solid var(--color-border);
+}
+
+.timeline-item-past {
+    border-left-color: var(--color-text-light);
+}
+
+.timeline-item-past::before {
+    border-color: var(--color-text-light);
+}
+
+.timeline-item-current {
+    border-left-color: var(--color-accent-stamp);
+}
+
+.timeline-item-current::before {
+    border-color: var(--color-accent-stamp);
+    background: var(--color-accent-stamp);
+}
+
+.timeline-item-future {
+    border-left-color: var(--color-accent-green);
+}
+
+.timeline-item-future::before {
+    border-color: var(--color-accent-green);
+    background: var(--color-accent-green);
+}
+
+.timeline-item-end {
+    border-left-color: var(--color-accent-red);
+}
+
+.timeline-item-end::before {
+    border-color: var(--color-accent-red);
+    background: var(--color-accent-red);
+}
+
+.timeline-date {
+    display: inline-block;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--color-text-light);
+    background: var(--color-bg);
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-bottom: var(--spacing-xs);
+}
+
+.timeline-item-past .timeline-date {
+    color: var(--color-text-light);
+}
+
+.timeline-item-current .timeline-date {
+    color: var(--color-accent-stamp);
+}
+
+.timeline-item-future .timeline-date {
+    color: var(--color-accent-green);
+}
+
+.timeline-item-end .timeline-date {
+    color: var(--color-accent-red);
+}
+
+.timeline-item-past p,
+.timeline-item-current p,
+.timeline-item-future p,
+.timeline-item-end p {
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+/* ============================================
+   Калькуляторы
+   ============================================ */
+.calculator {
+    /* Контейнер страницы стал шире (1240px) ради bento-сетки на главной,
+       но сам "чек" калькулятора остаётся узким для одноколоночных страниц
+       (например, договор/акт) — без 2-колоночной сетки формы и результата
+       узкий "чек" читается лучше. */
+    max-width: 760px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: var(--spacing-md);
+    background: var(--color-bg-white);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-md);
+    position: relative;
+}
+
+/* Страницы с 2-колоночным .calculator-layout (форма + результат) —
+   "чек" должен занимать всю ширину общего контейнера, иначе grid
+   с колонками 42fr/58fr не помещается в 760px и выталкивает результат
+   вбок, ломая композицию (форма и результат визуально разъезжаются). */
+.calculator:has(.calculator-layout) {
+    max-width: 100%;
+}
+
+/* Перфорация снизу чека */
+.calculator::after {
+    content: '';
+    display: block;
+    height: 8px;
+    background: 
+        radial-gradient(circle at 4px 0, var(--color-bg) 4px, transparent 5px) 0 0 / 8px 8px,
+        radial-gradient(circle at 4px 0, var(--color-bg-white) 4px, transparent 5px) 4px 0 / 8px 8px;
+    mask: linear-gradient(to bottom, transparent, black);
+    -webkit-mask: linear-gradient(to bottom, transparent, black);
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .calculator::after {
+        background: var(--color-border);
+        mask: none;
+        -webkit-mask: none;
+    }
+}
+
+.calculator-controls {
+    margin-bottom: var(--spacing-md);
+}
+
+/* Радио-группы */
+.radio-group {
+    display: block;
+}
+
+.radio-label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: var(--spacing-xs);
+    font-family: var(--font-display);
+}
+
+.radio-options {
+    display: flex;
+    gap: var(--spacing-sm);
+    flex-wrap: wrap;
+}
+
+.radio-option {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    cursor: pointer;
+    min-height: 44px;
+    padding: var(--spacing-xs) var(--spacing-sm);
+    background: var(--color-bg);
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    transition: border-color 0.2s, background-color 0.2s;
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+}
+
+.radio-option:hover {
+    border-color: var(--color-accent-stamp);
+}
+
+.radio-option input[type="radio"] {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--color-accent-stamp);
+    cursor: pointer;
+}
+
+.radio-option input[type="radio"]:focus-visible {
+    outline: 2px solid var(--color-accent-stamp);
+    outline-offset: 2px;
+}
+
+.radio-option input[type="radio"]:focus:not(:focus-visible) {
+    outline: none;
+}
+
+.radio-option input[type="radio"]:checked + .radio-text {
+    font-weight: 700;
+}
+
+.radio-option:has(input:checked) {
+    border-color: var(--color-accent-stamp);
+    background: rgba(59, 74, 90, 0.08);
+}
+
+/* Поля ввода */
+.input-group {
+    margin-bottom: var(--spacing-sm);
+}
+
+.input-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: var(--spacing-xs);
+    font-family: var(--font-display);
+}
+
+.input-group input,
+.input-group select,
+.input-group textarea {
+    width: 100%;
+    padding: var(--spacing-sm);
+    border: 2px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    font-size: 1rem;
+    font-family: var(--font-mono);
+    background: var(--color-bg);
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.input-group textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.input-group input:focus-visible,
+.input-group select:focus-visible,
+.input-group textarea:focus-visible {
+    outline: 2px solid var(--color-accent-stamp);
+    outline-offset: 2px;
+    box-shadow: none;
+}
+
+.input-group input:focus:not(:focus-visible),
+.input-group select:focus:not(:focus-visible),
+.input-group textarea:focus:not(:focus-visible) {
+    outline: none;
+    border-color: var(--color-accent-stamp);
+    box-shadow: 0 0 0 3px rgba(59, 74, 90, 0.1);
+}
+
+.input-group input::placeholder,
+.input-group textarea::placeholder {
+    color: var(--color-text-light);
+}
+
+/* Результаты калькулятора */
+.calculator-results {
+    margin-top: var(--spacing-md);
+}
+
+.result-card {
+    background: var(--color-bg);
+    padding: var(--spacing-md);
+    border-radius: var(--radius-sm);
+    margin-bottom: var(--spacing-sm);
+}
+
+.main-result {
+    background: var(--color-accent-stamp);
+    color: white;
+    text-align: center;
+}
+
+.result-label {
+    display: block;
+    font-size: 0.875rem;
+    opacity: 0.9;
+    margin-bottom: var(--spacing-xs);
+    font-family: var(--font-body);
+}
+
+.result-value {
+    display: block;
+    font-size: 2rem;
+    font-weight: 700;
+    font-family: var(--font-mono);
+}
+
+/* Стиль чека для результатов */
+.receipt-lines {
+    background: var(--color-bg-white);
+    padding: var(--spacing-md);
+    border-radius: var(--radius-sm);
+    margin-top: var(--spacing-md);
+}
+
+.receipt-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 6px 0;
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    border-bottom: 1px dotted var(--color-border);
+}
+
+.receipt-line:last-child {
+    border-bottom: 2px solid var(--color-text);
+    font-weight: 700;
+    font-size: 1.125rem;
+    margin-top: 8px;
+    padding-top: 8px;
+}
+
+.receipt-line .label {
+    color: var(--color-text-light);
+    padding-right: 8px;
+}
+
+.receipt-line .dots {
+    flex-grow: 1;
+    border-bottom: 2px dotted var(--color-border);
+    margin: 0 4px;
+    position: relative;
+    top: -4px;
+}
+
+.receipt-line .amount {
+    color: var(--color-text);
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.receipt-line .amount.green {
+    color: var(--color-accent-green);
+}
+
+.receipt-line .amount.red {
+    color: var(--color-accent-red);
+}
+
+.result-info {
+    margin-top: var(--spacing-md);
+}
+
+.result-info p {
+    margin-bottom: var(--spacing-xs);
+}
+
+.result-note {
+    font-size: 0.8rem;
+    color: var(--color-text-light);
+    margin-top: var(--spacing-sm);
+    font-style: italic;
+}
+
+/* Итого взносов — блок с итогами */
+.receipt-totals-block {
+    margin-top: var(--spacing-md);
+    padding-top: var(--spacing-sm);
+    border-top: 2px dashed var(--color-border);
+}
+
+.receipt-totals-title {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-text-light);
+    font-family: var(--font-display);
+    margin-bottom: var(--spacing-xs);
+}
+
+/* Блок «Откуда цифры» */
+.sources-block {
+    background: var(--color-bg-white);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    padding: var(--spacing-sm) var(--spacing-md);
+    font-size: 0.9rem;
+    color: var(--color-text-light);
+}
+
+.sources-block p {
+    margin-bottom: var(--spacing-xs);
+}
+
+.sources-list {
+    list-style: none;
+    padding: 0;
+    margin: var(--spacing-xs) 0;
+}
+
+.sources-list li {
+    padding: 3px 0 3px 16px;
+    position: relative;
+    font-size: 0.85rem;
+}
+
+.sources-list li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--color-border);
+}
+
+.sources-list a {
+    color: var(--color-accent-stamp);
+}
+
+.sources-updated {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    margin-top: var(--spacing-xs);
+    margin-bottom: 0;
+}
+
+/* Дисклеймер под итогами взносов */
+.receipt-disclaimer {
+    font-size: 0.78rem;
+    color: var(--color-text-light);
+    font-style: italic;
+    margin-top: var(--spacing-xs);
+    padding-top: var(--spacing-xs);
+    border-top: 1px dotted var(--color-border);
+    line-height: 1.5;
+}
+
+/* FAQ-блок */
+.faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    max-width: 760px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.faq-item {
+    background: var(--color-bg-white);
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--color-border);
+    overflow: hidden;
+}
+
+.faq-question {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--spacing-sm) var(--spacing-md);
+    font-family: var(--font-display);
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--color-text);
+    cursor: pointer;
+    list-style: none;
+    transition: background-color 0.2s;
+}
+
+.faq-question:hover {
+    background: var(--color-bg);
+}
+
+.faq-question::-webkit-details-marker {
+    display: none;
+}
+
+.faq-question::after {
+    content: '›';
+    font-family: var(--font-mono);
+    font-size: 1.25rem;
+    color: var(--color-text-light);
+    transition: transform 0.2s;
+}
+
+details[open] .faq-question::after {
+    transform: rotate(90deg);
+}
+
+.faq-answer {
+    padding: 0 var(--spacing-md) var(--spacing-md);
+    color: var(--color-text);
+    font-size: 0.9rem;
+    line-height: 1.6;
+    border-top: 1px solid var(--color-border);
+    margin-top: var(--spacing-xs);
+    padding-top: var(--spacing-sm);
+}
+
+.faq-answer p {
+    margin: 0;
+}
+
+/* Переключатель режимов калькулятора */
+.mode-switcher {
+    margin-bottom: var(--spacing-md);
+}
+
+/* Кнопки действий калькулятора */
+.calculator-actions {
+    margin-top: var(--spacing-md);
+    text-align: center;
+}
+
+.btn-share {
+    font-size: 0.9rem;
+    padding: var(--spacing-xs) var(--spacing-md);
+}
+
+.results-placeholder {
+    color: var(--color-text-light);
+    font-style: italic;
+}
+
+/* ============================================
+   Лента (таймлайн взносов)
+   ============================================ */
+.timeline {
+    margin-top: var(--spacing-lg);
+}
+    
+.timeline-title {
+    margin-bottom: var(--spacing-sm);
+    font-size: 1.125rem;
+    font-family: var(--font-display);
+}
+
+.timeline-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    background: var(--color-bg-white);
+    padding: var(--spacing-sm);
+    border-radius: var(--radius-sm);
+    /* Эффект бумажной ленты */
+    box-shadow: inset 0 0 0 1px var(--color-border);
+}
+
+.timeline-item {
+    display: grid;
+    grid-template-columns: 80px 1fr 100px;
+    align-items: center;
+    gap: var(--spacing-sm);
+    padding: 8px var(--spacing-sm);
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    border-bottom: 1px dotted var(--color-border);
+}
+
+.timeline-item:last-child {
+    border-bottom: none;
+}
+
+.timeline-month {
+    font-weight: 700;
+    color: var(--color-text-light);
+}
+
+.timeline-event {
+    color: var(--color-text);
+}
+
+.timeline-amount {
+    text-align: right;
+    font-weight: 600;
+    color: var(--color-accent-stamp);
+}
+
+.timeline-item.milestone {
+    background: rgba(47, 111, 78, 0.08);
+    border-left: 3px solid var(--color-accent-green);
+    margin-left: -3px;
+    padding-left: calc(var(--spacing-sm) + 3px);
+}
+
+.timeline-item.milestone .timeline-month {
+    color: var(--color-accent-green);
+}
+
+.timeline-item.milestone .timeline-amount {
+    color: var(--color-accent-green);
+}
+
+/* Статусы для ленты */
+.timeline-item.status-paid {
+    background: rgba(47, 111, 78, 0.05);
+}
+
+.timeline-item.status-waiting {
+    opacity: 0.7;
+}
+
+/* ============================================
+   Результаты лимита дохода — одометр
+   ============================================ */
+.income-result-cards {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--spacing-sm);
+    margin-bottom: var(--spacing-md);
+}
+    
+.income-result-card {
+    background: var(--color-bg-white);
+    padding: var(--spacing-md);
+    border-radius: var(--radius-sm);
+    text-align: center;
+    border: 2px solid var(--color-border);
+}
+
+.income-result-card.warning {
+    border-color: var(--color-accent-warning);
+    background: rgba(180, 83, 9, 0.05);
+}
+
+.income-result-card.error {
+    border-color: var(--color-accent-red);
+    background: rgba(158, 43, 37, 0.05);
+}
+
+.income-result-card.safe {
+    border-color: var(--color-accent-green);
+    background: rgba(47, 111, 78, 0.05);
+}
+
+.income-result-label {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--color-text-light);
+    margin-bottom: var(--spacing-xs);
+    font-family: var(--font-body);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.income-result-value {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: 700;
+    font-family: var(--font-mono);
+}
+
+.income-result-value.warning {
+    color: var(--color-accent-warning);
+}
+
+.income-result-value.error {
+    color: var(--color-accent-red);
+}
+
+.income-result-value.safe {
+    color: var(--color-accent-green);
+}
+
+/* Прогресс-бар лимита */
+.income-progress-container {
+    background: var(--color-bg-white);
+    padding: var(--spacing-md);
+    border-radius: var(--radius-sm);
+    margin-bottom: var(--spacing-md);
+}
+
+.income-progress-bar {
+    height: 24px;
+    background: var(--color-border);
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+    margin: var(--spacing-sm) 0;
+}
+
+.income-progress-fill {
+    height: 100%;
+    border-radius: 12px;
+    transition: width 0.4s ease, background-color 0.4s ease;
+    position: relative;
+}
+
+.income-progress-fill.safe {
+    background: linear-gradient(90deg, var(--color-accent-green) 0%, color-mix(in srgb, var(--color-accent-green), white 35%) 100%);
+}
+
+.income-progress-fill.warning {
+    background: linear-gradient(90deg, var(--color-accent-warning) 0%, color-mix(in srgb, var(--color-accent-warning), black 20%) 100%);
+}
+
+.income-progress-fill.error {
+    background: linear-gradient(90deg, var(--color-accent-red) 0%, color-mix(in srgb, var(--color-accent-red), white 15%) 100%);
+}
+
+.income-progress-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--color-text);
+    white-space: nowrap;
+}
+
+.income-summary {
+    text-align: center;
+    padding: var(--spacing-sm);
+    background: var(--color-bg);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+}
+
+.income-summary strong {
+    color: var(--color-accent-stamp);
+}
+
+.income-warning,
+.income-error {
+    margin-top: var(--spacing-md);
+    padding: var(--spacing-sm);
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.income-warning {
+    margin-top: var(--spacing-md);
+    padding: var(--spacing-sm);
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+    font-size: 0.9rem;
+    background: rgba(180, 83, 9, 0.1);
+    border: 1px solid var(--color-accent-warning);
+    color: var(--color-accent-warning);
+}
+
+/* Юридический дисклеймер — виден до генерации документа */
+.legal-disclaimer {
+    margin-top: var(--spacing-md);
+    margin-bottom: var(--spacing-md);
+    padding: var(--spacing-sm);
+    border-radius: var(--radius-sm);
+    font-size: 0.9rem;
+    background: rgba(180, 83, 9, 0.1);
+    border: 1px solid var(--color-accent-warning);
+    color: var(--color-accent-warning);
+}
+
+.income-error {
+    background: rgba(158, 43, 37, 0.1);
+    border: 1px solid var(--color-accent-red);
+    color: var(--color-accent-red);
+}
+
+/* ============================================
+   Блок «Не только деньги» (ИП-калькулятор)
+   ============================================ */
+.ip-nonmoney-block {
+    margin-top: var(--spacing-md);
+    padding: var(--spacing-sm) var(--spacing-md);
+    background: var(--color-bg);
+    border-left: 3px solid var(--color-accent-stamp);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+
+.ip-nonmoney-title {
+    font-family: var(--font-display);
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-accent-stamp);
+    margin-bottom: 4px;
+}
+
+.ip-nonmoney-subtitle {
+    font-size: 0.85rem;
+    color: var(--color-text-light);
+    margin-bottom: var(--spacing-xs);
+}
+
+.ip-nonmoney-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.ip-nonmoney-list li {
+    padding: 3px 0 3px 20px;
+    position: relative;
+    font-size: 0.875rem;
+    color: var(--color-text);
+    line-height: 1.5;
+}
+
+.ip-nonmoney-list li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--color-accent-stamp);
+    font-family: var(--font-mono);
+}
+
+/* ============================================
+   Списки в FAQ-ответах (чеклисты)
+   ============================================ */
+.faq-checklist {
+    padding-left: var(--spacing-md);
+    margin: var(--spacing-xs) 0 0;
+}
+
+.faq-checklist li {
+    padding: 3px 0;
+    font-size: 0.9rem;
+    line-height: 1.55;
+}
+
+/* ============================================
+   Партнёры — банковские карточки
+   ============================================ */
+.partners-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--spacing-md);
+}
+
+.partner-card {
+    padding: var(--spacing-lg);
+    background: var(--color-bg-white);
+    border-radius: var(--radius-md);
+    text-align: left;
+    border: 1px solid var(--color-border);
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.partner-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.partner-name {
+    margin-bottom: var(--spacing-xs);
+    color: var(--color-text);
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+}
+
+.partner-description {
+    margin-bottom: var(--spacing-md);
+    color: var(--color-text-light);
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.partner-features {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 var(--spacing-md) 0;
+}
+
+.partner-features li {
+    padding: 4px 0;
+    padding-left: 20px;
+    position: relative;
+    font-size: 0.85rem;
+    color: var(--color-text);
+}
+
+.partner-features li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--color-accent-green);
+    font-weight: 700;
+}
+
+.partner-note {
+    font-size: 0.75rem;
+    color: var(--color-text-light);
+    font-style: italic;
+    margin-top: var(--spacing-xs);
+}
+
+/* ============================================
+   Telegram-блок — в палитре проекта
+   ============================================ */
+.section.telegram {
+    text-align: center;
+    background: var(--color-accent-stamp);
+    color: white;
+    border-radius: var(--radius-lg);
+}
+
+.section.telegram .section-title,
+.section.telegram .section-description {
+    color: white;
+}
+
+.section.telegram .section-description {
+    opacity: 0.95;
+    margin-bottom: var(--spacing-md);
+}
+
+.section.telegram .btn-secondary {
+    background: white;
+    color: var(--color-accent-stamp);
+    border-color: white;
+}
+
+.section.telegram .btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.95);
+}
+
+/* ============================================
+   Футер
+   ============================================ */
+.footer {
+    background: var(--color-footer-bg);
+    color: rgba(255, 255, 255, 0.8);
+    padding: var(--spacing-xl) 0;
+    text-align: center;
+    border-top: 2px solid rgba(255, 255, 255, 0.12);
+}
+
+.footer-disclaimer {
+    margin-bottom: var(--spacing-md);
+}
+
+.footer-disclaimer p {
+    margin-bottom: var(--spacing-xs);
+    font-size: 0.9rem;
+}
+
+.footer-updated {
+    font-size: 0.8rem;
+    margin-bottom: var(--spacing-md);
+    color: rgba(255, 255, 255, 0.6);
+    font-family: var(--font-mono);
+}
+
+.footer-links {
+    display: flex;
+    justify-content: center;
+    gap: var(--spacing-md);
+    flex-wrap: wrap;
+}
+
+.footer-links a {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: underline;
+    font-size: 0.9rem;
+}
+
+.footer-links a:hover {
+    color: white;
+}
+.btn {
+    display: inline-block;
+    padding: var(--spacing-sm) var(--spacing-lg);
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+    font-size: 1rem;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: none;
+    text-decoration: none;
+    font-family: var(--font-body);
+}
+
+.btn:hover {
+    text-decoration: none;
+    transform: translateY(-1px);
+}
+
+.btn:focus-visible {
+    outline: 2px solid var(--color-accent-stamp);
+    outline-offset: 2px;
+}
+
+.btn:focus:not(:focus-visible) {
+    outline: none;
+}
+
+.btn-primary {
+    background: var(--color-accent-stamp);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: var(--color-primary-dark);
+}
+
+.btn-secondary {
+    background: white;
+    color: var(--color-accent-stamp);
+    border: 2px solid var(--color-accent-stamp);
+}
+
+.btn-secondary:hover {
+    background: var(--color-bg);
+}
+
+.partner-btn {
+    width: 100%;
+}
+
+/* ============================================
+   Адаптивность (Desktop)
+   ============================================ */
+@media (min-width: 600px) {
+    .partners-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+    
+@media (min-width: 640px) {
+    .header-title {
+        font-size: 2.25rem;
+    }
+    
+    .changes-timeline {
+        padding-left: var(--spacing-lg);
+    }
+    
+    .income-result-cards {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    
+    .timeline-item {
+        grid-template-columns: 100px 1fr 120px;
+        font-size: 0.9rem;
+    }
+}
+
+@media (min-width: 768px) {
+    .section {
+        padding: var(--spacing-xl);
+    }
+    
+    .radio-options {
+        gap: var(--spacing-md);
+    }
+    
+    .timeline-list {
+        max-width: 600px;
+        margin: 0 auto;
+    }
+    
+    .header-receipt {
+        max-width: 450px;
+    }
+}
+
+/* ============================================
+   Доступность
+   ============================================ */
+/* prefers-reduced-motion объявлен один раз в tokens.css (design-system home
+   для этого правила) — дубликат отсюда удалён при редизайне v3. */
+
+/* Фокус для клавиатурной навигации */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+summary:focus-visible,
+[tabindex]:focus-visible,
+.radio-option:focus-within:focus-visible {
+    outline: 2px solid var(--color-accent-stamp);
+    outline-offset: 2px;
+}
+
+a:focus:not(:focus-visible),
+button:focus:not(:focus-visible),
+summary:focus:not(:focus-visible) {
+    outline: none;
+}
+
+/* Высокий контраст */
+@media (prefers-contrast: high) {
+    :root {
+        --color-border: #000000;
+    }
+    
+    .radio-option {
+        border-width: 3px;
+    }
+    
+    .timeline-item,
+    .receipt-line {
+        border-color: #000000;
+    }
+}
+
+/* ============================================
+   Навигация страниц-калькуляторов
+   ============================================ */
+.page-nav {
+    background: var(--color-surface);
+    border-bottom: 1px solid var(--color-line);
+    position: sticky;
+    top: 0;
+    z-index: var(--z-sticky-nav);
+    height: 56px;
+    display: flex;
+    align-items: center;
+    transition: background-color var(--dur-base) var(--ease-out), border-color var(--dur-base) var(--ease-out), backdrop-filter var(--dur-base) var(--ease-out);
+}
+
+@media (min-width: 768px) {
+    .page-nav {
+        height: 64px;
+    }
+}
+
+.page-nav.is-scrolled {
+    background-color: color-mix(in srgb, var(--color-bg) 92%, transparent);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border-bottom-color: var(--color-border);
+}
+
+.page-nav-badge {
+    display: none;
+    font-family: var(--font-mono);
+    font-size: var(--fs-caption, 0.8125rem);
+    color: var(--color-text-light);
+    white-space: nowrap;
+}
+
+@media (min-width: 640px) {
+    .page-nav-badge {
+        display: inline;
+    }
+}
+
+.nav-back {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 44px;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    color: var(--color-text-light);
+    text-decoration: none;
+    padding: 6px 0;
+    transition: color 0.15s;
+}
+
+.nav-back:hover {
+    color: var(--color-accent-stamp);
+    text-decoration: none;
+}
+
+.page-nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--spacing-sm);
+}
+
+.page-nav-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+}
+
+.noscript-warning {
+    background: color-mix(in srgb, var(--color-accent-warning) 15%, var(--color-bg-white));
+    border: 2px solid var(--color-accent-warning);
+    color: var(--color-text);
+    padding: 16px;
+    margin: 16px;
+    border-radius: var(--radius-md);
+    text-align: center;
+}
+
+/* ============================================
+   Общие компоненты редизайна — calc-card, trust-badge
+   ============================================ */
+.calc-card {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 24px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-card);
+    text-decoration: none;
+    color: inherit;
+    transition: transform var(--dur-base) var(--ease-out), box-shadow var(--dur-base) var(--ease-out), border-color var(--dur-base) var(--ease-out);
+}
+
+.calc-card:hover,
+.calc-card:focus-visible {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-card-hover);
+    text-decoration: none;
+}
+
+.calc-card__title {
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: var(--fs-body);
+    color: var(--color-text);
+}
+
+.calc-card__figure {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: var(--fs-figure);
+    color: var(--color-ink);
+}
+
+.calc-card__caption {
+    color: var(--color-muted);
+    font-size: var(--fs-caption);
+}
+
+.trust-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-xs);
+    padding: 6px 12px;
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-control);
+    font-family: var(--font-mono);
+    font-size: var(--fs-caption);
+    color: var(--color-muted);
+    margin: var(--spacing-xs) 0 var(--spacing-sm);
+}
+
+.trust-badge__source {
+    color: var(--color-green);
+    font-weight: 600;
+}
+
+.trust-badge__date::before {
+    content: '·';
+    margin-right: var(--spacing-xs);
+    color: var(--color-line);
+}
+
+.related-tools {
+    max-width: 760px;
+    margin: 0 auto;
+}
+
+.related-tools-title {
+    font-size: var(--fs-h3);
+    margin-bottom: var(--spacing-sm);
+}
+
+.related-tools-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--spacing-sm);
+}
+
+@media (min-width: 640px) {
+    .related-tools-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+.related-tools-grid .calc-card {
+    padding: var(--spacing-md);
+}
+
+.related-tools-grid .calc-card__title {
+    font-size: var(--fs-body);
+}
+
+/* Сворачиваемая часть футера — только на мобильном (раздел 5.6 ТЗ) */
+.footer-more summary {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    color: rgba(255, 255, 255, 0.8);
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    list-style: none;
+    padding: var(--spacing-xs) 0;
+}
+
+.footer-more summary::-webkit-details-marker {
+    display: none;
+}
+
+.footer-more summary::after {
+    content: ' ›';
+}
+
+.footer-more[open] summary::after {
+    content: ' ‹';
+}
+
+@media (min-width: 768px) {
+    .footer-more summary {
+        display: none;
+    }
+
+    .footer-more:not([open]) > *:not(summary) {
+        display: block !important;
+    }
+}
+
+.nav-brand {
+    font-family: var(--font-display);
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-text);
+}
+
+.nav-brand:hover {
+    color: var(--color-accent-stamp);
+}
+
+.theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-control, var(--radius-md));
+    background: var(--color-bg-white);
+    font-size: 1rem;
+    line-height: 1;
+    cursor: pointer;
+    transition: border-color var(--dur-fast, 150ms) var(--ease-out, ease), transform var(--dur-fast, 150ms) var(--ease-out, ease);
+}
+
+.theme-toggle:hover {
+    border-color: var(--color-accent-stamp);
+}
+
+.theme-toggle:active {
+    transform: scale(0.95);
+}
+
+/* ============================================
+   Хаб — главная страница
+   ============================================ */
+.hub-header {
+    padding: var(--spacing-2xl) 0 var(--spacing-xl);
+    border-bottom: none;
+}
+
+.hub-title {
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    margin-bottom: var(--spacing-sm);
+    margin-top: var(--spacing-sm);
+}
+
+.hub-subtitle {
+    font-size: 1.125rem;
+    color: var(--color-text-light);
+    max-width: 520px;
+    margin: 0 auto;
+    line-height: 1.5;
+}
+
+.hub-section {
+    padding-top: var(--spacing-xl);
+    padding-bottom: var(--spacing-xl);
+}
+
+.bento-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 16px;
+}
+
+@media (min-width: 1024px) {
+    .bento-grid {
+        grid-template-columns: repeat(12, 1fr);
+        gap: 24px;
+    }
+
+    .calc-card--lg,
+    .calc-card--md {
+        grid-column: span 6;
+    }
+
+    .calc-card--wide {
+        grid-column: span 12;
+    }
+
+    /* --lg и --md занимают одинаковую ширину (раздел 4 ТЗ), но приоритетные
+       карточки должны быть визуально крупнее — увеличиваем внутренний масштаб. */
+    .calc-card--lg {
+        padding: var(--spacing-lg);
+    }
+}
+
+/* ============================================
+   Трастовая полоса
+   ============================================ */
+.trust-strip {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: var(--spacing-sm);
+    padding: var(--spacing-md);
+    background: var(--color-bg-white);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    margin-bottom: var(--spacing-xl);
+    font-size: 0.85rem;
+}
+
+.trust-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+}
+
+.trust-label {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-light);
+    font-family: var(--font-display);
+}
+
+.trust-value {
+    color: var(--color-text);
+    font-weight: 600;
+    font-size: 0.8rem;
+}
+
+.trust-divider {
+    color: var(--color-border);
+    font-size: 1.25rem;
+}
+
+/* Компактная версия трастовой полосы для страниц-калькуляторов */
+.trust-strip-compact {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px var(--spacing-md);
+    align-items: center;
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--color-text-light);
+    padding: var(--spacing-xs) 0;
+    border-top: 1px dotted var(--color-border);
+    margin-top: var(--spacing-md);
+}
+
+.trust-strip-compact span {
+    white-space: nowrap;
+}
+
+/* ============================================
+   Кросс-ссылки в футере страниц
+   ============================================ */
+.footer-calc-links {
+    font-size: 0.85rem;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: var(--spacing-sm);
+}
+
+.footer-calc-links a {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: underline;
+}
+
+.footer-calc-links a:hover {
+    color: white;
+}
+
+/* ============================================
+   Трекер концентрации дохода
+   ============================================ */
+.concentration-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: var(--spacing-md);
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+}
+
+.concentration-table thead th {
+    text-align: left;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--color-text-light);
+    font-family: var(--font-display);
+    padding: var(--spacing-xs) var(--spacing-xs) var(--spacing-xs) 0;
+    border-bottom: 2px solid var(--color-border);
+}
+
+.concentration-table thead th:last-child {
+    width: 36px;
+}
+
+.concentration-row td {
+    padding: 6px var(--spacing-xs) 6px 0;
+    border-bottom: 1px dotted var(--color-border);
+    vertical-align: middle;
+}
+
+.concentration-row input {
+    width: 100%;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    padding: 6px 8px;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    background: var(--color-bg);
+    color: var(--color-text);
+    transition: border-color 0.15s;
+}
+
+.concentration-row input:focus-visible {
+    outline: 2px solid var(--color-accent-stamp);
+    outline-offset: 1px;
+}
+
+.concentration-row input:focus:not(:focus-visible) {
+    outline: none;
+    border-color: var(--color-accent-stamp);
+}
+
+.concentration-share {
+    text-align: right;
+    white-space: nowrap;
+    font-weight: 600;
+    padding-right: var(--spacing-xs);
+}
+
+.concentration-row.risky {
+    background: rgba(158, 43, 37, 0.06);
+}
+
+.concentration-row.risky .concentration-share {
+    color: var(--color-accent-red);
+}
+
+.concentration-row.risky input {
+    border-color: rgba(158, 43, 37, 0.3);
+}
+
+.concentration-row-safe .concentration-share {
+    color: var(--color-accent-green);
+}
+
+.concentration-risk-badge {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-family: var(--font-display);
+    background: var(--color-accent-red);
+    color: white;
+    padding: 1px 6px;
+    border-radius: 3px;
+    margin-left: 4px;
+    white-space: nowrap;
+}
+
+.btn-delete-row {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--color-text-light);
+    font-size: 1rem;
+    padding: 4px;
+    border-radius: var(--radius-sm);
+    line-height: 1;
+    transition: color 0.15s, background 0.15s;
+}
+
+.btn-delete-row:hover {
+    color: var(--color-accent-red);
+    background: rgba(158, 43, 37, 0.08);
+}
+
+.concentration-add-btn {
+    margin-top: var(--spacing-sm);
+}
+
+.concentration-results {
+    margin-top: var(--spacing-md);
+}
+
+.concentration-disclaimer {
+    margin-top: var(--spacing-md);
+    padding: var(--spacing-sm) var(--spacing-md);
+    background: rgba(59, 74, 90, 0.06);
+    border-left: 3px solid var(--color-accent-stamp);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    font-size: 0.85rem;
+    color: var(--color-text-light);
+    line-height: 1.55;
+}
+
+.concentration-recommendation {
+    margin-top: var(--spacing-md);
+    padding: var(--spacing-sm) var(--spacing-md);
+    background: rgba(47, 111, 78, 0.06);
+    border-left: 3px solid var(--color-accent-green);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    font-size: 0.875rem;
+    color: var(--color-text);
+    line-height: 1.55;
+}
+
+/* ============================================
+   Счётчик налогового вычета 10 000 ₽
+   ============================================ */
+.deduction-progress {
+    margin: var(--spacing-md) 0;
+}
+
+.deduction-bar-wrap {
+    height: 20px;
+    background: var(--color-border);
+    border-radius: 10px;
+    overflow: hidden;
+    margin: var(--spacing-xs) 0;
+}
+
+.deduction-bar-fill {
+    height: 100%;
+    border-radius: 10px;
+    background: linear-gradient(90deg, var(--color-accent-stamp), var(--color-primary-dark));
+    transition: width 0.4s ease;
+}
+
+.deduction-bar-fill.exhausted {
+    background: linear-gradient(90deg, var(--color-accent-green), color-mix(in srgb, var(--color-accent-green), black 20%));
+}
+
+.deduction-bar-label {
+    font-family: var(--font-mono);
+    font-size: 0.78rem;
+    color: var(--color-text-light);
+    text-align: center;
+}
+
+/* ============================================
+   Печать — только чек
+   ============================================ */
+@media print {
+    /* Скрыть всё */
+    body * {
+        visibility: hidden;
+    }
+    
+    /* Показать только чек */
+    .calculator#calculator-contributions,
+    .calculator#calculator-contributions * {
+        visibility: visible;
+    }
+    
+    .calculator#calculator-contributions {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        box-shadow: none;
+        border: none;
+    }
+    
+    /* Скрыть кнопки и лишние элементы */
+    .calculator-controls,
+    .calculator-actions,
+    .timeline,
+    .result-info,
+    .receipt-totals-block {
+        display: none !important;
+    }
+    
+    /* Убрать фоны и тени для экономии чернил */
+    * {
+        background: transparent !important;
+        box-shadow: none !important;
+        color: #000 !important;
+    }
+    
+    /* Чек по центру */
+    .receipt-lines {
+        border: 1px solid #000;
+        max-width: 400px;
+        margin: 0 auto;
+    }
+    
+    /* Моноширинный шрифт для чека */
+    .mono, .receipt-line .amount {
+        font-family: 'Courier New', Courier, monospace !important;
+    }
+    
+    /* Таймстамп в печати */
+    #receipt-timestamp::before {
+        content: 'Распечатано: ';
+    }
+    
+    /* Дисклеймер внизу */
+    .receipt-lines::after {
+        content: 'Не является официальным документом. Калькулятор носит информационный характер.';
+        display: block;
+        font-size: 0.7rem;
+        color: #666;
+        margin-top: 16px;
+        padding-top: 8px;
+        border-top: 1px dotted #999;
+        text-align: center;
+    }
+    
+    /* Убрать перфорацию */
+    .calculator::after {
+        display: none;
+    }
+}
+
+/* ============================================
+   Документ-инструмент (договор/акт) —
+   единственный блок сайта вне чек-эстетики.
+   Договор/акт — печатный лист А4, не чек:
+   намеренно не используем --font-mono и
+   акцентные цвета сайта. См. ТЗ Этап 7, п.3.
+   ============================================ */
+.document-preview {
+    display: none;
+    background: #FFFFFF;
+    color: #000000;
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 0.95rem;
+    line-height: 1.7;
+    white-space: pre-wrap;
+    padding: 48px 56px;
+    max-width: 720px;
+    margin: var(--spacing-lg) auto 0;
+    border: 1px solid #D0D0D0;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+.document-preview.visible {
+    display: block;
+}
+
+.document-actions {
+    display: none;
+    max-width: 720px;
+    margin: var(--spacing-md) auto 0;
+    text-align: center;
+    gap: var(--spacing-sm);
+}
+
+.document-actions.visible {
+    display: flex;
+    justify-content: center;
+}
+
+@media (max-width: 600px) {
+    .document-preview {
+        padding: 28px 20px;
+    }
+}
+
+@media print {
+    body * {
+        visibility: hidden;
+    }
+
+    .document-preview.visible,
+    .document-preview.visible * {
+        visibility: visible;
+    }
+
+    .document-preview.visible {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        box-shadow: none;
+        border: none;
+        margin: 0;
+        padding: 2cm;
+    }
+}
+
+/* ============================================
+   Сценарии выплаты больничного (70% / 100%)
+   ============================================ */
+.payout-scenarios {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-xs, 4px);
+    margin-top: var(--spacing-xs, 4px);
+}
+
+.payout-scenario {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: var(--spacing-sm, 8px);
+}
+
+.payout-scenario__label {
+    font-size: var(--font-size-sm, 0.875rem);
+    color: var(--color-text-secondary, #666);
+}
+
+.payout-scenario__amount {
+    font-weight: 600;
+    font-size: var(--font-size-md, 1rem);
+}

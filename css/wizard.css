@@ -1,0 +1,389 @@
+/* ============================================
+   Финансовый помощник для самозанятых
+   Мастер выбора режима налогообложения — тап-карточки, прогресс-бар,
+   слайд-анимация между шагами, экран результата, partner-cta.
+   Подключается после tokens.css и styles.css на master-vybora-rezhima.html.
+   ============================================ */
+
+/* ============================================
+   Экран входа / общий каркас мастера
+   ============================================ */
+.wizard-app {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.wizard-intro {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    text-align: center;
+    padding: 12px 0;
+}
+
+.wizard-intro__title {
+    font-family: var(--font-head);
+    font-size: var(--fs-h2);
+    color: var(--color-ink);
+    line-height: 1.3;
+}
+
+.wizard-resume-banner {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-card);
+    padding: 16px 20px;
+    font-size: var(--fs-caption);
+    color: var(--color-muted);
+}
+
+.wizard-resume-banner strong {
+    color: var(--color-ink);
+}
+
+/* ============================================
+   Progress bar мастера — нейтральный (не safe/warning/error)
+   ============================================ */
+.wizard-progress {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.wizard-progress__track {
+    flex: 1;
+    height: 6px;
+    background: var(--color-line);
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.wizard-progress__fill {
+    height: 100%;
+    background: var(--color-accent);
+    border-radius: 999px;
+    transition: width var(--dur-base) var(--ease-out);
+}
+
+.wizard-progress__label {
+    font-family: var(--font-mono);
+    font-size: var(--fs-caption);
+    color: var(--color-muted);
+    white-space: nowrap;
+}
+
+/* ============================================
+   Шапка шага (назад + прогресс)
+   ============================================ */
+.wizard-step-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 4px;
+}
+
+.wizard-back-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 44px;
+    min-height: 44px;
+    border-radius: var(--radius-control);
+    border: 1px solid var(--color-line);
+    background: var(--color-surface);
+    color: var(--color-ink);
+    font-size: 1.125rem;
+    cursor: pointer;
+    transition: background var(--dur-fast) var(--ease-out), border-color var(--dur-fast) var(--ease-out);
+    flex-shrink: 0;
+}
+
+.wizard-back-btn:hover {
+    background: var(--color-line);
+}
+
+.wizard-back-btn:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+}
+
+.wizard-question-title {
+    font-family: var(--font-head);
+    font-size: var(--fs-h3);
+    color: var(--color-ink);
+    margin: 8px 0 16px;
+    line-height: 1.35;
+}
+
+/* ============================================
+   Тап-карточки — grid single-select
+   ============================================ */
+.tap-cards {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    border: none;
+    padding: 0;
+    margin: 0;
+}
+
+@media (min-width: 640px) {
+    .tap-cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+.tap-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-height: 44px;
+    padding: 16px 18px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-card);
+    cursor: pointer;
+    transition: border-color var(--dur-fast) var(--ease-out), transform var(--dur-fast) var(--ease-out), box-shadow var(--dur-fast) var(--ease-out);
+}
+
+.tap-card:hover {
+    border-color: var(--color-accent);
+}
+
+.tap-card:active {
+    transform: scale(0.98);
+}
+
+.tap-card:has(.control-native:checked) {
+    border-color: var(--color-accent);
+    border-width: 2px;
+    padding: 15px 17px;
+    box-shadow: var(--shadow-card-hover);
+}
+
+.tap-card:has(.control-native:focus-visible) {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+}
+
+.tap-card__title {
+    font-family: var(--font-body);
+    font-weight: 600;
+    font-size: var(--fs-body);
+    color: var(--color-ink);
+}
+
+.tap-card__caption {
+    font-size: var(--fs-caption);
+    color: var(--color-muted);
+}
+
+/* ============================================
+   Слайд между шагами
+   ============================================ */
+.wizard-stage {
+    display: grid;
+    overflow: hidden;
+    position: relative;
+}
+
+.wizard-panel {
+    grid-area: 1 / 1;
+    min-width: 0;
+}
+
+.wizard-panel--enter-right {
+    transform: translateX(100%);
+    opacity: 0;
+}
+
+.wizard-panel--enter-left {
+    transform: translateX(-100%);
+    opacity: 0;
+}
+
+.wizard-panel--enter-active {
+    transform: translateX(0);
+    opacity: 1;
+    transition: transform var(--dur-base) var(--ease-out), opacity var(--dur-base) var(--ease-out);
+}
+
+.wizard-panel--exit-left {
+    animation: wizardExitLeft var(--dur-base) var(--ease-out) forwards;
+}
+
+.wizard-panel--exit-right {
+    animation: wizardExitRight var(--dur-base) var(--ease-out) forwards;
+}
+
+@keyframes wizardExitLeft {
+    to { transform: translateX(-100%); opacity: 0; }
+}
+
+@keyframes wizardExitRight {
+    to { transform: translateX(100%); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .wizard-panel--exit-left,
+    .wizard-panel--exit-right,
+    .wizard-panel--enter-active {
+        animation: none;
+        transition: none;
+        transform: none;
+        opacity: 1;
+    }
+    .wizard-panel--enter-right,
+    .wizard-panel--enter-left {
+        transform: none;
+        opacity: 1;
+    }
+}
+
+/* ============================================
+   Экран результата
+   ============================================ */
+.wizard-result {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.wizard-result__title {
+    font-family: var(--font-head);
+    font-size: var(--fs-h2);
+    color: var(--color-ink);
+}
+
+/* Штамп "РЕКОМЕНДАЦИЯ ГОТОВА" — оформление success-экрана как выписанного чека */
+.wizard-result__stamp {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    align-self: flex-start;
+    padding: 6px 14px;
+    border: 2px solid var(--color-red);
+    border-radius: 6px;
+    color: var(--color-red);
+    font-family: var(--font-display);
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    transform: rotate(-3deg);
+    animation: stamp-in 320ms var(--ease-spring) both;
+}
+
+.wizard-result__stamp .icon {
+    width: var(--icon-sm);
+    height: var(--icon-sm);
+}
+
+@keyframes stamp-in {
+    from { opacity: 0; transform: rotate(-3deg) scale(0.8); }
+    to { opacity: 1; transform: rotate(-3deg) scale(1); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .wizard-result__stamp {
+        animation: none;
+    }
+}
+
+.wizard-result__reasons {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.wizard-result__reasons li {
+    position: relative;
+    padding-left: 20px;
+    color: var(--color-ink);
+    font-size: var(--fs-body);
+}
+
+.wizard-result__reasons li::before {
+    content: '✓';
+    position: absolute;
+    left: 0;
+    color: var(--color-green);
+    font-weight: 700;
+}
+
+.wizard-result__next-steps h3 {
+    font-family: var(--font-body);
+    font-size: var(--fs-body);
+    font-weight: 700;
+    color: var(--color-ink);
+    margin-bottom: 8px;
+}
+
+.wizard-result__next-steps ol {
+    padding-left: 20px;
+    color: var(--color-ink);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.wizard-result__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+/* ============================================
+   Partner CTA — переиспользуемый компонент-заглушка.
+   Самодостаточный HTML+CSS блок, задуман для подключения
+   не только на странице мастера — при переносе на другую
+   страницу достаточно скопировать разметку и этот CSS-блок.
+   ============================================ */
+.partner-cta-card {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-start;
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-card);
+    padding: 20px 24px;
+    text-align: left;
+}
+
+.partner-cta-card__eyebrow {
+    font-size: var(--fs-caption);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--color-accent);
+    font-weight: 600;
+}
+
+.partner-cta-card__title {
+    font-family: var(--font-head);
+    font-size: var(--fs-h3);
+    color: var(--color-ink);
+}
+
+.partner-cta-card__text {
+    color: var(--color-muted);
+    font-size: var(--fs-body);
+}
+
+.partner-cta-card__btn {
+    margin-top: 4px;
+}
+
+.partner-cta-card__note {
+    font-size: var(--fs-caption);
+    color: var(--color-muted);
+}

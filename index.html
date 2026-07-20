@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Финансовый помощник для самозанятых — калькуляторы 2026</title>
+    <meta name="description" content="Бесплатные калькуляторы НПД, лимита дохода, больничного, пенсионного стажа, ставки в час и сравнения самозанятости с ИП">
+    <meta name="robots" content="index, follow">
+
+    <meta name="theme-color" content="#6F5DC9">
+
+    <!-- Раннее применение темы ДО первой отрисовки — предотвращает FOUC.
+         Светлая тема — дефолт по ТЗ §2.1; тёмная включается вручную. -->
+    <script>
+    (function(){try{var t=localStorage.getItem('theme');if(t==='dark'){document.documentElement.setAttribute('data-theme','dark');}}catch(e){}})();
+    </script>
+
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Финансовый помощник для самозанятых — калькуляторы 2026">
+    <meta property="og:description" content="Понятно про ваш налог, без бухгалтерии. Калькуляторы НПД, лимита дохода, больничного, ставки в час и сравнения самозанятости с ИП.">
+    <meta property="og:url" content="https://samozanyatye.vercel.app/">
+    <meta property="og:locale" content="ru_RU">
+    <meta property="og:image" content="https://samozanyatye.vercel.app/assets/og-image.png">
+    <meta name="twitter:card" content="summary">
+
+    <meta name="yandex-verification" content="3a96fab1728ded7b" />
+    <meta name="google-site-verification" content="Yusf8n_Wh_fGKvwh0jN8DqGSvWeIya6BB-fmsLVUHws" />
+
+    <link rel="canonical" href="https://samozanyatye.vercel.app/">
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="preconnect" href="https://mc.yandex.ru">
+    <link rel="preload" href="assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="assets/fonts/manrope-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="assets/fonts/lora-cyrillic-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+
+    <link rel="stylesheet" href="css/tokens.css">
+
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/profile.css">
+
+    <!-- Yandex.Metrika placeholder: владелец подставляет YANDEX_METRIKA_ID -->
+    <script type="text/javascript" data-metrika-placeholder>
+    (function(){var ID=window.YANDEX_METRIKA_ID;if(!ID)return;(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,k.setAttribute("data-metrika-id",ID),a.parentNode.insertBefore(k,a)})(window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");ym(ID,"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true});})();
+    </script>
+    <noscript><div><img src="https://mc.yandex.ru/watch/YANDEX_METRIKA_ID" style="position:absolute;left:-9999px" alt="" /></div></noscript>
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Финансовый помощник для самозанятых",
+      "description": "Калькуляторы и инструменты для самозанятых в России 2026",
+      "url": "https://samozanyatye.vercel.app/",
+      "inLanguage": "ru",
+      "dateModified": "2026-07-18"
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {"@type":"Question","name":"Что такое самозанятость (НПД)?","acceptedAnswer":{"@type":"Answer","text":"Самозанятость — это налог на профессиональный доход (НПД). Ставка 4% с доходов от физлиц и 6% от юрлиц и ИП. Лимит дохода — 2,4 млн ₽ в год."}},
+        {"@type":"Question","name":"Нужно ли откладывать деньги на налог самозанятому?","acceptedAnswer":{"@type":"Answer","text":"Да. НПД не списывается автоматически — вы получаете всю сумму на руки и сами откладываете налоговую часть. Срок уплаты — до 28-го числа следующего месяца."}},
+        {"@type":"Question","name":"Что будет при превышении лимита 2,4 млн ₽?","acceptedAnswer":{"@type":"Answer","text":"При превышении лимита дохода статус самозанятого слетает с начала месяца превышения. Нужно переходить на ИП или другой режим."}}
+      ]
+    }
+    </script>
+</head>
+<body>
+    <a href="#main" class="skip-link">Перейти к содержанию</a>
+    <noscript>
+        <div class="noscript-warning">
+            <strong>⚠️ Для работы калькуляторов необходим JavaScript.</strong><br>
+            Включите JavaScript в настройках браузера или используйте приложение «Мой налог».
+        </div>
+    </noscript>
+
+    <nav class="page-nav">
+        <div class="container page-nav-inner">
+            <a href="index.html" class="nav-back nav-brand">НПД.помощник</a>
+
+            <button class="nav-menu-toggle btn-icon" type="button" aria-expanded="false" aria-controls="nav-menu" aria-label="Открыть меню" data-dropdown-trigger>
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16"/><path d="M4 12h16"/><path d="M4 18h16"/></svg>
+            </button>
+
+            <div class="nav-menu" id="nav-menu">
+                <a href="#tasks-anchor">Задачи</a>
+                <a href="#how-anchor">Как это работает</a>
+                <a href="poleznoe.html">Полезное</a>
+            </div>
+
+            <div class="page-nav-actions">
+                <a href="#tasks-anchor" class="btn btn-primary btn-sm">Открыть демо</a>
+                <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Переключить тему" aria-pressed="false">🌙</button>
+            </div>
+        </div>
+    </nav>
+
+    <header class="page-hero">
+        <div class="container">
+            <span class="page-hero__eyebrow">Помощник самозанятого</span>
+            <h1 class="page-hero__title">Понятно про ваш <em>налог</em>, без бухгалтерии.</h1>
+            <p class="page-hero__subtitle">
+                Калькуляторы, которые объясняют правила цифрами: сколько отложить на налог, сколько до лимита 2,4 млн ₽, ИП или самозанятость, риск переквалификации и не только.
+            </p>
+        </div>
+    </header>
+
+    <main class="main" id="main">
+        <div class="container">
+
+            <!-- Профиль-виджет: показывается только при наличии данных в localStorage -->
+            <section data-profile-widget hidden class="hub-section--mt-sm"></section>
+
+            <!-- Список задач «Что хотите узнать» -->
+            <section class="hub-section hub-section--mt-md" id="tasks-anchor">
+                <h2 class="section-title">Что хотите узнать</h2>
+                <p class="section-description">Выберите задачу — каждый калькулятор за 30 секунд даёт цифру, объяснение и следующее действие.</p>
+
+                <ol class="task-list">
+                    <li class="task-list__item">
+                        <a href="otlozhit-na-nalog.html" class="task-list__link">
+                            <span class="task-list__num">01</span>
+                            <span class="task-list__body">
+                                <span class="task-list__title">Сколько налога заплатить</span>
+                                <span class="task-list__desc">Сколько отложить с каждой оплаты — 4% с физлиц или 6% с юрлиц и ИП</span>
+                            </span>
+                            <span class="task-list__arrow">→</span>
+                        </a>
+                    </li>
+                    <li class="task-list__item">
+                        <a href="limit-dohoda.html" class="task-list__link">
+                            <span class="task-list__num">02</span>
+                            <span class="task-list__body">
+                                <span class="task-list__title">Сколько до лимита 2,4 млн</span>
+                                <span class="task-list__desc">Сколько ещё можно заработать до конца года без риска потери статуса НПД</span>
+                            </span>
+                            <span class="task-list__arrow">→</span>
+                        </a>
+                    </li>
+                    <li class="task-list__item">
+                        <a href="ip-ili-samozanyatyy.html" class="task-list__link">
+                            <span class="task-list__num">03</span>
+                            <span class="task-list__body">
+                                <span class="task-list__title">ИП или самозанятость</span>
+                                <span class="task-list__desc">Сравнение налоговой нагрузки: НПД против ИП на УСН 6% без сотрудников</span>
+                            </span>
+                            <span class="task-list__arrow">→</span>
+                        </a>
+                    </li>
+                    <li class="task-list__item">
+                        <a href="stavka-v-chas.html" class="task-list__link">
+                            <span class="task-list__num">04</span>
+                            <span class="task-list__body">
+                                <span class="task-list__title">Ставка в час</span>
+                                <span class="task-list__desc">Сколько просить за проект с учётом налога и сколько вы реально получаете в час</span>
+                            </span>
+                            <span class="task-list__arrow">→</span>
+                        </a>
+                    </li>
+                    <li class="task-list__item">
+                        <a href="dogovor-akt.html" class="task-list__link">
+                            <span class="task-list__num">05</span>
+                            <span class="task-list__body">
+                                <span class="task-list__title">Договор + акт</span>
+                                <span class="task-list__desc">Готовый шаблон договора оказания услуг и акта — для банка и защиты от переквалификации</span>
+                            </span>
+                            <span class="task-list__arrow">→</span>
+                        </a>
+                    </li>
+                    <li class="task-list__item">
+                        <a href="risk-trudovyh.html" class="task-list__link">
+                            <span class="task-list__num">06</span>
+                            <span class="task-list__body">
+                                <span class="task-list__title">Риск переквалификации</span>
+                                <span class="task-list__desc">Чек-лист признаков ГПХ→трудовых по ФНС и судам — оцените риск доначислений</span>
+                            </span>
+                            <span class="task-list__arrow">→</span>
+                        </a>
+                    </li>
+                    <li class="task-list__item">
+                        <a href="koncentracia-dohoda.html" class="task-list__link">
+                            <span class="task-list__num">07</span>
+                            <span class="task-list__body">
+                                <span class="task-list__title">Концентрация дохода</span>
+                                <span class="task-list__desc">Проверьте, не слишком ли вы зависите от одного заказчика — признак риска</span>
+                            </span>
+                            <span class="task-list__arrow">→</span>
+                        </a>
+                    </li>
+                    <li class="task-list__item">
+                        <a href="chasy-289-fz.html" class="task-list__link">
+                            <span class="task-list__num">08</span>
+                            <span class="task-list__body">
+                                <span class="task-list__title">Часы по 289-ФЗ <span class="task-list__badge">NEW</span></span>
+                                <span class="task-list__desc">Трекер 60 часов/мес на одного заказчика через платформы — с 01.10.2026</span>
+                            </span>
+                            <span class="task-list__arrow">→</span>
+                        </a>
+                    </li>
+                </ol>
+            </section>
+
+            <!-- Как это работает -->
+            <section class="hub-section hub-section--mt-lg" id="how-anchor">
+                <h2 class="section-title">Как это работает</h2>
+                <div class="how-steps">
+                    <div class="how-step">
+                        <span class="how-step__num">1</span>
+                        <h3 class="how-step__title">Введите данные</h3>
+                        <p class="how-step__desc">Пару цифр — сумму, тип заказчика, часы. Без регистрации и аккаунтов.</p>
+                    </div>
+                    <div class="how-step">
+                        <span class="how-step__num">2</span>
+                        <h3 class="how-step__title">Получите ответ</h3>
+                        <p class="how-step__desc">Главная цифра обновляется сразу — без кнопки «Отправить».</p>
+                    </div>
+                    <div class="how-step">
+                        <span class="how-step__num">3</span>
+                        <h3 class="how-step__title">Увидьте риск и действие</h3>
+                        <p class="how-step__desc">Оценка риска и следующее действие — что сделать, чтобы не попасть.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- SEO-блок: FAQ (короткая подборка; все вопросы — на poleznoe.html) -->
+            <section class="hub-section hub-section--mt-lg" id="faq-anchor">
+                <h2 class="section-title">Частые вопросы</h2>
+                <div class="faq-list">
+                    <details class="faq-item">
+                        <summary class="faq-question">Что такое самозанятость (НПД)?</summary>
+                        <div class="faq-answer">
+                            <p>Самозанятость — это налог на профессиональный доход (НПД). Ставка 4% с доходов от физлиц и 6% от юрлиц и ИП. Лимит дохода — 2,4 млн ₽ в год. Регистрация через приложение «Мой налог».</p>
+                        </div>
+                    </details>
+                    <details class="faq-item">
+                        <summary class="faq-question">Нужно ли откладывать деньги на налог самозанятому?</summary>
+                        <div class="faq-answer">
+                            <p>Да. НПД не списывается автоматически — вы получаете всю сумму на руки и сами откладываете налоговую часть. Срок уплаты — до 28-го числа следующего месяца. <a href="otlozhit-na-nalog.html">Калькулятор «Отложить на налог» →</a></p>
+                        </div>
+                    </details>
+                    <details class="faq-item">
+                        <summary class="faq-question">Что будет при превышении лимита 2,4 млн ₽?</summary>
+                        <div class="faq-answer">
+                            <p>При превышении лимита дохода статус самозанятого слетает с начала месяца превышения. Нужно переходить на ИП или другой режим. <a href="limit-dohoda.html">Калькулятор лимита дохода →</a></p>
+                        </div>
+                    </details>
+                </div>
+                <p class="section-link"><a href="poleznoe.html">Все вопросы и гайды →</a></p>
+            </section>
+
+            <section class="trust-strip">
+                <div class="trust-item">
+                    <span class="trust-label">Ставки</span>
+                    <span class="trust-value mono">ФНС · 4% / 6%</span>
+                </div>
+                <div class="trust-divider">·</div>
+                <div class="trust-item">
+                    <span class="trust-label">Актуально на</span>
+                    <span class="trust-value mono">июль 2026</span>
+                </div>
+                <div class="trust-divider">·</div>
+                <div class="trust-item">
+                    <span class="trust-label">Данные</span>
+                    <span class="trust-value mono">только на устройстве</span>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <footer class="footer" id="about-footer-anchor">
+        <div class="container">
+            <div class="footer-disclaimer">
+                <p>Не финансовая консультация. Ставки и лимиты — по данным ФНС на 2026.</p>
+                <p>Независимый калькулятор · не сервис ФНС или СФР · цифры ориентировочные</p>
+            </div>
+
+            <div class="footer-columns">
+                <div class="footer-column">
+                    <h3>Калькуляторы</h3>
+                    <ul>
+                        <li><a href="otlozhit-na-nalog.html">Сколько налога заплатить</a></li>
+                        <li><a href="limit-dohoda.html">Лимит дохода 2,4 млн</a></li>
+                        <li><a href="ip-ili-samozanyatyy.html">ИП или самозанятость</a></li>
+                        <li><a href="stavka-v-chas.html">Ставка в час</a></li>
+                        <li><a href="bolnichny.html">Взносы на больничный</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Риски и документы</h3>
+                    <ul>
+                        <li><a href="risk-trudovyh.html">Риск переквалификации</a></li>
+                        <li><a href="koncentracia-dohoda.html">Концентрация дохода</a></li>
+                        <li><a href="chasy-289-fz.html">Часы по 289-ФЗ</a></li>
+                        <li><a href="dogovor-akt.html">Договор и акт</a></li>
+                        <li><a href="master-vybora-rezhima.html">Мастер выбора режима</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Полезное</h3>
+                    <ul>
+                        <li><a href="poleznoe.html">Статьи и гайды</a></li>
+                        <li><a href="pensiya.html">Пенсионный стаж</a></li>
+                        <li><a href="metodika.html">Методика и источники</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Проект</h3>
+                    <ul>
+                        <li><a href="privacy.html">Политика конфиденциальности</a></li>
+                        <li><a href="disclaimer.html">Ограничение ответственности</a></li>
+                    </ul>
+                    <p class="footer-version">v4 · 2026 · B-first</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/theme.js" defer></script>
+    <script src="js/components.js" defer></script>
+    <script src="js/profile.js" defer></script>
+    <script src="js/rules-2026.js" defer></script>
+    <script src="js/calculators.js" defer></script>
+</body>
+</html>

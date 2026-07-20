@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Калькулятор лимита дохода самозанятого в 2026 году</title>
+    <meta name="description" content="Рассчитайте остаток годового лимита НПД, безопасный темп дохода и риск превышения лимита">
+    <meta name="robots" content="index, follow">
+
+    <meta name="theme-color" content="#6F5DC9">
+
+    <!-- Раннее применение темы ДО первой отрисовки — предотвращает FOUC.
+         Светлая тема — дефолт по ТЗ §2.1; тёмная включается вручную. -->
+    <script>
+    (function(){try{var t=localStorage.getItem('theme');if(t==='dark'){document.documentElement.setAttribute('data-theme','dark');}}catch(e){}})();
+    </script>
+
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Калькулятор лимита дохода самозанятого в 2026 году">
+    <meta property="og:description" content="Рассчитайте остаток годового лимита НПД, безопасный темп дохода и риск превышения лимита">
+    <meta property="og:url" content="https://samozanyatye.vercel.app/limit-dohoda.html">
+    <meta property="og:locale" content="ru_RU">
+    <meta property="og:image" content="https://samozanyatye.vercel.app/assets/og-image.png">
+    <meta name="twitter:card" content="summary">
+
+    <link rel="canonical" href="https://samozanyatye.vercel.app/limit-dohoda.html">
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="preconnect" href="https://mc.yandex.ru">
+    <link rel="preload" href="assets/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="assets/fonts/lora-cyrillic-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+
+    <link rel="stylesheet" href="css/tokens.css">
+    <link rel="stylesheet" href="css/controls.css">
+
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/profile.css">
+
+    <script type="text/javascript" data-metrika-placeholder>
+    (function(){var ID=window.YANDEX_METRIKA_ID;if(!ID)return;(function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};m[i].l=1*new Date();k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,k.setAttribute("data-metrika-id",ID),a.parentNode.insertBefore(k,a)})(window,document,"script","https://mc.yandex.ru/metrika/tag.js","ym");ym(ID,"init",{clickmap:true,trackLinks:true,accurateTrackBounce:true});})();
+    </script>
+    <noscript><div><img src="https://mc.yandex.ru/watch/YANDEX_METRIKA_ID" style="position:absolute;left:-9999px" alt="" /></div></noscript>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": "Калькулятор лимита дохода самозанятого",
+      "description": "Рассчитайте остаток до лимита НПД 2 400 000 ₽ в год и безопасный темп заработка.",
+      "url": "https://samozanyatye.vercel.app/limit-dohoda.html",
+      "dateModified": "2026-07-18",
+      "inLanguage": "ru"
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {"@type":"Question","name":"Какой лимит дохода у самозанятого?","acceptedAnswer":{"@type":"Answer","text":"2 400 000 ₽ в год. При превышении статус НПД слетает с начала месяца превышения."}},
+        {"@type":"Question","name":"Что будет при превышении лимита 2,4 млн ₽?","acceptedAnswer":{"@type":"Answer","text":"Статус самозанятого аннулируется с начала месяца превышения. Нужно переходить на ИП или другой режим."}},
+        {"@type":"Question","name":"Как рассчитать безопасный темп дохода?","acceptedAnswer":{"@type":"Answer","text":"Безопасный темп = остаток лимита / количество оставшихся месяцев до конца года."}}
+      ]
+    }
+    </script>
+    <script type="application/ld+json">
+{
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://samozanyatye.vercel.app/index.html"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Калькуляторы",
+          "item": "https://samozanyatye.vercel.app/index.html#tasks-anchor"
+        },
+        {
+          "@type": "ListItem",
+          "position": 3,
+          "name": "Лимит дохода",
+          "item": "https://samozanyatye.vercel.app/limit-dohoda.html"
+        }
+      ]
+    }
+    </script>
+</head>
+<body>
+    <noscript>
+        <div class="noscript-warning">
+            <strong>⚠️ Для работы калькулятора необходим JavaScript.</strong>
+        </div>
+    </noscript>
+    <a href="#main" class="skip-link">Перейти к содержанию</a>
+
+    <nav class="page-nav">
+        <div class="container page-nav-inner">
+            <a href="index.html" class="nav-back">← Все инструменты</a>
+            <div class="page-nav-actions">
+                <button class="btn-icon" type="button" data-action="share" aria-label="Поделиться">
+                    <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.59 13.51 6.83 3.98"/><path d="m15.41 6.51-6.82 3.98"/></svg>
+                </button>
+                <button class="btn-icon" type="button" data-action="print" aria-label="Печать">
+                    <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 14h12v8H6z"/></svg>
+                </button>
+                <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Переключить тему" aria-pressed="false">🌙</button>
+            </div>
+        </div>
+    </nav>
+
+    <header class="page-hero">
+        <div class="container">
+            <nav class="breadcrumbs" aria-label="Хлебные крошки" data-breadcrumbs='[{"name":"Home","url":"index.html"},{"name":"Калькуляторы","url":"index.html#tasks-anchor"},{"name":"Лимит дохода"}]'></nav>
+            <span class="page-hero__eyebrow">НПД · Лимит 2026</span>
+            <h1 class="page-hero__title">До какой суммы можно работать <em>спокойно</em></h1>
+            <p class="page-hero__subtitle">
+                Пока доход за год не перевалит за 2,4 млн ₽ — статус самозанятого работает без ограничений. Посчитайте, сколько у вас в запасе и безопасный темп до конца года.
+            </p>
+        </div>
+    </header>
+
+    <main class="main" id="main">
+        <div class="container">
+
+            <section class="section calculator-section">
+                <div class="b-flow" id="calculator-income">
+                    <div class="b-flow__input">
+                        <span class="b-flow__step-label">Шаг 1 — введите данные</span>
+                        <h2 class="b-flow__title">Лимит дохода 2,4 млн ₽</h2>
+                        <p class="b-flow__desc">Лимит дохода для самозанятых — 2 400 000 ₽ в год. Узнайте, сколько можно зарабатывать до конца года, не рискуя статусом НПД.</p>
+
+                        <div class="control-group">
+                            <div class="control-group__row">
+                                <fieldset class="segmented-field">
+                                    <legend class="amount-field__label">Режим</legend>
+                                    <div class="segmented" data-count="2">
+                                        <label class="segmented__option is-active">
+                                            <input type="radio" name="incomeMode" value="remaining" checked class="control-native">
+                                            <span>Сколько ещё можно</span>
+                                        </label>
+                                        <label class="segmented__option">
+                                            <input type="radio" name="incomeMode" value="whenLimit" class="control-native">
+                                            <span>Когда упрусь в лимит</span>
+                                        </label>
+                                        <span class="segmented__thumb" aria-hidden="true"></span>
+                                    </div>
+                                </fieldset>
+                            </div>
+
+                            <div class="control-group__row">
+                                <div class="amount-field">
+                                    <label class="amount-field__label" for="income-earned">Сколько вы заработали с начала года</label>
+                                    <div class="amount-field__control">
+                                        <input class="amount-field__input" id="income-earned" type="text" inputmode="numeric" autocomplete="off" aria-describedby="income-earned-hint income-earned-error" placeholder="0">
+                                        <span class="amount-field__suffix">₽</span>
+                                    </div>
+                                    <span id="income-earned-hint" class="amount-field__hint">Например, 1 500 000</span>
+                                    <span id="income-earned-error" class="amount-field__error" role="alert" data-error-for="income-earned"></span>
+                                </div>
+                            </div>
+
+                            <div class="control-group__row" id="avg-monthly-group" style="display: none;">
+                                <div class="amount-field">
+                                    <label class="amount-field__label" for="income-avg-monthly">Средний доход в месяц</label>
+                                    <div class="amount-field__control">
+                                        <input class="amount-field__input" id="income-avg-monthly" type="text" inputmode="numeric" autocomplete="off" aria-describedby="income-avg-monthly-hint income-avg-monthly-error" placeholder="0">
+                                        <span class="amount-field__suffix">₽</span>
+                                    </div>
+                                    <span id="income-avg-monthly-hint" class="amount-field__hint">Например, 150 000</span>
+                                    <span id="income-avg-monthly-error" class="amount-field__error" role="alert" data-error-for="income-avg-monthly"></span>
+                                </div>
+                            </div>
+
+                            <div class="control-group__row">
+                                <div class="month-picker">
+                                    <span class="month-picker__label" id="current-month-label">Какой сейчас месяц</span>
+                                    <select id="current-month" class="control-native" aria-labelledby="current-month-label">
+                                        <option value="1">Январь</option>
+                                        <option value="2">Февраль</option>
+                                        <option value="3">Март</option>
+                                        <option value="4">Апрель</option>
+                                        <option value="5">Май</option>
+                                        <option value="6">Июнь</option>
+                                        <option value="7" selected>Июль</option>
+                                        <option value="8">Август</option>
+                                        <option value="9">Сентябрь</option>
+                                        <option value="10">Октябрь</option>
+                                        <option value="11">Ноябрь</option>
+                                        <option value="12">Декабрь</option>
+                                    </select>
+                                    <div class="month-picker__track" aria-hidden="true">
+                                        <button type="button" class="month-picker__chip" data-value="1" tabindex="-1">Янв</button>
+                                        <button type="button" class="month-picker__chip" data-value="2" tabindex="-1">Фев</button>
+                                        <button type="button" class="month-picker__chip" data-value="3" tabindex="-1">Мар</button>
+                                        <button type="button" class="month-picker__chip" data-value="4" tabindex="-1">Апр</button>
+                                        <button type="button" class="month-picker__chip" data-value="5" tabindex="-1">Май</button>
+                                        <button type="button" class="month-picker__chip" data-value="6" tabindex="-1">Июн</button>
+                                        <button type="button" class="month-picker__chip is-active" data-value="7" tabindex="-1">Июл</button>
+                                        <button type="button" class="month-picker__chip" data-value="8" tabindex="-1">Авг</button>
+                                        <button type="button" class="month-picker__chip" data-value="9" tabindex="-1">Сен</button>
+                                        <button type="button" class="month-picker__chip" data-value="10" tabindex="-1">Окт</button>
+                                        <button type="button" class="month-picker__chip" data-value="11" tabindex="-1">Ноя</button>
+                                        <button type="button" class="month-picker__chip" data-value="12" tabindex="-1">Дек</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="calculator-actions">
+                            <button type="button" class="btn-pill" id="btn-copy-link">
+                                🔗 Скопировать ссылку на расчёт
+                            </button>
+                            <span id="copy-link-status" class="sr-only" aria-live="polite" role="status"></span>
+                        </div>
+                    </div>
+
+                    <div class="b-flow__result" id="income-results" aria-live="polite" role="status">
+                        <p class="b-flow__empty">Введите доход с начала года, чтобы увидеть расчёт</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section sources">
+                <details class="how-it-works faq-item" open>
+                    <summary class="faq-question">Как это считается: откуда цифры</summary>
+                    <div class="faq-answer">
+                        <p>Лимит 2 400 000 ₽ в год установлен Федеральным законом о НПД и действует без изменений в 2026 году.</p>
+                        <p class="result-note">Расчёт ориентировочный. Дата актуальности: 18 июля 2026. <a href="metodika.html">Подробнее о методике →</a></p>
+                        <ul class="sources-list">
+                            <li>ФЗ № 422-ФЗ от 27.11.2018 — основной закон о НПД</li>
+                            <li><a href="https://www.nalog.gov.ru/rn77/program/" target="_blank" rel="noopener noreferrer">nalog.gov.ru</a> — приложение «Мой налог», официальный сервис</li>
+                        </ul>
+                    </div>
+                </details>
+            </section>
+
+            <section class="section related-tools">
+                <h2 class="related-tools-title">Похожие инструменты</h2>
+                <div class="related-tools-grid">
+                    <a href="master-vybora-rezhima.html" class="calc-card">
+                        <span class="calc-card__title">Мастер выбора режима</span>
+                        <span class="calc-card__caption">4 вопроса — и понятно, что выбрать: самозанятость или ИП на УСН</span>
+                    </a>
+                    <a href="otlozhit-na-nalog.html" class="calc-card">
+                        <span class="calc-card__title">Отложить на налог</span>
+                        <span class="calc-card__caption">Сколько отложить с каждой оплаты, чтобы не остаться должным при уплате НПД</span>
+                    </a>
+                    <a href="koncentracia-dohoda.html" class="calc-card">
+                        <span class="calc-card__title">Концентрация дохода</span>
+                        <span class="calc-card__caption">Проверьте, не слишком ли вы зависите от одного заказчика</span>
+                    </a>
+                    <a href="stavka-v-chas.html" class="calc-card">
+                        <span class="calc-card__title">Реальная ставка в час</span>
+                        <span class="calc-card__caption">Сколько вы реально получаете в час с учётом всех правок</span>
+                    </a>
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-disclaimer">
+                <p>Не финансовая консультация. Ставки и лимиты — по данным ФНС на 2026.</p>
+            </div>
+
+            <div class="footer-columns">
+                <div class="footer-column">
+                    <h3>Калькуляторы</h3>
+                    <ul>
+                        <li><a href="otlozhit-na-nalog.html">Сколько налога заплатить</a></li>
+                        <li><a href="limit-dohoda.html">Лимит дохода 2,4 млн</a></li>
+                        <li><a href="ip-ili-samozanyatyy.html">ИП или самозанятость</a></li>
+                        <li><a href="stavka-v-chas.html">Ставка в час</a></li>
+                        <li><a href="bolnichny.html">Взносы на больничный</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Риски и документы</h3>
+                    <ul>
+                        <li><a href="risk-trudovyh.html">Риск переквалификации</a></li>
+                        <li><a href="koncentracia-dohoda.html">Концентрация дохода</a></li>
+                        <li><a href="chasy-289-fz.html">Часы по 289-ФЗ</a></li>
+                        <li><a href="dogovor-akt.html">Договор и акт</a></li>
+                        <li><a href="master-vybora-rezhima.html">Мастер выбора режима</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Полезное</h3>
+                    <ul>
+                        <li><a href="poleznoe.html">Статьи и гайды</a></li>
+                        <li><a href="pensiya.html">Пенсионный стаж</a></li>
+                        <li><a href="metodika.html">Методика и источники</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Проект</h3>
+                    <ul>
+                        <li><a href="privacy.html">Политика конфиденциальности</a></li>
+                        <li><a href="disclaimer.html">Ограничение ответственности</a></li>
+                    </ul>
+                    <p class="footer-version">v4 · 2026 · B-first</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/theme.js" defer></script>
+    <script src="js/components.js" defer></script>
+    <script src="js/profile.js" defer></script>
+    <script src="js/rules-2026.js" defer></script>
+    <script src="js/calculators.js" defer></script>
+    <script src="js/controls.js" defer></script>
+    <script src="js/b-flow.js" defer></script>
+</body>
+</html>
