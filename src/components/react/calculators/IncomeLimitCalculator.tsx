@@ -54,12 +54,9 @@ export function IncomeLimitCalculator() {
 
   return (
     <div className="flex flex-col gap-6" id="calculator-income-limit">
-      <ControlGroup
-        label="Доход в этом году"
-        description="Лимит дохода для самозанятых — 2 400 000 ₽ в год. При превышении — потеря статуса и переход на НДФЛ 13%."
-      >
+      <ControlGroup label="Доход">
         <div className="flex flex-col gap-1.5">
-          <span className="text-sm font-medium text-ink">Режим расчёта</span>
+          <span className="text-sm font-medium text-ink">Что считать?</span>
           <SegmentedToggle
             name="limitMode"
             value={mode}
@@ -73,7 +70,7 @@ export function IncomeLimitCalculator() {
 
         <div className="flex flex-col gap-1.5">
           <label htmlFor="limit-earned" className="text-sm font-medium text-ink">
-            Заработано за год
+            Сколько заработали?
           </label>
           <CurrencyInput
             id="limit-earned"
@@ -96,7 +93,7 @@ export function IncomeLimitCalculator() {
         {mode === 'forecast' && (
           <div className="flex flex-col gap-1.5">
             <label htmlFor="limit-avg" className="text-sm font-medium text-ink">
-              Средний доход в месяц
+              Сколько в среднем в месяц?
             </label>
             <CurrencyInput
               id="limit-avg"
@@ -148,16 +145,11 @@ export function IncomeLimitCalculator() {
             whyItems={whyItems}
             risk={{
               level: result.risk,
-              title: result.risk === 'red'
+              label: result.risk === 'red'
                 ? 'Опасная зона'
                 : result.risk === 'amber'
                   ? 'Близко к лимиту'
-                  : 'Безопасная зона',
-              description: result.risk === 'red'
-                ? 'Вы превысили или приблизились к лимиту 2,4 млн ₽. При превышении — потеря статуса самозанятого.'
-                : result.risk === 'amber'
-                  ? 'Использовано 80%+ лимита. Следите за доходами.'
-                  : 'Доход в пределах безопасного диапазона.',
+                  : 'Безопасно',
             }}
             next={{ to: '/otlozhit-na-nalog', label: 'Сколько отложить на налог' }}
             trust={['ФНС 2026', 'Лимит 2,4 млн ₽', 'Без отправки данных']}

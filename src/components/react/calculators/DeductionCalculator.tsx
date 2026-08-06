@@ -48,13 +48,10 @@ export function DeductionCalculator() {
 
   return (
     <div className="flex flex-col gap-6" id="calculator-deduction">
-      <ControlGroup
-        label="Доход для расчёта вычета"
-        description="Налоговый вычет 10 000 ₽ — одноразовый для каждого самозанятого. Снижает ставку НПД: 4% → 3% с физлиц, 6% → 4% с юрлиц."
-      >
+      <ControlGroup label="Доход">
         <div className="flex flex-col gap-1.5">
           <label htmlFor="deduction-individual" className="text-sm font-medium text-ink">
-            Доход от физлиц (всего)
+            От физлиц
           </label>
           <CurrencyInput
             id="deduction-individual"
@@ -62,20 +59,20 @@ export function DeductionCalculator() {
             onValueChange={setIncomeIndividual}
             required
             placeholder="100 000"
-            hint="Сумма всех оплат от физических лиц"
+            hint="Все оплаты от физических лиц"
           />
         </div>
 
         <div className="flex flex-col gap-1.5">
           <label htmlFor="deduction-business" className="text-sm font-medium text-ink">
-            Доход от юрлиц / ИП (всего)
+            От юрлиц
           </label>
           <CurrencyInput
             id="deduction-business"
             value={incomeBusiness}
             onValueChange={setIncomeBusiness}
             placeholder="0"
-            hint="Сумма всех оплат от юридических лиц и ИП"
+            hint="Оставьте пустым, если нет"
           />
         </div>
       </ControlGroup>
@@ -95,16 +92,11 @@ export function DeductionCalculator() {
             whyItems={whyItems}
             risk={riskLevel ? {
               level: riskLevel,
-              title: riskLevel === 'red'
-                ? 'Вычет исчерпан'
+              label: riskLevel === 'red'
+                ? 'Исчерпан'
                 : riskLevel === 'amber'
-                  ? 'Вычет почти использован'
-                  : 'Вычет активен',
-              description: riskLevel === 'red'
-                ? '10 000 ₽ вычета полностью потрачены. Дальнейшие доходы облагаются по полным ставкам НПД.'
-                : riskLevel === 'amber'
-                  ? 'Осталось менее 20% вычета. Скоро исчерпается.'
-                  : 'Налоговый вычет работает — ставки снижены.',
+                  ? 'Почти использован'
+                  : 'Активен',
             } : undefined}
             next={{ to: '/otlozhit-na-nalog', label: 'Сколько отложить на налог' }}
             trust={['ФЗ № 422-ФЗ', 'Вычет 10 000 ₽', 'Без отправки данных']}

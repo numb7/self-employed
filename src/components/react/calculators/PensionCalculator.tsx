@@ -1,10 +1,12 @@
 import { useState, useMemo } from 'react';
+import { NumberInput } from '../ui/NumberInput';
 import { CurrencyInput } from '../ui/CurrencyInput';
 import { SegmentedToggle } from '../ui/SegmentedToggle';
 import { ControlGroup } from '../ui/ControlGroup';
 import { ResultCard } from '../ui/ResultCard';
 import { calculatePensionCost, calculatePensionMonths } from '@/lib/calculations';
 import { formatMoney } from '@/lib/format';
+import { RULES_2026 } from '@/lib/rules-2026';
 
 export function PensionCalculator() {
   const [mode, setMode] = useState<'months' | 'amount'>('months');
@@ -33,19 +35,16 @@ export function PensionCalculator() {
       ];
     }
     return [
-      `Стоимость полного года: 49 500 ₽ (фиксированный взнос СФР)`,
-      `1 месяц = ${formatMoney(Math.round(49_500 / 12))} ₽`,
+      `Стоимость полного года: ${formatMoney(Math.round(RULES_2026.pension.fullYearCost))} ₽ (фиксированный взнос СФР)`,
+      `1 месяц = ${formatMoney(Math.round(RULES_2026.pension.fullYearCost / 12))} ₽`,
     ];
   }, [result]);
 
   return (
     <div className="flex flex-col gap-6" id="calculator-pension">
-      <ControlGroup
-        label="Пенсионный стаж"
-        description="Самозанятые могут добровольно платить фиксированные взносы в СФР за пенсионный стаж. За 1 год — 49 500 ₽ (2026)."
-      >
+      <ControlGroup label="Пенсионный стаж">
         <div className="flex flex-col gap-1.5">
-          <span className="text-sm font-medium text-ink">Что хотите посчитать?</span>
+          <span className="text-sm font-medium text-ink">Что считаем?</span>
           <SegmentedToggle
             name="pensionMode"
             value={mode}
@@ -60,41 +59,33 @@ export function PensionCalculator() {
         {mode === 'months' && (
           <div className="flex flex-col gap-1.5">
             <label htmlFor="pension-months" className="text-sm font-medium text-ink">
-              Количество месяцев
+              Сколько месяцев?
             </label>
-            <div className="flex flex-col gap-1.5">
-              <input
-                id="pension-months"
-                type="text"
-                inputMode="numeric"
-                value={months ?? ''}
-                onChange={(e) => {
-                  const v = e.target.value.replace(/\D/g, '');
-                  setMonths(v ? parseInt(v, 10) : null);
-                }}
-                placeholder="12"
-                className="w-full rounded-[var(--radius-control)] border bg-surface px-3 py-2.5 font-mono text-ink tabular-nums placeholder:text-faint transition-colors duration-[var(--duration-fast)] ease-[var(--ease-out)] outline-none focus:border-accent focus:ring-1 focus:ring-accent/30 border-accent/40"
-                aria-describedby="pension-months-hint"
-              />
-              <p id="pension-months-hint" className="text-muted text-xs">
-                От 1 до 12 месяцев
-              </p>
-            </div>
+            <NumberInput
+              id="pension-months"
+              value={months}
+              onValueChange={setMonths}
+              required
+              integer
+              suffix="мес."
+              placeholder="12"
+              hint="От 1 до 12 месяцев"
+            />
           </div>
         )}
 
         {mode === 'amount' && (
           <div className="flex flex-col gap-1.5">
             <label htmlFor="pension-amount" className="text-sm font-medium text-ink">
-              Сумма взносов
+              Какая сумма?
             </label>
             <CurrencyInput
               id="pension-amount"
               value={amount}
               onValueChange={setAmount}
               required
-              placeholder="49 500"
-              hint="Полный год — 49 500 ₽"
+              placeholder="71 525"
+              hint={`Полный год — ${formatMoney(Math.round(RULES_2026.pension.fullYearCost))} ₽`}
             />
           </div>
         )}

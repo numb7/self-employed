@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { CurrencyInput } from '../ui/CurrencyInput';
+import { NumberInput } from '../ui/NumberInput';
 import { ControlGroup } from '../ui/ControlGroup';
 import { ResultCard } from '../ui/ResultCard';
 import { ProgressIndicator } from '../ui/ProgressIndicator';
@@ -29,32 +29,21 @@ export function Chasy289Calculator() {
 
   return (
     <div className="flex flex-col gap-6" id="calculator-chasy-289">
-      <ControlGroup
-        label="Часы у одного заказчика"
-        description="По закону 289-ФЗ самозанятый не может работать на одного заказчика более 60 часов в месяц. Если превышаете — ФНС может переквалифицировать в трудовые отношения."
-      >
+      <ControlGroup label="Часы">
         <div className="flex flex-col gap-1.5">
           <label htmlFor="chasy-hours" className="text-sm font-medium text-ink">
-            Часов в этом месяце
+            Сколько часов отработали?
           </label>
-          <div className="flex flex-col gap-1.5">
-            <input
-              id="chasy-hours"
-              type="text"
-              inputMode="numeric"
-              value={hours ?? ''}
-              onChange={(e) => {
-                const v = e.target.value.replace(/\D/g, '');
-                setHours(v ? parseInt(v, 10) : null);
-              }}
-              placeholder="40"
-              className="w-full rounded-[var(--radius-control)] border bg-surface px-3 py-2.5 font-mono text-ink tabular-nums placeholder:text-faint transition-colors duration-[var(--duration-fast)] ease-[var(--ease-out)] outline-none focus:border-accent focus:ring-1 focus:ring-accent/30 border-accent/40"
-              aria-describedby="chasy-hours-hint"
-            />
-            <p id="chasy-hours-hint" className="text-muted text-xs">
-              Например, 40
-            </p>
-          </div>
+          <NumberInput
+            id="chasy-hours"
+            value={hours}
+            onValueChange={setHours}
+            required
+            integer
+            suffix="ч."
+            placeholder="40"
+            hint="Лимит — 60 ч. в месяц по 289-ФЗ"
+          />
         </div>
       </ControlGroup>
 
@@ -69,16 +58,11 @@ export function Chasy289Calculator() {
             whyItems={whyItems}
             risk={{
               level: result.risk,
-              title: result.risk === 'red'
-                ? 'Превышение лимита'
+              label: result.risk === 'red'
+                ? 'Превышение'
                 : result.risk === 'amber'
                   ? 'Близко к лимиту'
-                  : 'В пределах нормы',
-              description: result.risk === 'red'
-                ? 'Вы превысили 60 часов. ФНС может признать вас трудоустроенным — потеряете статус самозанятого.'
-                : result.risk === 'amber'
-                  ? 'Осталось мало часов. Следите, чтобы не превысить лимит.'
-                  : 'Часы в пределах лимита 289-ФЗ.',
+                  : 'В норме',
             }}
             next={{ to: '/risk-trudovyh', label: 'Проверить риск переквалификации' }}
             trust={['По 289-ФЗ', 'Актуально на 2026', 'Без отправки данных']}

@@ -1,5 +1,7 @@
 import type { ReactNode } from 'react';
 import { cn } from '@/lib/cn';
+import { RiskBadge } from './RiskBadge';
+import { DetailsAccordion } from './DetailsAccordion';
 
 export interface ResultCardProps {
   /** Заголовок результата (например «Взнос в месяц») */
@@ -12,8 +14,8 @@ export interface ResultCardProps {
   detail?: string;
   /** Почему столько — раскрывающийся блок */
   whyItems?: string[];
-  /** Индикатор риска */
-  risk?: { level: 'green' | 'amber' | 'red'; title: string; description?: string };
+  /** Индикатор риска — показывается в шапке рядом с label */
+  risk?: { level: 'green' | 'amber' | 'red'; label?: string };
   /** Ссылка на связанный инструмент */
   next?: { to: string; label: string };
   /** Trust strip тексты */
@@ -45,8 +47,15 @@ export function ResultCard({
         className,
       )}
     >
-      {/* Label + Big number */}
-      <p className="text-muted text-sm">{label}</p>
+      {/* Label + RiskBadge */}
+      <div className="flex items-center gap-2">
+        <p className="text-muted text-sm">{label}</p>
+        {risk && (
+          <RiskBadge level={risk.level} label={risk.label} />
+        )}
+      </div>
+
+      {/* Big number */}
       <p className="font-mono text-3xl tabular-nums text-ink mt-0.5">{figure}</p>
 
       {subtitle && (
@@ -58,18 +67,22 @@ export function ResultCard({
       )}
 
       {/* Divider */}
-      {(whyItems || risk || children) && (
+      {(whyItems || children) && (
         <div className="border-t border-line my-4" />
       )}
 
-      {/* Why list */}
+      {/* Why accordion (closed by default) */}
       {whyItems && whyItems.length > 0 && (
-        <WhySection items={whyItems} />
-      )}
-
-      {/* Risk badge */}
-      {risk && (
-        <RiskSection level={risk.level} title={risk.title} description={risk.description} />
+        <DetailsAccordion title="Почему столько" icon="info">
+          <ul className="mt-2 space-y-1 pl-6 text-sm text-muted">
+            {whyItems.map((item, i) => (
+              <li key={i} className="flex gap-2">
+                <span className="text-faint select-none">—</span>
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+        </DetailsAccordion>
       )}
 
       {/* Extra content */}
@@ -101,61 +114,6 @@ export function ResultCard({
             </span>
           ))}
         </div>
-      )}
-    </div>
-  );
-}
-
-/* ---- Internal sub-components ---- */
-
-function WhySection({ items }: { items: string[] }) {
-  return (
-    <details className="group mt-2">
-      <summary className="inline-flex items-center gap-1.5 text-sm font-medium text-muted cursor-pointer hover:text-ink transition-colors select-none">
-        <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-          <circle cx="12" cy="12" r="10" />
-          <path d="M12 16v-4" />
-          <path d="M12 8h.01" />
-        </svg>
-        <span>Почему столько</span>
-      </summary>
-      <ul className="mt-2 space-y-1 pl-6 text-sm text-muted">
-        {items.map((item, i) => (
-          <li key={i} className="flex gap-2">
-            <span className="text-faint select-none">—</span>
-            <span>{item}</span>
-          </li>
-        ))}
-      </ul>
-    </details>
-  );
-}
-
-function RiskSection({
-  level,
-  title,
-  description,
-}: {
-  level: 'green' | 'amber' | 'red';
-  title: string;
-  description?: string;
-}) {
-  const colorMap = {
-    green: 'bg-green/10 text-green border-green/20',
-    amber: 'bg-amber/10 text-amber border-amber/20',
-    red: 'bg-red/10 text-red border-red/20',
-  };
-
-  return (
-    <div className={cn('mt-2 rounded-[var(--radius-card)] border p-3', colorMap[level])}>
-      <div className="flex items-center gap-1.5 text-sm font-medium">
-        <svg className="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-          <path d="M20 6 9 17l-5-5" />
-        </svg>
-        <span>{title}</span>
-      </div>
-      {description && (
-        <p className="text-sm mt-1 opacity-80">{description}</p>
       )}
     </div>
   );

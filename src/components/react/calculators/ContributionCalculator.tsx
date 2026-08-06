@@ -35,12 +35,9 @@ export function ContributionCalculator() {
 
   return (
     <div className="flex flex-col gap-6" id="calculator-contribution">
-      <ControlGroup
-        label="Параметры страховки"
-        description="Самозанятые могут добровольно платить взносы на больничный. Страховая сумма — на ваш выбор, тариф — 2,9% (№ 456-ФЗ, ст. 5)."
-      >
+      <ControlGroup label="Страховка на больничный">
         <div className="flex flex-col gap-1.5">
-          <span className="text-sm font-medium text-ink">Страховая сумма</span>
+          <span className="text-sm font-medium text-ink">Выберите сумму</span>
           <SegmentedToggle
             name="insurancePreset"
             value={preset}
@@ -52,7 +49,7 @@ export function ContributionCalculator() {
         {preset === 'custom' && (
           <div className="flex flex-col gap-1.5">
             <label htmlFor="contribution-amount" className="text-sm font-medium text-ink">
-              Введите сумму
+              Своя сумма
             </label>
             <CurrencyInput
               id="contribution-amount"
@@ -75,17 +72,14 @@ export function ContributionCalculator() {
           <ResultCard
             label="Взнос в месяц"
             figure={`${formatMoney(result.monthlyContribution)} ₽`}
-            subtitle={`Тариф 2,9% от ${formatMoney(result.insuranceAmount)} ₽`}
+            subtitle={`Тариф 3,84% от ${formatMoney(result.insuranceAmount)} ₽`}
             detail={`Выплата при больничном: до ${formatMoney(result.payoutAfter6)} ₽ (6 мес.), до ${formatMoney(result.payoutAfter12)} ₽ (12 мес.)`}
             whyItems={whyItems}
             risk={{
               level: result.insuranceAmount < 12992 ? 'amber' : 'green',
-              title: result.insuranceAmount < 12992
+              label: result.insuranceAmount < 12992
                 ? 'Ниже МРОТ'
-                : 'Страховая сумма в норме',
-              description: result.insuranceAmount < 12992
-                ? 'Сумма ниже МРОТ — пособие может быть ограничено.'
-                : 'Страховая сумма не ниже МРОТ, пособие рассчитается от полной суммы.',
+                : 'Норма',
             }}
             next={{ to: '/pensiya', label: 'Пенсионный стаж' }}
             trust={['По 456-ФЗ', 'Актуально на 2026', 'Без отправки данных']}

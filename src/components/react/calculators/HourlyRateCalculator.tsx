@@ -1,5 +1,6 @@
 import { useState, useMemo } from 'react';
 import { CurrencyInput } from '../ui/CurrencyInput';
+import { NumberInput } from '../ui/NumberInput';
 import { SegmentedToggle } from '../ui/SegmentedToggle';
 import { ControlGroup } from '../ui/ControlGroup';
 import { ResultCard } from '../ui/ResultCard';
@@ -57,12 +58,9 @@ export function HourlyRateCalculator() {
 
   return (
     <div className="flex flex-col gap-6" id="calculator-hourly-rate">
-      <ControlGroup
-        label="Ставка в час"
-        description="Учтите налог и скрытые часы — на созвоны, правки и переписку."
-      >
+      <ControlGroup label="Ставка в час">
         <div className="flex flex-col gap-1.5">
-          <span className="text-sm font-medium text-ink">От кого обычно приходят деньги</span>
+          <span className="text-sm font-medium text-ink">От кого?</span>
           <SegmentedToggle
             name="hourlyClientType"
             value={clientType}
@@ -75,7 +73,7 @@ export function HourlyRateCalculator() {
         </div>
 
         <div className="flex flex-col gap-1.5">
-          <span className="text-sm font-medium text-ink">Режим расчёта</span>
+          <span className="text-sm font-medium text-ink">Что считаем?</span>
           <SegmentedToggle
             name="hourlyMode"
             value={mode}
@@ -91,7 +89,7 @@ export function HourlyRateCalculator() {
           <>
             <div className="flex flex-col gap-1.5">
               <label htmlFor="hourly-desired" className="text-sm font-medium text-ink">
-                Хочу получать в месяц чистыми
+                Сколько хочу получать?
               </label>
               <CurrencyInput
                 id="hourly-desired"
@@ -104,19 +102,15 @@ export function HourlyRateCalculator() {
             </div>
             <div className="flex flex-col gap-1.5">
               <label htmlFor="hourly-hours-target" className="text-sm font-medium text-ink">
-                Рабочих часов в месяц
+                Сколько часов в месяц?
               </label>
-              <input
+              <NumberInput
                 id="hourly-hours-target"
-                type="text"
-                inputMode="numeric"
-                value={hoursPerMonth ?? ''}
-                onChange={(e) => {
-                  const v = e.target.value.replace(/\D/g, '');
-                  setHoursPerMonth(v ? parseInt(v, 10) : null);
-                }}
+                value={hoursPerMonth}
+                onValueChange={setHoursPerMonth}
+                integer
+                suffix="ч."
                 placeholder="160"
-                className="w-full rounded-[var(--radius-control)] border border-line bg-surface px-3 py-2.5 font-mono text-ink placeholder:text-faint transition-colors duration-[var(--duration-fast)] ease-[var(--ease-out)] outline-none focus:border-accent focus:ring-1 focus:ring-accent/30 hover:border-line-2"
                 required
               />
             </div>
@@ -125,7 +119,7 @@ export function HourlyRateCalculator() {
           <>
             <div className="flex flex-col gap-1.5">
               <label htmlFor="hourly-payment" className="text-sm font-medium text-ink">
-                Оплата за проект
+                Сколько платят?
               </label>
               <CurrencyInput
                 id="hourly-payment"
@@ -138,19 +132,14 @@ export function HourlyRateCalculator() {
             </div>
             <div className="flex flex-col gap-1.5">
               <label htmlFor="hourly-hours-actual" className="text-sm font-medium text-ink">
-                Реально потрачено часов (с учётом правок)
+                Сколько часов потратили?
               </label>
-              <input
+              <NumberInput
                 id="hourly-hours-actual"
-                type="text"
-                inputMode="numeric"
-                value={actualHours ?? ''}
-                onChange={(e) => {
-                  const v = e.target.value.replace(/[^\d.,]/g, '');
-                  setActualHours(v ? parseFloat(v.replace(',', '.')) : null);
-                }}
+                value={actualHours}
+                onValueChange={setActualHours}
+                suffix="ч."
                 placeholder="40"
-                className="w-full rounded-[var(--radius-control)] border border-line bg-surface px-3 py-2.5 font-mono text-ink placeholder:text-faint transition-colors duration-[var(--duration-fast)] ease-[var(--ease-out)] outline-none focus:border-accent focus:ring-1 focus:ring-accent/30 hover:border-line-2"
                 required
               />
             </div>

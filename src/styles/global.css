@@ -222,6 +222,21 @@ a:hover {
   }
 }
 
+@keyframes accordionSlideDown {
+  from {
+    opacity: 0;
+    max-height: 0;
+  }
+  to {
+    opacity: 1;
+    max-height: 300px;
+  }
+}
+
+details[open] .accordion-content {
+  animation: accordionSlideDown 200ms var(--ease-out);
+}
+
 @keyframes wizardSlideInRight {
   from {
     opacity: 0;

@@ -1,5 +1,6 @@
 import { useState, useMemo, useCallback } from 'react';
 import { CurrencyInput } from '../ui/CurrencyInput';
+import { NumberInput } from '../ui/NumberInput';
 import { ControlGroup } from '../ui/ControlGroup';
 import { ResultCard } from '../ui/ResultCard';
 import { cn } from '@/lib/cn';
@@ -52,10 +53,7 @@ export function ConcentrationTracker() {
 
   return (
     <div className="flex flex-col gap-6" id="calculator-concentration">
-      <ControlGroup
-        label="Источники дохода"
-        description="Если один заказчик приносит 70% и более дохода на протяжении 6+ месяцев — это признак риска переквалификации."
-      >
+      <ControlGroup label="Заказчики">
         {/* Desktop table */}
         <div className="overflow-x-auto -mx-1">
           <table className="w-full text-sm">
@@ -88,16 +86,12 @@ export function ConcentrationTracker() {
                     />
                   </td>
                   <td className="py-2 px-2">
-                    <input
-                      type="text"
-                      inputMode="numeric"
-                      value={source.monthsWorking ?? ''}
-                      onChange={(e) => {
-                        const v = e.target.value.replace(/\D/g, '');
-                        updateSource(source.id, 'monthsWorking', v ? parseInt(v, 10) : null);
-                      }}
+                    <NumberInput
+                      value={source.monthsWorking}
+                      onValueChange={(v) => updateSource(source.id, 'monthsWorking', v)}
+                      integer
+                      suffix="мес."
                       placeholder="1"
-                      className="w-16 rounded-[var(--radius-control)] border border-line bg-surface px-2 py-1.5 font-mono text-sm text-ink placeholder:text-faint outline-none focus:border-accent focus:ring-1 focus:ring-accent/30 hover:border-line-2 transition-colors duration-[var(--duration-fast)]"
                     />
                   </td>
                   <td className="py-2 px-2">
@@ -163,16 +157,11 @@ export function ConcentrationTracker() {
             }
             risk={{
               level: result.level,
-              title: result.level === 'red'
+              label: result.level === 'red'
                 ? 'Высокий риск'
                 : result.level === 'amber'
                   ? 'Средний риск'
                   : 'Низкий риск',
-              description: result.level === 'red'
-                ? `Один источник приносит ${result.maxShare}% дохода 6+ месяцев. Это признак, на который обращает внимание ФНС при переквалификации.`
-                : result.level === 'amber'
-                  ? 'Доля одного заказчика 50%+. Рекомендуется diversифицировать источники дохода.'
-                  : 'Доход хорошо diversифицирован. Риск переквалификации по этому критерию низкий.',
             }}
             next={{ to: '/risk-trudovyh', label: 'Оценить риск переквалификации' }}
             trust={['ФНС · письма', 'Письма ФНС', 'Без отправки данных']}

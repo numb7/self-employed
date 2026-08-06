@@ -304,6 +304,12 @@ export function ContractGenerator() {
       {showPreview && (
         <div className="animate-[resultAppear_300ms_ease-out_both]">
           <div className="rounded-[var(--radius-card)] border border-line bg-surface shadow-[var(--shadow-card-rest)] p-6">
+            <div className="flex items-center gap-2 mb-4">
+              <span className="inline-flex items-center gap-1 rounded-[var(--radius-badge)] bg-green/10 px-2 py-0.5 text-xs font-medium text-green">
+                <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" /></svg>
+                Документ готов
+              </span>
+            </div>
             <pre className="whitespace-pre-wrap font-body text-sm text-ink leading-relaxed">
               {document}
             </pre>

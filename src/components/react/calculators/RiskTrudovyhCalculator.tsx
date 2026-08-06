@@ -58,10 +58,7 @@ export function RiskTrudovyhCalculator() {
 
   return (
     <div className="flex flex-col gap-6" id="calculator-risk-trudovyh">
-      <ControlGroup
-        label="Признаки трудовых отношений (13 по ФНС/судам)"
-        description="ФНС и суды проверяют договоры ГПХ самозанятых на признаки трудовых отношений. Отметьте, что у вас есть."
-      >
+      <ControlGroup label="Признаки трудовых отношений">
         <fieldset className="flex flex-col gap-2">
           <legend className="sr-only">Признаки трудовых отношений</legend>
           {RISK_FACTORS.map((factor) => (
@@ -86,7 +83,7 @@ export function RiskTrudovyhCalculator() {
 
         <div className="flex flex-col gap-1.5">
           <label htmlFor="risk-share" className="text-sm font-medium text-ink">
-            Доля дохода от главного заказчика, %
+            Доля от главного заказчика, %
           </label>
           <div className="flex items-center gap-3">
             <input
@@ -142,16 +139,11 @@ export function RiskTrudovyhCalculator() {
             ].filter(Boolean) as string[]}
             risk={{
               level: result.risk,
-              title: result.risk === 'red'
+              label: result.risk === 'red'
                 ? 'Высокий риск'
                 : result.risk === 'amber'
                   ? 'Средний риск'
                   : 'Низкий риск',
-              description: result.risk === 'red'
-                ? 'Есть признаки, которые ФНС и суды рассматривают как трудовые отношения. Рекомендуется проконсультироваться с юристом.'
-                : result.risk === 'amber'
-                  ? 'Некоторые признаки указывают на риск. Рекомендуется diversифицировать заказчиков и оформить отношения.'
-                  : 'Признаков трудовых отношений немного. Риск переквалификации низкий.',
             }}
             next={{ to: '/dogovor-akt', label: 'Создать договор и акт' }}
             trust={['ФНС · ст. 15 ТК РФ', '13 признаков', 'Без отправки данных']}

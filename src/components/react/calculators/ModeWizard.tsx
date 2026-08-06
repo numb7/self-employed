@@ -383,7 +383,7 @@ export function ModeWizard() {
             >
               ←
             </button>
-            <ProgressIndicator value={step} max={4} label={`Шаг ${step} из 4`} />
+            <ProgressIndicator percent={Math.round((step / 4) * 100)} label={`Шаг ${step} из 4`} />
           </div>
 
           <h2 className="font-head text-lg font-semibold text-ink">{currentQuestion.title}</h2>

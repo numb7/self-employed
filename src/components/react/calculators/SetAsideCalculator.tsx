@@ -47,13 +47,10 @@ export function SetAsideCalculator() {
   return (
     <div className="flex flex-col gap-6" id="calculator-set-aside">
       {/* Input section */}
-      <ControlGroup
-        label="Параметры оплаты"
-        description="Самозанятый получает всю сумму на руки и сам откладывает налог — 4% с физлиц или 6% с юрлиц и ИП."
-      >
+      <ControlGroup label="Оплата">
         <div className="flex flex-col gap-1.5">
           <label htmlFor="set-aside-payment" className="text-sm font-medium text-ink">
-            Пришла оплата
+            Сколько получили?
           </label>
           <CurrencyInput
             id="set-aside-payment"
@@ -66,7 +63,7 @@ export function SetAsideCalculator() {
         </div>
 
         <div className="flex flex-col gap-1.5">
-          <span className="text-sm font-medium text-ink">От кого</span>
+          <span className="text-sm font-medium text-ink">От кого?</span>
           <SegmentedToggle
             name="clientType"
             value={clientType}
@@ -80,7 +77,7 @@ export function SetAsideCalculator() {
 
         <div className="flex flex-col gap-1.5">
           <label htmlFor="set-aside-deduction" className="text-sm font-medium text-ink">
-            Остаток вычета 10 000 ₽, если есть
+            Остаток вычета
           </label>
           <CurrencyInput
             id="set-aside-deduction"
@@ -106,12 +103,9 @@ export function SetAsideCalculator() {
             risk={riskLevel
               ? {
                   level: riskLevel,
-                  title: riskLevel === 'amber'
+                  label: riskLevel === 'amber'
                     ? 'Крупная сумма'
-                    : 'В рамках лимита',
-                  description: riskLevel === 'amber'
-                    ? 'При частых крупных оплатах следите за лимитом дохода 2,4 млн ₽.'
-                    : 'Сумма в пределах безопасного диапазона.',
+                    : 'В норме',
                 }
               : undefined}
             next={{ to: '/limit-dohoda', label: 'Проверить лимит дохода' }}

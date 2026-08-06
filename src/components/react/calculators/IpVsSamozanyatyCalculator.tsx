@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react';
 import { CurrencyInput } from '../ui/CurrencyInput';
 import { SegmentedToggle } from '../ui/SegmentedToggle';
 import { ControlGroup } from '../ui/ControlGroup';
+import { ResultCard } from '../ui/ResultCard';
 import { cn } from '@/lib/cn';
 import { compareIpVsNpd } from '@/lib/calculations';
 import { formatMoney } from '@/lib/format';
@@ -25,13 +26,10 @@ export function IpVsSamozanyatyCalculator() {
 
   return (
     <div className="flex flex-col gap-6" id="calculator-ip-vs-npd">
-      <ControlGroup
-        label="Годовой доход"
-        description="Сравните налоговую нагрузку самозанятого (НПД) и ИП на УСН 6% без работников."
-      >
+      <ControlGroup label="ИП или самозанятый">
         <div className="flex flex-col gap-1.5">
           <label htmlFor="ip-revenue" className="text-sm font-medium text-ink">
-            Годовой доход
+            Сколько планируете заработать?
           </label>
           <CurrencyInput
             id="ip-revenue"
@@ -44,7 +42,7 @@ export function IpVsSamozanyatyCalculator() {
         </div>
 
         <div className="flex flex-col gap-1.5">
-          <span className="text-sm font-medium text-ink">От кого приходят деньги</span>
+          <span className="text-sm font-medium text-ink">От кого?</span>
           <SegmentedToggle
             name="ipClientType"
             value={clientType}
@@ -63,21 +61,39 @@ export function IpVsSamozanyatyCalculator() {
             Введите годовой доход, чтобы увидеть сравнение
           </p>
         ) : result ? (
-          <div className="animate-[resultAppear_300ms_ease-out_both]">
-            {/* Comparison table */}
-            <div className="rounded-[var(--radius-card)] border border-line bg-surface shadow-[var(--shadow-card-rest)] overflow-hidden">
+          <ResultCard
+            label={winner === 'npd' ? 'Самозанятость выгоднее' : winner === 'ip' ? 'ИП на УСН выгоднее' : 'Нагрузка примерно одинаковая'}
+            figure={winner === 'npd'
+              ? `+${formatMoney(result.ip - result.npd)} ₽/год`
+              : winner === 'ip'
+                ? `+${formatMoney(result.npd - result.ip)} ₽/год`
+                : `${formatMoney(result.npd)} ₽/год`}
+            subtitle={`Останется на руки: ${formatMoney(npdNet)} ₽ (самозанятый) vs ${formatMoney(ipNet)} ₽ (ИП)`}
+            detail={result.overLimit ? `⚠️ При доходе ${formatMoney(revenue!)} ₽ превышен лимит 2,4 млн ₽` : undefined}
+            whyItems={[
+              `НПД: ${npdRate}% от ${formatMoney(revenue!)} ₽ = ${formatMoney(result.npd)} ₽`,
+              `ИП УСН 6%: 6% от ${formatMoney(revenue!)} ₽ = ${formatMoney(result.ip - result.ipContributions)} ₽ налог`,
+              `ИП фиксированные взносы: ${formatMoney(result.ipContributions)} ₽`,
+            ]}
+            risk={{
+              level: winner === 'npd' ? 'green' : winner === 'ip' ? 'amber' : 'green',
+              label: winner === 'npd' ? 'Выгоднее' : winner === 'ip' ? 'ИП выгоднее' : 'Равно',
+            }}
+            trust={['ФНС 2026', 'УСН 6%', 'Без отправки данных']}
+          >
+            <div className="mt-3 rounded-[var(--radius-control)] border border-line overflow-hidden">
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b border-line bg-lavender/50">
-                    <th className="px-4 py-3 text-left font-medium text-muted">Параметр</th>
+                    <th className="px-3 py-2.5 text-left font-medium text-muted">Параметр</th>
                     <th className={cn(
-                      'px-4 py-3 text-right font-medium',
+                      'px-3 py-2.5 text-right font-medium',
                       winner === 'npd' ? 'text-green' : 'text-ink',
                     )}>
                       Самозанятый
                     </th>
                     <th className={cn(
-                      'px-4 py-3 text-right font-medium',
+                      'px-3 py-2.5 text-right font-medium',
                       winner === 'ip' ? 'text-green' : 'text-ink',
                     )}>
                       ИП УСН 6%
@@ -86,48 +102,43 @@ export function IpVsSamozanyatyCalculator() {
                 </thead>
                 <tbody>
                   <tr className="border-b border-line-2">
-                    <td className="px-4 py-2.5 text-muted">Годовой доход</td>
-                    <td className="px-4 py-2.5 text-right font-mono text-ink">{formatMoney(revenue!)} ₽</td>
-                    <td className="px-4 py-2.5 text-right font-mono text-ink">{formatMoney(revenue!)} ₽</td>
+                    <td className="px-3 py-2 text-muted">Налог</td>
+                    <td className="px-3 py-2 text-right font-mono text-ink">{formatMoney(result.npd)} ₽</td>
+                    <td className="px-3 py-2 text-right font-mono text-ink">{formatMoney(result.ip)} ₽</td>
                   </tr>
                   <tr className="border-b border-line-2">
-                    <td className="px-4 py-2.5 text-muted">Налог</td>
-                    <td className="px-4 py-2.5 text-right font-mono text-ink">{formatMoney(result.npd)} ₽</td>
-                    <td className="px-4 py-2.5 text-right font-mono text-ink">{formatMoney(result.ip)} ₽</td>
-                  </tr>
-                  <tr className="border-b border-line-2">
-                    <td className="px-4 py-2.5 text-muted">Взносы</td>
-                    <td className="px-4 py-2.5 text-right font-mono text-muted">нет</td>
-                    <td className="px-4 py-2.5 text-right font-mono text-ink">{formatMoney(result.ipContributions)} ₽</td>
+                    <td className="px-3 py-2 text-muted">Взносы</td>
+                    <td className="px-3 py-2 text-right font-mono text-muted">нет</td>
+                    <td className="px-3 py-2 text-right font-mono text-ink">{formatMoney(result.ipContributions)} ₽</td>
                   </tr>
                   <tr className={cn(
                     'font-medium',
                     winner === 'npd' ? 'bg-green/5' : winner === 'ip' ? 'bg-amber/5' : '',
                   )}>
-                    <td className="px-4 py-3 text-ink">Итого нагрузка</td>
+                    <td className="px-3 py-2.5 text-ink">Итого нагрузка</td>
                     <td className={cn(
-                      'px-4 py-3 text-right font-mono text-lg',
+                      'px-3 py-2.5 text-right font-mono',
                       winner === 'npd' ? 'text-green' : 'text-ink',
                     )}>
                       {formatMoney(result.npd)} ₽
                     </td>
                     <td className={cn(
-                      'px-4 py-3 text-right font-mono text-lg',
+                      'px-3 py-2.5 text-right font-mono',
                       winner === 'ip' ? 'text-green' : 'text-ink',
                     )}>
                       {formatMoney(result.ip)} ₽
                     </td>
                   </tr>
                   <tr>
-                    <td className="px-4 py-2.5 text-muted">Останется на руки</td>
+                    <td className="px-3 py-2 text-muted">На руки</td>
                     <td className={cn(
-                      'px-4 py-2.5 text-right font-mono font-medium',
+                      'px-3 py-2 text-right font-mono font-medium',
                       winner === 'npd' ? 'text-green' : 'text-ink',
                     )}>
                       {formatMoney(npdNet)} ₽
                     </td>
                     <td className={cn(
-                      'px-4 py-2.5 text-right font-mono font-medium',
+                      'px-3 py-2 text-right font-mono font-medium',
                       winner === 'ip' ? 'text-green' : 'text-ink',
                     )}>
                       {formatMoney(ipNet)} ₽
@@ -136,47 +147,7 @@ export function IpVsSamozanyatyCalculator() {
                 </tbody>
               </table>
             </div>
-
-            {/* Summary card */}
-            <div className={cn(
-              'mt-4 rounded-[var(--radius-card)] border p-4',
-              winner === 'npd'
-                ? 'border-green/30 bg-green/5'
-                : 'border-amber/30 bg-amber/5',
-            )}>
-              <p className="text-sm font-medium text-ink">
-                {winner === 'npd'
-                  ? `Самозанятость выгоднее на ${formatMoney(result.ip - result.npd)} ₽/год`
-                  : result.ip < result.npd
-                    ? `ИП на УСН выгоднее на ${formatMoney(result.npd - result.ip)} ₽/год`
-                    : 'Нагрузка примерно одинаковая'}
-              </p>
-              {result.overLimit && (
-                <p className="text-xs text-red mt-1">
-                  ⚠️ При доходе {formatMoney(revenue!)} ₽ превышен лимит 2,4 млн ₽. Самозанятый не сможет работать на таком уровне.
-                </p>
-              )}
-            </div>
-
-            {/* Why section */}
-            <details className="mt-4 rounded-[var(--radius-card)] border border-line bg-surface">
-              <summary className="cursor-pointer px-4 py-3 text-sm font-medium text-ink select-none">
-                Почему такие цифры?
-              </summary>
-              <div className="px-4 pb-4 text-sm text-muted leading-relaxed space-y-1">
-                <p>• НПД: {npdRate}% от {formatMoney(revenue!)} ₽ = {formatMoney(result.npd)} ₽</p>
-                <p>• ИП УСН 6%: 6% от {formatMoney(revenue!)} ₽ = {formatMoney(result.ip - result.ipContributions)} ₽ налог</p>
-                <p>• ИП фиксированные взносы: {formatMoney(result.ipContributions)} ₽</p>
-                <p>• При ИП взносы уменьшают налог до нуля, но не ниже фиксированной суммы</p>
-              </div>
-            </details>
-
-            <div className="mt-4 flex flex-wrap gap-2 text-xs text-faint">
-              <span className="flex items-center gap-1">✓ ФНС 2026</span>
-              <span className="flex items-center gap-1">✓ УСН 6%</span>
-              <span className="flex items-center gap-1">✓ Без отправки данных</span>
-            </div>
-          </div>
+          </ResultCard>
         ) : null}
       </div>
     </div>
