@@ -1,0 +1,82 @@
+---
+import CalculatorLayout from '../layouts/CalculatorLayout.astro';
+import { ContractGenerator } from '../components/react/calculators/ContractGenerator';
+import RelatedTools from '../components/astro/RelatedTools.astro';
+
+const title = 'Договор и акт для самозанятого — шаблон 2026';
+const description = 'Бесплатный шаблон договора оказания услуг и акта для самозанятых (НПД). Заполните поля — получите готовый документ. Копирование и скачивание в один клик.';
+const url = '/dogovor-akt';
+
+const breadcrumbs = [
+  { name: 'Главная', url: '/' },
+  { name: 'Калькуляторы', url: '/#tasks-anchor' },
+  { name: 'Договор и акт' },
+];
+
+const structuredData = [{
+  type: 'FAQPage' as const,
+  data: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'Какой договор нужен самозанятому?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Самозанятые оформляют отношения с заказчиками через договор оказания услуг или подряда. Для самозанятых типичен договор ГПХ (гражданско-правового характера).',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'Нужно ли заверять договор у нотариуса?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Нет, нотариального заверения не требуется. Достаточно подписей обеих сторон. Электронная подпись через Госуслуги также допустима.',
+        },
+      },
+    ],
+  },
+}];
+
+const relatedTools = [
+  { title: 'Сколько налога заплатить', description: 'Отложить с каждой оплаты', url: '/otlozhit-na-nalog' },
+  { title: 'Ставка в час', description: 'Часовая ставка с учётом налога', url: '/stavka-v-chas' },
+  { title: 'ИП или самозанятый', description: 'Сравнение нагрузки', url: '/ip-ili-samozanyatyy' },
+];
+---
+
+<CalculatorLayout
+  title={title}
+  description={description}
+  url={url}
+  breadcrumbs={breadcrumbs}
+  structuredData={structuredData}
+>
+  <p class="text-muted" slot="subtitle">
+    Заполните поля — получите готовый шаблон договора оказания услуг или акта выполненных работ.
+    Можно скопировать текст или скачать файл.
+  </p>
+
+  <section class="mt-8">
+    <ContractGenerator client:load />
+  </section>
+
+  <section class="mt-10">
+    <details class="group">
+      <summary class="cursor-pointer font-head text-sm font-medium text-muted hover:text-ink transition-colors select-none">
+        Для кого этот шаблон
+      </summary>
+      <div class="prose mt-4 text-sm">
+        <p>Шаблон подходит для самозанятых (НПД), которые оказывают услуги физлицам или юрлицам. Это стандартный договор гражданско-правового характера (ГПХ).</p>
+        <p>Шаблон носит справочный характер и требует проверки под конкретную сделку. Он не заменяет юридическую консультацию.</p>
+        <ul class="mt-2">
+          <li>ФЗ № 422-ФЗ — статус самозанятого</li>
+          <li>ГК РФ, гл. 37, 39 — договор подряда и оказания услуг</li>
+        </ul>
+      </div>
+    </details>
+  </section>
+
+  <RelatedTools tools={relatedTools} currentUrl={url} />
+</CalculatorLayout>

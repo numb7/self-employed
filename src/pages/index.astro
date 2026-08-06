@@ -1,0 +1,237 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const title = 'Финансовый помощник для самозанятых — калькуляторы 2026';
+const description = 'Бесплатные калькуляторы НПД, лимита дохода, больничного, пенсионного стажа, ставки в час и сравнения самозанятости с ИП';
+const url = '/';
+
+const tools = [
+  { num: '01', title: 'Сколько налога заплатить', desc: 'Сколько отложить с каждой оплаты — 4% с физлиц или 6% с юрлиц и ИП', href: '/otlozhit-na-nalog' },
+  { num: '02', title: 'Сколько до лимита 2,4 млн', desc: 'Сколько ещё можно заработать до конца года без риска потери статуса НПД', href: '/limit-dohoda' },
+  { num: '03', title: 'ИП или самозанятость', desc: 'Сравнение налоговой нагрузки: НПД против ИП на УСН 6% без сотрудников', href: '/ip-ili-samozanyatyy' },
+  { num: '04', title: 'Ставка в час', desc: 'Сколько просить за проект с учётом налога и сколько вы реально получаете в час', href: '/stavka-v-chas' },
+  { num: '05', title: 'Договор + акт', desc: 'Готовый шаблон договора оказания услуг и акта — для банка и защиты от переквалификации', href: '/dogovor-akt' },
+  { num: '06', title: 'Риск переквалификации', desc: 'Чек-лист признаков ГПХ-трудовых по ФНС и судам — оцените риск доначислений', href: '/risk-trudovyh' },
+  { num: '07', title: 'Концентрация дохода', desc: 'Проверьте, не слишком ли вы зависите от одного заказчика — признак риска', href: '/koncentracia-dohoda' },
+  { num: '08', title: 'Часы по 289-ФЗ', desc: 'Трекер 60 часов/мес на одного заказчика через платформы — с 01.10.2026', href: '/chasy-289-fz', isNew: true },
+];
+
+const structuredData = [
+  {
+    type: 'WebSite',
+    data: {
+      '@context': 'https://schema.org',
+      '@type': 'WebSite',
+      name: 'Финансовый помощник для самозанятых',
+      description: 'Калькуляторы и инструменты для самозанятых в России 2026',
+      url: 'https://npd-tools.ru',
+      inLanguage: 'ru',
+      dateModified: '2026-07-18',
+    },
+  },
+  {
+    type: 'FAQPage',
+    data: {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: [
+        {
+          '@type': 'Question',
+          name: 'Что такое самозанятость (НПД)?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'Самозанятость — это налог на профессиональный доход (НПД). Ставка 4% с доходов от физлиц и 6% от юрлиц и ИП. Лимит дохода — 2,4 млн ₽ в год.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: 'Нужно ли откладывать деньги на налог самозанятому?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'Да. НПД не списывается автоматически — вы получаете всю сумму на руки и сами откладываете налоговую часть. Срок уплаты — до 28-го числа следующего месяца.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: 'Что будет при превышении лимита 2,4 млн ₽?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'При превышении лимита дохода статус самозанятого слетает с начала месяца превышения. Нужно переходить на ИП или другой режим.',
+          },
+        },
+      ],
+    },
+  },
+];
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  url={url}
+  navVariant="home"
+  structuredData={structuredData}
+>
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container">
+      <span class="hero__eyebrow">Помощник самозанятого</span>
+      <h1 class="hero__title font-head">
+        Понятно про ваш <em>налог</em>, без бухгалтерии.
+      </h1>
+      <p class="hero__subtitle text-muted">
+        Калькуляторы, которые объясняют правила цифрами: сколько отложить на налог, сколько до лимита 2,4 млн ₽, ИП или самозанятость, риск переквалификации и не только.
+      </p>
+    </div>
+  </section>
+
+  <!-- Tools -->
+  <section class="container mt-12" id="tasks-anchor">
+    <h2 class="font-head text-[var(--fs-h2)] font-medium text-ink">Что хотите узнать</h2>
+    <p class="mt-2 text-sm text-muted max-w-xl">
+      Выберите задачу — каждый калькулятор за 30 секунд даёт цифру, объяснение и следующее действие.
+    </p>
+
+    <ol class="mt-6 flex flex-col gap-3">
+      {tools.map(tool => (
+        <li>
+          <a
+            href={tool.href}
+            class="tool-card group flex items-start gap-4 rounded-[var(--radius-card)] border border-line bg-surface p-5 transition-colors hover:bg-lavender"
+          >
+            <span class="tool-card__num font-mono text-sm text-faint">{tool.num}</span>
+            <div class="flex-1 min-w-0">
+              <span class="tool-card__title font-head text-sm font-medium text-ink group-hover:text-accent transition-colors">
+                {tool.title}
+              </span>
+              {tool.isNew && (
+                <span class="ml-2 inline-block rounded-[var(--radius-badge)] bg-accent-soft px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-accent">
+                  New
+                </span>
+              )}
+              <span class="mt-1 block text-xs text-muted leading-relaxed">{tool.desc}</span>
+            </div>
+            <svg class="tool-card__arrow w-4 h-4 text-faint group-hover:text-accent transition-colors flex-shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="m9 18 6-6-6-6" />
+            </svg>
+          </a>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <!-- How it works -->
+  <section class="container mt-16" id="how-anchor">
+    <h2 class="font-head text-[var(--fs-h2)] font-medium text-ink">Как это работает</h2>
+
+    <ol class="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-6">
+      <li class="flex gap-4">
+        <span class="flex-shrink-0 flex items-center justify-center w-8 h-8 rounded-full bg-accent-soft text-accent font-mono text-sm font-semibold">1</span>
+        <div>
+          <span class="block font-head text-sm font-medium text-ink">Введите данные</span>
+          <span class="mt-1 block text-xs text-muted leading-relaxed">Пару цифр — сумму, тип заказчика, часы. Без регистрации и аккаунтов.</span>
+        </div>
+      </li>
+      <li class="flex gap-4">
+        <span class="flex-shrink-0 flex items-center justify-center w-8 h-8 rounded-full bg-accent-soft text-accent font-mono text-sm font-semibold">2</span>
+        <div>
+          <span class="block font-head text-sm font-medium text-ink">Получите ответ</span>
+          <span class="mt-1 block text-xs text-muted leading-relaxed">Главная цифра обновляется сразу — без кнопки «Отправить».</span>
+        </div>
+      </li>
+      <li class="flex gap-4">
+        <span class="flex-shrink-0 flex items-center justify-center w-8 h-8 rounded-full bg-accent-soft text-accent font-mono text-sm font-semibold">3</span>
+        <div>
+          <span class="block font-head text-sm font-medium text-ink">Увидьте риск и действие</span>
+          <span class="mt-1 block text-xs text-muted leading-relaxed">Оценка риска и следующее действие — что сделать, чтобы не попасть.</span>
+        </div>
+      </li>
+    </ol>
+  </section>
+
+  <!-- FAQ -->
+  <section class="container mt-16">
+    <h2 class="font-head text-[var(--fs-h2)] font-medium text-ink">Частые вопросы</h2>
+
+    <div class="mt-4 flex flex-col gap-3">
+      <details class="group rounded-[var(--radius-card)] border border-line bg-surface">
+        <summary class="cursor-pointer px-5 py-4 font-head text-sm font-medium text-ink hover:text-accent transition-colors select-none">
+          Что такое самозанятость (НПД)?
+        </summary>
+        <div class="px-5 pb-4 text-sm text-muted leading-relaxed">
+          Самозанятость — это налог на профессиональный доход (НПД). Ставка 4% с доходов от физлиц и 6% от юрлиц и ИП. Лимит дохода — 2,4 млн ₽ в год. Регистрация через приложение «Мой налог».
+        </div>
+      </details>
+
+      <details class="group rounded-[var(--radius-card)] border border-line bg-surface">
+        <summary class="cursor-pointer px-5 py-4 font-head text-sm font-medium text-ink hover:text-accent transition-colors select-none">
+          Нужно ли откладывать деньги на налог самозанятому?
+        </summary>
+        <div class="px-5 pb-4 text-sm text-muted leading-relaxed">
+          Да. НПД не списывается автоматически — вы получаете всю сумму на руки и сами откладываете налоговую часть. Срок уплаты — до 28-го числа следующего месяца.
+          <a href="/otlozhit-na-nalog" class="mt-2 inline-block text-accent hover:underline">Калькулятор «Отложить на налог» →</a>
+        </div>
+      </details>
+
+      <details class="group rounded-[var(--radius-card)] border border-line bg-surface">
+        <summary class="cursor-pointer px-5 py-4 font-head text-sm font-medium text-ink hover:text-accent transition-colors select-none">
+          Что будет при превышении лимита 2,4 млн ₽?
+        </summary>
+        <div class="px-5 pb-4 text-sm text-muted leading-relaxed">
+          При превышении лимита дохода статус самозанятого слетает с начала месяца превышения. Нужно переходить на ИП или другой режим.
+          <a href="/limit-dohoda" class="mt-2 inline-block text-accent hover:underline">Калькулятор лимита дохода →</a>
+        </div>
+      </details>
+    </div>
+
+    <div class="mt-4">
+      <a href="/poleznoe" class="text-sm text-accent hover:underline">Все вопросы и гайды →</a>
+    </div>
+  </section>
+
+  <!-- Trust strip -->
+  <section class="container mt-16 mb-16">
+    <div class="trust-strip flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-muted">
+      <span>Ставки: <strong class="text-ink">ФНС · 4% / 6%</strong></span>
+      <span class="text-faint hidden sm:inline" aria-hidden="true">·</span>
+      <span>Актуально на: <strong class="text-ink">июль 2026</strong></span>
+      <span class="text-faint hidden sm:inline" aria-hidden="true">·</span>
+      <span>Данные: <strong class="text-ink">только на устройстве</strong></span>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero {
+    padding-top: clamp(2.5rem, 8vw, 5rem);
+    padding-bottom: clamp(1.5rem, 4vw, 3rem);
+  }
+  .hero__eyebrow {
+    font-size: var(--fs-caption);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-accent);
+    font-weight: 600;
+    display: block;
+    margin-bottom: 0.75rem;
+  }
+  .hero__title {
+    font-size: var(--fs-hero);
+    line-height: 1.15;
+    color: var(--color-ink);
+    max-width: 28rem;
+  }
+  .hero__title :global(em) {
+    font-style: italic;
+  }
+  .hero__subtitle {
+    font-size: var(--fs-body);
+    line-height: 1.6;
+    max-width: 36rem;
+    margin-top: 1.25rem;
+  }
+  .tool-card__num {
+    flex-shrink: 0;
+    min-width: 1.5rem;
+  }
+</style>

@@ -1,0 +1,90 @@
+---
+import CalculatorLayout from '../layouts/CalculatorLayout.astro';
+import { IncomeLimitCalculator } from '../components/react/calculators/IncomeLimitCalculator';
+import RelatedTools from '../components/astro/RelatedTools.astro';
+
+const title = 'Калькулятор лимита дохода самозанятого в 2026 году';
+const description = 'Рассчитайте остаток годового лимита НПД, безопасный темп дохода и риск превышения лимита';
+const url = '/limit-dohoda';
+const breadcrumbs = [
+  { name: 'Главная', url: '/' },
+  { name: 'Калькуляторы', url: '/#tasks-anchor' },
+  { name: 'Лимит дохода' },
+];
+
+const structuredData = [
+  {
+    type: 'FAQPage' as const,
+    data: {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: [
+        {
+          '@type': 'Question',
+          name: 'Какой лимит дохода у самозанятого в 2026 году?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: '2 400 000 рублей в год. При превышении — утрата статуса самозанятого и переход на НДФЛ 13% со всего дохода свыше лимита.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: 'Что будет при превышении лимита 2,4 млн ₽?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'Статус самозанятого прекращается с 1-го числа месяца, в котором превышен лимит. Налог пересчитывается по ставке НДФЛ 13% на весь доход сверх лимита. Необходимо зарегистрироваться как ИП.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: 'Как безопасно рассчитать темп дохода?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'Разделите оставшийся до лимита доход на количество месяцев до конца года. Это ваш безопасный среднемесячный доход, который не приведёт к превышению.',
+          },
+        },
+      ],
+    },
+  },
+];
+
+const relatedTools = [
+  { name: 'Мастер выбора режима', url: '/master-vybora-rezhima' },
+  { name: 'Отложить на налог', url: '/otlozhit-na-nalog' },
+  { name: 'Концентрация дохода', url: '/koncentracia-dohoda' },
+  { name: 'Ставка в час', url: '/stavka-v-chas' },
+];
+---
+
+<CalculatorLayout
+  title={title}
+  description={description}
+  url={url}
+  eyebrow="НПД · Лимит 2026"
+  h1="До какой суммы можно работать `спокойно`"
+  breadcrumbs={breadcrumbs}
+  structuredData={structuredData}
+>
+  <p slot="subtitle">
+    Пока доход за год не перевалит за 2,4 млн ₽ — статус самозанятого работает без ограничений.
+    Посчитайте, сколько у вас в запасе и безопасный темп до конца года.
+  </p>
+
+  <section class="mt-8">
+    <IncomeLimitCalculator client:load />
+  </section>
+
+  <section class="mt-10">
+    <details class="group rounded-[var(--radius-card)] border border-line bg-surface">
+      <summary class="cursor-pointer px-4 py-3 text-sm font-medium text-ink select-none">
+        Как это считается?
+      </summary>
+      <div class="px-4 pb-4 text-sm text-muted leading-relaxed">
+        Лимит 2 400 000 ₽ в год установлен Федеральным законом о НПД и действует без изменений в 2026 году.
+        При превышении лимита статус самозанятого утрачивается с 1-го числа месяца, в котором доход превысил 2,4 млн ₽.
+      </div>
+    </details>
+  </section>
+
+  <RelatedTools tools={relatedTools} currentUrl={url} />
+</CalculatorLayout>

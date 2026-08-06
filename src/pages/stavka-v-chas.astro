@@ -1,0 +1,87 @@
+---
+import CalculatorLayout from '../layouts/CalculatorLayout.astro';
+import { HourlyRateCalculator } from '../components/react/calculators/HourlyRateCalculator';
+import RelatedTools from '../components/astro/RelatedTools.astro';
+
+const title = 'Ставка в час для самозанятого — калькулятор 2026';
+const description = 'Сколько просить за проект, чтобы выйти на желаемый доход — и сколько вы реально получаете в час с учётом всех правок и переписок. Калькулятор для самозанятых.';
+const url = '/stavka-v-chas';
+const breadcrumbs = [
+  { name: 'Главная', url: '/' },
+  { name: 'Калькуляторы', url: '/#tasks-anchor' },
+  { name: 'Ставка в час' },
+];
+
+const structuredData = [
+  {
+    type: 'FAQPage' as const,
+    data: {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: [
+        {
+          '@type': 'Question',
+          name: 'Как посчитать свою ставку в час как самозанятому?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'Разделите желаемый чистый доход за месяц на количество рабочих часов. Затем учтите налог НПД (4% с физлиц, 6% с юрлиц) — добавьте его к сумме, которую нужно выставить заказчику.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: 'Как учесть скрытые часы — правки, переписки, созвоны?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'Используйте режим «Сколько реально получаю»: введите оплату за проект и реально потраченные часы (включая правки и переписки). Калькулятор покажет реальную часовую ставку после налога.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: 'Какая ставка НПД для расчёта?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: '4% — если деньги приходят от физлиц, 6% — если от юрлиц или ИП. Выберите тип заказчика в калькуляторе, чтобы расчёт был точным.',
+          },
+        },
+      ],
+    },
+  },
+];
+
+const relatedTools = [
+  { name: 'Отложить на налог', url: '/otlozhit-na-nalog' },
+  { name: 'Лимит дохода', url: '/limit-dohoda' },
+  { name: 'Договор и акт', url: '/dogovor-akt' },
+];
+---
+
+<CalculatorLayout
+  title={title}
+  description={description}
+  url={url}
+  eyebrow="Ставка · 2026"
+  h1="Сколько вы получаете на самом деле в час"
+  breadcrumbs={breadcrumbs}
+  structuredData={structuredData}
+>
+  <p slot="subtitle">
+    Учтите налог и скрытые часы — на созвоны, правки и переписку — прежде чем в следующий раз называть цену за проект.
+  </p>
+
+  <section class="mt-8">
+    <HourlyRateCalculator client:load />
+  </section>
+
+  <section class="mt-10">
+    <details class="group rounded-[var(--radius-card)] border border-line bg-surface">
+      <summary class="cursor-pointer px-4 py-3 text-sm font-medium text-ink select-none">
+        Как это считается?
+      </summary>
+      <div class="px-4 pb-4 text-sm text-muted leading-relaxed">
+        Расчёт учитывает налог НПД — 4% с физлиц, 6% с юрлиц и ИП, установленные Федеральным законом о НПД.
+      </div>
+    </details>
+  </section>
+
+  <RelatedTools tools={relatedTools} currentUrl={url} />
+</CalculatorLayout>

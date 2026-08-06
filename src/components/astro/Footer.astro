@@ -1,0 +1,118 @@
+---
+const SITE = 'https://npd-tools.ru';
+---
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-disclaimer">
+      <p>Не финансовая консультация. Ставки и лимиты — по данным ФНС и СФР на 2026.</p>
+      <p>Независимый калькулятор · не сервис ФНС или СФР · цифры ориентировочные</p>
+    </div>
+
+    <div class="footer-columns">
+      <div class="footer-column">
+        <h3 class="footer-column__title">Калькуляторы</h3>
+        <ul class="footer-column__list">
+          <li><a href="/otlozhit-na-nalog">Сколько налога заплатить</a></li>
+          <li><a href="/limit-dohoda">Лимит дохода 2,4 млн</a></li>
+          <li><a href="/ip-ili-samozanyatyy">ИП или самозанятость</a></li>
+          <li><a href="/stavka-v-chas">Ставка в час</a></li>
+          <li><a href="/bolnichny">Взносы на больничный</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h3 class="footer-column__title">Риски и документы</h3>
+        <ul class="footer-column__list">
+          <li><a href="/risk-trudovyh">Риск переквалификации</a></li>
+          <li><a href="/koncentracia-dohoda">Концентрация дохода</a></li>
+          <li><a href="/chasy-289-fz">Часы по 289-ФЗ</a></li>
+          <li><a href="/dogovor-akt">Договор и акт</a></li>
+          <li><a href="/master-vybora-rezhima">Мастер выбора режима</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h3 class="footer-column__title">Полезное</h3>
+        <ul class="footer-column__list">
+          <li><a href="/poleznoe">Статьи и гайды</a></li>
+          <li><a href="/pensiya">Пенсионный стаж</a></li>
+          <li><a href="/metodika">Методика и источники</a></li>
+        </ul>
+      </div>
+      <div class="footer-column">
+        <h3 class="footer-column__title">Проект</h3>
+        <ul class="footer-column__list">
+          <li><a href="/privacy">Политика конфиденциальности</a></li>
+          <li><a href="/disclaimer">Ограничение ответственности</a></li>
+        </ul>
+        <p class="footer-version">v2 · 2026 · Astro + React</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    background: var(--color-footer-bg);
+    color: var(--color-faint);
+    padding: clamp(2rem, 4vw, 3.5rem) 0;
+    margin-top: auto;
+  }
+  .footer a {
+    color: var(--color-faint);
+    text-decoration: none;
+    transition: color var(--duration-fast) var(--ease-out);
+  }
+  .footer a:hover {
+    color: #fff;
+  }
+  .footer-disclaimer {
+    max-width: 48rem;
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  .footer-disclaimer p {
+    font-size: var(--fs-caption);
+    line-height: 1.5;
+    margin: 0;
+  }
+  .footer-disclaimer p + p {
+    margin-top: 0.25rem;
+  }
+  .footer-columns {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: clamp(1rem, 2vw, 2rem);
+  }
+  @media (max-width: 640px) {
+    .footer-columns {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  .footer-column__title {
+    font-family: var(--font-head);
+    font-size: var(--fs-caption);
+    font-weight: 600;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.75rem;
+  }
+  .footer-column__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  .footer-column__list li {
+    margin-bottom: 0.4rem;
+  }
+  .footer-column__list a {
+    font-size: var(--fs-caption);
+  }
+  .footer-version {
+    font-size: var(--fs-caption);
+    margin-top: 1rem;
+    color: var(--color-faint);
+    opacity: 0.7;
+  }
+</style>

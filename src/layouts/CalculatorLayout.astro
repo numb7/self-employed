@@ -1,0 +1,105 @@
+---
+import BaseLayout from './BaseLayout.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  url: string;
+  eyebrow?: string;
+  ogImage?: string;
+  structuredData?: Array<{ type: string; data: Record<string, unknown> }>;
+  breadcrumbs?: Array<{ name: string; url: string }>;
+}
+
+const {
+  title,
+  description,
+  url,
+  eyebrow = 'НПД · 2026',
+  ogImage,
+  structuredData = [],
+  breadcrumbs = [
+    { name: 'Главная', url: '/' },
+    { name: title.split(' · ')[0].trim(), url },
+  ],
+} = Astro.props;
+
+const jsonLd = [
+  {
+    type: 'BreadcrumbList',
+    data: {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: breadcrumbs.map((item, i) => ({
+        '@type': 'ListItem',
+        position: i + 1,
+        name: item.name,
+        ...(item.url ? { item: `https://npd-tools.ru${item.url}` } : {}),
+      })),
+    },
+  },
+  ...structuredData,
+];
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  url={url}
+  ogImage={ogImage}
+  structuredData={jsonLd}
+  navVariant="inner"
+  showSharePrint={true}
+>
+  <header class="page-hero">
+    <div class="container">
+      <nav class="breadcrumbs" aria-label="Хлебные крошки">
+        <ol class="flex items-center gap-1.5 text-sm text-muted">
+          {breadcrumbs.map((item, i) => (
+            <li class="flex items-center gap-1.5">
+              {i > 0 && <span class="text-faint" aria-hidden="true">/</span>}
+              {i < breadcrumbs.length - 1 ? (
+                <a href={item.url} class="hover:text-ink transition-colors">{item.name}</a>
+              ) : (
+                <span class="text-ink">{item.name}</span>
+              )}
+            </li>
+          ))}
+        </ol>
+      </nav>
+      <span class="page-hero__eyebrow">{eyebrow}</span>
+      <h1 class="page-hero__title font-head" set:html={title.replace(/`([^`]+)`/, '<em>$1</em>')} />
+      <p class="page-hero__subtitle text-muted mt-3 text-lg max-w-2xl">
+        <slot name="subtitle" />
+      </p>
+    </div>
+  </header>
+
+  <div class="container mt-8">
+    <slot />
+  </div>
+</BaseLayout>
+
+<style>
+  .page-hero {
+    padding-top: clamp(2rem, 6vw, 4rem);
+    padding-bottom: clamp(1.5rem, 3vw, 2.5rem);
+  }
+  .page-hero__eyebrow {
+    font-size: var(--fs-caption);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--color-accent);
+    font-weight: 600;
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+  .page-hero__title {
+    font-size: var(--fs-h1);
+    line-height: 1.2;
+    color: var(--color-ink);
+  }
+  .page-hero__title :global(em) {
+    font-style: italic;
+  }
+</style>

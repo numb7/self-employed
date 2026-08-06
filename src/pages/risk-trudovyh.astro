@@ -1,0 +1,90 @@
+---
+import CalculatorLayout from '../layouts/CalculatorLayout.astro';
+import { RiskTrudovyhCalculator } from '../components/react/calculators/RiskTrudovyhCalculator';
+import RelatedTools from '../components/astro/RelatedTools.astro';
+
+const title = 'Риск переквалификации ГПХ в трудовые — чек-лист';
+const description = 'Оцените риск переквалификации договора ГПХ в трудовой по 13 признакам ФНС и судов. Чек-лист и индикатор риска для самозанятых.';
+const url = '/risk-trudovyh';
+const breadcrumbs = [
+  { name: 'Главная', url: '/' },
+  { name: 'Калькуляторы', url: '/#tasks-anchor' },
+  { name: 'Риск переквалификации' },
+];
+
+const structuredData = [
+  {
+    type: 'FAQPage' as const,
+    data: {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: [
+        {
+          '@type': 'Question',
+          name: 'Что такое переквалификация ГПХ в трудовой договор?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'Это когда налоговая или суд признают договор ГПХ с самозанятым трудовым отношением. Тогда заказчик доначисляет НДФЛ 13%, страховые взносы 30% и штрафы за весь период сотрудничества.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: 'Какие признаки проверяет ФНС для переквалификации?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'ФНС и суды используют 13 признаков: один заказчик, работа из офиса, заданный график, типовой договор, чужое оборудование, длительные отношения, подчинение распорядку, отпуск и больничные, непрерывность работы, интеграция в штат, те же обязанности что и у сотрудников, периодическая оплата, оплата за процесс.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: 'Как снизить риск переквалификации?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'Diversифицируйте заказчиков (не более 70-80% дохода от одного), оформляйте письменные договоры с описанием результата, избегайте постоянного графика, используйте собственные инструменты и оборудование.',
+          },
+        },
+      ],
+    },
+  },
+];
+
+const relatedTools = [
+  { name: 'Концентрация дохода', url: '/koncentracia-dohoda' },
+  { name: 'ИП или самозанятость', url: '/ip-ili-samozanyatyy' },
+  { name: 'Договор и акт', url: '/dogovor-akt' },
+];
+---
+
+<CalculatorLayout
+  title={title}
+  description={description}
+  url={url}
+  eyebrow="Риски · 2026"
+  h1="Риск переквалификации ГПХ в трудовой"
+  breadcrumbs={breadcrumbs}
+  structuredData={structuredData}
+>
+  <p slot="subtitle">
+    ФНС и суды проверяют договоры ГПХ самозанятых на признаки трудовых отношений.
+    Если найдут — заказчик доначисляет НДФЛ 13%, взносы 30% и штрафы. Оцените свой риск по чек-листу.
+  </p>
+
+  <section class="mt-8">
+    <RiskTrudovyhCalculator client:load />
+  </section>
+
+  <section class="mt-10">
+    <details class="group rounded-[var(--radius-card)] border border-line bg-surface">
+      <summary class="cursor-pointer px-4 py-3 text-sm font-medium text-ink select-none">
+        Как это оценивается?
+      </summary>
+      <div class="px-4 pb-4 text-sm text-muted leading-relaxed">
+        Оценка основана на 13 признаках трудовых отношений, которые проверяют ФНС и суды
+        (ст. 15 ТК РФ, ст. 420 ГК РФ, определения ВС РФ). Доля дохода &gt;80% от одного заказчика —
+        сильный сигнал риска. При переквалификации заказчику доначисляют: НДФЛ 13% + страховые взносы 30% + пени и штрафы.
+      </div>
+    </details>
+  </section>
+
+  <RelatedTools tools={relatedTools} currentUrl={url} />
+</CalculatorLayout>

@@ -1,0 +1,239 @@
+---
+import CalculatorLayout from '../layouts/CalculatorLayout.astro';
+
+const title = 'Полезное для самозанятых: 115-ФЗ, чеки, частые вопросы | 2026';
+const description = 'Частые вопросы о статусе самозанятого, как не попасть под блокировку по 115-ФЗ, как исправить или аннулировать чек в приложении «Мой налог».';
+const url = '/poleznoe';
+
+const breadcrumbs = [
+  { name: 'Главная', url: '/' },
+  { name: 'Полезное' },
+];
+
+// FAQPage structured data — all questions from all sections
+const allFaqs = [
+  // Частые вопросы о статусе
+  { q: 'Сколько можно зарабатывать?', a: 'До 2 400 000 ₽ в год. Свыше — потеряете статус. Лимит считается нарастающим итогом с 1 января.' },
+  { q: 'Нужно ли регистрировать ИП?', a: 'Нет. Достаточно оформить статус через приложение «Мой налог». Налогов sẽ — это не ИП.' },
+  { q: 'Какие налоги платит самозанятый?', a: 'НПД: 4% при работе с физлицами, 6% при работе с юрлицами и ИП. Налог считается и платится в приложении «Мой налог».' },
+  { q: 'Можно ли работать с юрлицами?', a: 'Да. Ставка НПД — 6%. Юрлицо не удерживает НДФЛ и не платит взносы за вас.' },
+  { q: 'Что будет при превышении лимита?', a: 'Нужно будет зарегистрировать ИП и перейти на УСН. Задним числом — нельзя.' },
+  { q: 'Нужно ли платить пенсионные взносы?', a: 'Нет обязательных взносов. Но если хотите стаж — платите добровольные пенсионные взносы в СФР.' },
+  // 115-ФЗ
+  { q: 'Как не попасть под блокировку по 115-ФЗ?', a: 'Комиссия Центробанка проверяет крупные переводы. Для самозанятых — документы: договор, акт, чек НПД. Возвраты обычно подтверждают легальность.' },
+  // Чеки
+  { q: 'Как исправить или аннулировать чек?', a: 'В приложении «Мой налог»: чеки → выбрать чек → «Изменить» или «Аннулировать». При аннулировании — повторный чек с корректной суммой.' },
+];
+
+const structuredData = [
+  {
+    type: 'FAQPage',
+    data: {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: allFaqs.map(f => ({
+        '@type': 'Question',
+        name: f.q,
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: f.a,
+        },
+      })),
+    },
+  },
+];
+
+// Search component — client-side JS for filtering FAQ items
+const searchScript = `
+  const input = document.getElementById('faq-search');
+  const items = document.querySelectorAll('[data-faq-item]');
+  const sections = document.querySelectorAll('[data-faq-section]');
+
+  input.addEventListener('input', () => {
+    const query = input.value.toLowerCase().trim();
+
+    items.forEach(item => {
+      const text = item.textContent.toLowerCase();
+      const matches = !query || text.includes(query);
+      item.style.display = matches ? '' : 'none';
+    });
+
+    sections.forEach(section => {
+      const visibleItems = section.querySelectorAll('[data-faq-item]:not([style*="display: none"])');
+      section.style.display = visibleItems.length ? '' : 'none';
+    });
+  });
+`;
+---
+
+<CalculatorLayout
+  title={title}
+  description={description}
+  url={url}
+  breadcrumbs={breadcrumbs}
+  structuredData={structuredData}
+>
+  <p class="text-muted" slot="subtitle">
+    Статьи, гайды и ответы на частые вопросы о налоге на профессиональный доход.
+  </p>
+
+  <!-- Search -->
+  <div class="mt-6">
+    <label for="faq-search" class="sr-only">Поиск по вопросам</label>
+    <input
+      id="faq-search"
+      type="text"
+      placeholder="Найти вопрос…"
+      class="w-full max-w-md rounded-[var(--radius-control)] border border-line bg-surface px-4 py-2.5 text-sm text-ink placeholder:text-faint focus:border-accent focus:outline-none focus:ring-2 focus:ring-accent/20 transition-colors"
+    />
+  </div>
+
+  <!-- Section 1: Частые вопросы о статусе -->
+  <section class="mt-8" data-faq-section>
+    <h2 class="font-head text-[var(--fs-h2)] font-medium text-ink">Частые вопросы о статусе</h2>
+
+    <div class="mt-4 flex flex-col gap-3">
+      <details class="group rounded-[var(--radius-card)] border border-line bg-surface" data-faq-item>
+        <summary class="cursor-pointer px-5 py-4 font-head text-sm font-medium text-ink hover:text-accent transition-colors select-none">
+          Сколько можно зарабатывать?
+        </summary>
+        <div class="px-5 pb-4 text-sm text-muted leading-relaxed">
+          До 2 400 000 ₽ в год. Свыше — потеряете статус. Лимит считается нарастающим итогом с 1 января.
+        </div>
+      </details>
+
+      <details class="group rounded-[var(--radius-card)] border border-line bg-surface" data-faq-item>
+        <summary class="cursor-pointer px-5 py-4 font-head text-sm font-medium text-ink hover:text-accent transition-colors select-none">
+          Нужно ли регистрировать ИП?
+        </summary>
+        <div class="px-5 pb-4 text-sm text-muted leading-relaxed">
+          Нет. Достаточно оформить статус через приложение «Мой налог». Налогов — это не ИП.
+        </div>
+      </details>
+
+      <details class="group rounded-[var(--radius-card)] border border-line bg-surface" data-faq-item>
+        <summary class="cursor-pointer px-5 py-4 font-head text-sm font-medium text-ink hover:text-accent transition-colors select-none">
+          Какие налоги платит самозанятый?
+        </summary>
+        <div class="px-5 pb-4 text-sm text-muted leading-relaxed">
+          НПД: 4% при работе с физлицами, 6% при работе с юрлицами и ИП. Налог считается и платится в приложении «Мой налог».
+        </div>
+      </details>
+
+      <details class="group rounded-[var(--radius-card)] border border-line bg-surface" data-faq-item>
+        <summary class="cursor-pointer px-5 py-4 font-head text-sm font-medium text-ink hover:text-accent transition-colors select-none">
+          Можно ли работать с юрлицами?
+        </summary>
+        <div class="px-5 pb-4 text-sm text-muted leading-relaxed">
+          Да. Ставка НПД — 6%. Юрлицо не удерживает НДФЛ и не платит взносы за вас.
+        </div>
+      </details>
+
+      <details class="group rounded-[var(--radius-card)] border border-line bg-surface" data-faq-item>
+        <summary class="cursor-pointer px-5 py-4 font-head text-sm font-medium text-ink hover:text-accent transition-colors select-none">
+          Что будет при превышении лимита?
+        </summary>
+        <div class="px-5 pb-4 text-sm text-muted leading-relaxed">
+          Нужно будет зарегистрировать ИП и перейти на УСН. Задним числом — нельзя.
+        </div>
+      </details>
+
+      <details class="group rounded-[var(--radius-card)] border border-line bg-surface" data-faq-item>
+        <summary class="cursor-pointer px-5 py-4 font-head text-sm font-medium text-ink hover:text-accent transition-colors select-none">
+          Нужно ли платить пенсионные взносы?
+        </summary>
+        <div class="px-5 pb-4 text-sm text-muted leading-relaxed">
+          Нет обязательных взносов. Но если хотите стаж — платите добровольные пенсионные взносы в СФР.
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <!-- Section 2: 115-ФЗ -->
+  <section class="mt-8" data-faq-section>
+    <h2 class="font-head text-[var(--fs-h2)] font-medium text-ink">115-ФЗ: как не попасть под блокировку</h2>
+
+    <div class="mt-4 rounded-[var(--radius-card)] border border-line bg-surface px-5 py-4 text-sm text-muted leading-relaxed" data-faq-item>
+      <details class="group">
+        <summary class="cursor-pointer font-head font-medium text-ink hover:text-accent transition-colors select-none">
+          Как не попасть под блокировку по 115-ФЗ?
+        </summary>
+        <div class="mt-3">
+          <p>Комиссия Центробанка проверяет крупные переводы. Для самозанятых — документы: договор, акт, чек НПД. Возвраты обычно подтверждают легальность.</p>
+          <ul class="mt-2 list-disc list-inside flex flex-col gap-1.5">
+            <li>Всегда оформляйте договор или акт</li>
+            <li>Генерируйте чек в «Мой налог» при каждой оплате</li>
+            <li>Сохраняйте переписку с заказчиком</li>
+            <li>При возврате — укажите причину</li>
+          </ul>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <!-- Section 3: Чеки -->
+  <section class="mt-8" data-faq-section>
+    <h2 class="font-head text-[var(--fs-h2)] font-medium text-ink">Чеки: исправить или аннулировать</h2>
+
+    <div class="mt-4 rounded-[var(--radius-card)] border border-line bg-surface px-5 py-4 text-sm text-muted leading-relaxed" data-faq-item>
+      <details class="group">
+        <summary class="cursor-pointer font-head font-medium text-ink hover:text-accent transition-colors select-none">
+          Как исправить или аннулировать чек?
+        </summary>
+        <div class="mt-3">
+          <p>В приложении «Мой налог»: чеки → выбрать чек → «Изменить» или «Аннулировать». При аннулировании — повторный чек с корректной суммой.</p>
+          <ol class="mt-2 list-decimal list-inside flex flex-col gap-1.5">
+            <li>Откройте чеки в «Мой налог»</li>
+            <li>Нажмите на чек, который нужно исправить</li>
+            <li>Выберите «Изменить» для корректировки суммы или «Аннулировать» для удаления</li>
+            <li>При аннулировании — создайте новый чек с правильными данными</li>
+          </ol>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <!-- Документы -->
+  <section class="mt-10">
+    <h2 class="font-head text-sm font-semibold text-ink">Документы</h2>
+    <div class="mt-3 grid grid-cols-1 sm:grid-cols-3 gap-3">
+      <a href="/metodika" class="rounded-[var(--radius-card)] border border-line bg-surface p-4 hover:bg-lavender transition-colors">
+        <span class="text-sm font-medium text-ink">Методика и источники</span>
+        <span class="mt-1 block text-xs text-muted">Как считаем и откуда цифры</span>
+      </a>
+      <a href="/privacy" class="rounded-[var(--radius-card)] border border-line bg-surface p-4 hover:bg-lavender transition-colors">
+        <span class="text-sm font-medium text-ink">Конфиденциальность</span>
+        <span class="mt-1 block text-xs text-muted">Как обрабатываются данные</span>
+      </a>
+      <a href="/disclaimer" class="rounded-[var(--radius-card)] border border-line bg-surface p-4 hover:bg-lavender transition-colors">
+        <span class="text-sm font-medium text-ink">Ограничение ответственности</span>
+        <span class="mt-1 block text-xs text-muted">Чего не учитывают расчёты</span>
+      </a>
+    </div>
+  </section>
+</CalculatorLayout>
+
+<script is:inline>
+  {
+    const input = document.getElementById('faq-search');
+    if (input) {
+      const items = document.querySelectorAll('[data-faq-item]');
+      const sections = document.querySelectorAll('[data-faq-section]');
+
+      input.addEventListener('input', () => {
+        const query = input.value.toLowerCase().trim();
+
+        items.forEach(item => {
+          const text = item.textContent.toLowerCase();
+          const matches = !query || text.includes(query);
+          item.style.display = matches ? '' : 'none';
+        });
+
+        sections.forEach(section => {
+          const visibleItems = section.querySelectorAll('[data-faq-item]:not([style*="display: none"])');
+          section.style.display = visibleItems.length ? '' : 'none';
+        });
+      });
+    }
+  }
+</script>

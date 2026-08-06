@@ -1,0 +1,64 @@
+---
+/**
+ * RelatedTools — блок «Другие инструменты» внизу страницы калькулятора.
+ * Принимает массив ссылок и отображает их в виде карточек.
+ */
+
+interface ToolLink {
+  title: string;
+  description: string;
+  url: string;
+}
+
+interface Props {
+  tools: ToolLink[];
+  currentUrl: string;
+}
+
+const { tools, currentUrl } = Astro.props;
+---
+
+{tools.length > 0 && (
+  <section class="related-tools mt-12 pt-8 border-t border-line">
+    <h2 class="font-head text-lg text-ink mb-4">Другие инструменты</h2>
+    <div class="related-tools__grid">
+      {tools
+        .filter(t => !currentUrl.endsWith(t.url))
+        .map(tool => (
+          <a href={tool.url} class="related-tools__card">
+            <h3 class="related-tools__card-title font-head text-ink">{tool.title}</h3>
+            <p class="related-tools__card-desc text-muted text-sm">{tool.description}</p>
+          </a>
+        ))}
+    </div>
+  </section>
+)}
+
+<style>
+  .related-tools__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1rem;
+  }
+  .related-tools__card {
+    display: block;
+    padding: 1rem 1.25rem;
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: var(--radius-card);
+    text-decoration: none;
+    transition: border-color var(--duration-fast) var(--ease-out), box-shadow var(--duration-fast) var(--ease-out);
+  }
+  .related-tools__card:hover {
+    border-color: var(--color-line-2);
+    box-shadow: var(--shadow-card-hover);
+  }
+  .related-tools__card-title {
+    font-size: var(--fs-body);
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+  }
+  .related-tools__card-desc {
+    line-height: 1.4;
+  }
+</style>

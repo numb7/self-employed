@@ -1,0 +1,91 @@
+---
+import CalculatorLayout from '../layouts/CalculatorLayout.astro';
+import { SetAsideCalculator } from '../components/react/calculators/SetAsideCalculator';
+import RelatedTools from '../components/astro/RelatedTools.astro';
+
+const title = 'Сколько отложить на налог НПД — калькулятор самозанятого 2026';
+const description = 'Рассчитайте, сколько отложить с каждой оплаты на налог НПД (4% или 6%), а сколько можно тратить сразу. Быстрый расчёт для самозанятых.';
+const url = '/otlozhit-na-nalog';
+
+const breadcrumbs = [
+  { name: 'Главная', url: '/' },
+  { name: 'Калькуляторы', url: '/#tasks-anchor' },
+  { name: 'Отложить на налог' },
+];
+
+const structuredData = [{
+  type: 'FAQPage' as const,
+  data: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'Сколько откладывать на налог самозанятому?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: '4% с дохода от физлиц и 6% от юрлиц и ИП. Срок уплаты — до 28-го числа следующего месяца.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'Что такое вычет 10 000 ₽?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Единовременный налоговый вычет для самозанятых: снижает ставку до 3% (физлица) и 4% (юрлица), пока не исчерпан.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'Когда платить налог НПД?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'До 28-го числа месяца, следующего за месяцем получения дохода. Налог не списывается автоматически.',
+        },
+      },
+    ],
+  },
+}];
+
+const relatedTools = [
+  { title: 'Лимит дохода 2,4 млн', description: 'Сколько ещё можно заработать', url: '/limit-dohoda' },
+  { title: 'ИП или самозанятый', description: 'Сравнение налоговой нагрузки', url: '/ip-ili-samozanyatyy' },
+  { title: 'Вычет 10 000 ₽', description: 'Снижает ставку НПД', url: '/dogovor-akt' },
+];
+---
+
+<CalculatorLayout
+  title={title}
+  description={description}
+  url={url}
+  breadcrumbs={breadcrumbs}
+  structuredData={structuredData}
+  showSharePrint
+>
+  <p class="text-muted">
+    НПД не списывается автоматически — деньги на налог откладываете сами. Посчитайте сумму, чтобы не остаться должны.
+    Срок уплаты — 28-е число следующего месяца.
+  </p>
+
+  <section class="mt-8">
+    <SetAsideCalculator client:load />
+  </section>
+
+  <section class="mt-10">
+    <details class="group">
+      <summary class="cursor-pointer font-head text-sm font-medium text-muted hover:text-ink transition-colors select-none">
+        Как это считается: откуда цифры
+      </summary>
+      <div class="prose mt-4 text-sm">
+        <p>Ставки НПД — 4% с физлиц, 6% с юрлиц и ИП, а также единовременный налоговый вычет 10 000 ₽ установлены Федеральным законом о НПД и не зависят от изменений лимита дохода.</p>
+        <p>Расчёт ориентировочный. <a href="/metodika">Подробнее о методике →</a></p>
+        <ul class="mt-2">
+          <li>ФЗ № 422-ФЗ от 27.11.2018 — основной закон о НПД</li>
+          <li><a href="https://www.nalog.gov.ru/rn77/program/" target="_blank" rel="noopener noreferrer">nalog.gov.ru</a> — приложение «Мой налог»</li>
+        </ul>
+      </div>
+    </details>
+  </section>
+
+  <RelatedTools tools={relatedTools} currentUrl={url} />
+</CalculatorLayout>

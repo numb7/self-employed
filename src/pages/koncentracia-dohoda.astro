@@ -1,0 +1,82 @@
+---
+import CalculatorLayout from '../layouts/CalculatorLayout.astro';
+import { ConcentrationTracker } from '../components/react/calculators/ConcentrationTracker';
+import RelatedTools from '../components/astro/RelatedTools.astro';
+
+const title = 'Концентрация дохода от одного клиента — риск для самозанятого';
+const description = 'Проверьте, не слишком ли вы зависите от одного заказчика. >=70% дохода от одного источника дольше 6 месяцев — признак риска переквалификации в трудовые.';
+const url = '/koncentracia-dohoda';
+const breadcrumbs = [
+  { name: 'Главная', url: '/' },
+  { name: 'Калькуляторы', url: '/#tasks-anchor' },
+  { name: 'Концентрация дохода' },
+];
+
+const structuredData = [
+  {
+    type: 'WebPage' as const,
+    data: {
+      '@context': 'https://schema.org',
+      '@type': 'WebPage',
+      name: title,
+      description,
+      url: 'https://npd-tools.ru/koncentracia-dohoda',
+    },
+  },
+];
+
+const relatedTools = [
+  { name: 'Договор и акт', url: '/dogovor-akt' },
+  { name: 'Самозанятый или ИП', url: '/ip-ili-samozanyatyy' },
+  { name: 'Лимит дохода', url: '/limit-dohoda' },
+];
+---
+
+<CalculatorLayout
+  title={title}
+  description={description}
+  url={url}
+  eyebrow="Риск переквалификации · 2026"
+  h1="Не слишком ли вы зависите от одного клиента"
+  breadcrumbs={breadcrumbs}
+  structuredData={structuredData}
+>
+  <p slot="subtitle">
+    Если один заказчик приносит 70% и более дохода на протяжении 6+ месяцев — это один из признаков,
+    на которые обращают внимание налоговая и трудовая инспекция.
+  </p>
+
+  <section class="mt-8">
+    <ConcentrationTracker client:load />
+  </section>
+
+  <section class="mt-10">
+    <details class="group rounded-[var(--radius-card)] border border-line bg-surface" open>
+      <summary class="cursor-pointer px-4 py-3 text-sm font-medium text-ink select-none">
+        Что именно считается риском и почему?
+      </summary>
+      <div class="px-4 pb-4 text-sm text-muted leading-relaxed">
+        Закон о платформенной экономике вступает в силу 1 октября 2026; Письма ФНС о признаках
+        подмены трудовых отношений указывают, что доля дохода от одного заказчика ≥70% при длительности
+        отношений ≥6 месяцев — один из ключевых факторов, на которые обращают внимание при проверках.
+      </div>
+    </details>
+
+    <details class="group rounded-[var(--radius-card)] border border-line bg-surface mt-2">
+      <summary class="cursor-pointer px-4 py-3 text-sm font-medium text-ink select-none">
+        Как снизить риск переквалификации?
+      </summary>
+      <div class="px-4 pb-4 text-sm text-muted leading-relaxed">
+        <ul class="list-disc list-inside space-y-1">
+          <li>Diversифицируйте заказчиков (не более 70% от одного)</li>
+          <li>Оформляйте письменные договоры с чётким описанием результата</li>
+          <li>Избегайте постоянного графика и расписания</li>
+          <li>Используйте собственные инструменты и оборудование</li>
+          <li>Делайте перерывы в отношениях с одним заказчиком</li>
+        </ul>
+      </div>
+    </details>
+  </section>
+
+  <RelatedTools tools={relatedTools} currentUrl={url} />
+</CalculatorLayout>

@@ -1,0 +1,244 @@
+---
+import CalculatorLayout from '../layouts/CalculatorLayout.astro';
+
+const title = 'Методика и источники — финансовый помощник для самозанятых';
+const description = 'Принципы расчёта, нормативные параметры и источники данных калькуляторов для самозанятых. Ставки НПД, лимиты, взносы СФР.';
+const url = '/metodika';
+
+const breadcrumbs = [
+  { name: 'Главная', url: '/' },
+  { name: 'Методика' },
+];
+
+const structuredData = [{
+  type: 'WebPage',
+  data: {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    '@id': 'https://npd-tools.ru/metodika',
+    url: 'https://npd-tools.ru/metodika',
+    name: title,
+    description,
+    dateModified: '2026-07-18',
+  },
+}];
+---
+
+<CalculatorLayout
+  title={title}
+  description={description}
+  url={url}
+  breadcrumbs={breadcrumbs}
+  structuredData={structuredData}
+>
+  <p class="text-muted" slot="subtitle">
+    Откуда берутся цифры в калькуляторах, по каким формулам считается и что считать ориентировочным.
+  </p>
+
+  <!-- Назначение сервиса -->
+  <section class="mt-8">
+    <h2 class="font-head text-[var(--fs-h2)] font-medium text-ink">Назначение сервиса</h2>
+    <p class="mt-3 text-sm text-muted leading-relaxed max-w-prose">
+      Результаты всех калькуляторов — <strong class="text-ink">справочные и ориентировочные</strong>.
+      Сервис не является ФНС, СФР, банком, юридической или бухгалтерской организацией.
+      Точные расчёты производятся в приложении «Мой налог» и на официальных ресурсах СФР.
+    </p>
+  </section>
+
+  <!-- Принципы расчёта -->
+  <section class="mt-8">
+    <h2 class="font-head text-[var(--fs-h2)] font-medium text-ink">Принципы расчёта</h2>
+
+    <div class="mt-4 flex flex-col gap-3">
+      <details class="group rounded-[var(--radius-card)] border border-line bg-surface" open>
+        <summary class="cursor-pointer px-5 py-4 font-head text-sm font-medium text-ink hover:text-accent transition-colors select-none">
+          Вводимые данные
+        </summary>
+        <div class="px-5 pb-4 text-sm text-muted leading-relaxed">
+          Пользователь вводит суммы дохода, оплаты, количества месяцев или часов. Все данные обрабатываются в браузере и не передаются на сервер.
+        </div>
+      </details>
+
+      <details class="group rounded-[var(--radius-card)] border border-line bg-surface">
+        <summary class="cursor-pointer px-5 py-4 font-head text-sm font-medium text-ink hover:text-accent transition-colors select-none">
+          Применяемые ставки и лимиты
+        </summary>
+        <div class="px-5 pb-4 text-sm text-muted leading-relaxed">
+          Ставки НПД (4% и 6%), лимит дохода (2 400 000 ₽), вычет (10 000 ₽), тариф больничного (3,84%), стоимость пенсионного стажа — берутся из единого файла нормативных параметров и обновляются ежегодно.
+        </div>
+      </details>
+
+      <details class="group rounded-[var(--radius-card)] border border-line bg-surface">
+        <summary class="cursor-pointer px-5 py-4 font-head text-sm font-medium text-ink hover:text-accent transition-colors select-none">
+          Округление
+        </summary>
+        <div class="px-5 pb-4 text-sm text-muted leading-relaxed">
+          Денежные суммы округляются до целого рубля по правилам математического округления. Пенсионный стаж в режиме «Сколько стажа даст сумма» — до одного знака после запятой.
+        </div>
+      </details>
+
+      <details class="group rounded-[var(--radius-card)] border border-line bg-surface">
+        <summary class="cursor-pointer px-5 py-4 font-head text-sm font-medium text-ink hover:text-accent transition-colors select-none">
+          Ограничения применимости
+        </summary>
+        <div class="px-5 pb-4 text-sm text-muted leading-relaxed">
+          <ul class="list-disc list-inside flex flex-col gap-1.5">
+            <li>Сравнение НПД и ИП — для ИП без работников на УСН «Доходы» 6% без патента и региональных льгот.</li>
+            <li>Расчёт больничного не учитывает стаж, количество дней и конкретные условия — итоговую сумму определяет СФР.</li>
+            <li>Концентрация дохода — эвристический индикатор, не юридический вердикт.</li>
+            <li>Шаблон договора — справочный, требует проверки под конкретную сделку.</li>
+          </ul>
+        </div>
+      </details>
+    </div>
+  </section>
+
+  <!-- Нормативные параметры 2026 -->
+  <section class="mt-8">
+    <h2 class="font-head text-[var(--fs-h2)] font-medium text-ink">Нормативные параметры 2026</h2>
+    <p class="mt-2 text-sm text-muted">Актуально на 16 июля 2026 года.</p>
+
+    <div class="mt-4 overflow-x-auto rounded-[var(--radius-card)] border border-line">
+      <table class="w-full text-sm">
+        <thead>
+          <tr class="border-b border-line bg-paper-2">
+            <th class="px-4 py-2.5 text-left font-medium text-ink">Параметр</th>
+            <th class="px-4 py-2.5 text-right font-mono font-medium text-ink">Значение</th>
+            <th class="px-4 py-2.5 text-left font-medium text-ink">Период</th>
+            <th class="px-4 py-2.5 text-left font-medium text-ink">Источник</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="border-b border-line-2">
+            <td class="px-4 py-2.5 text-muted">Лимит дохода НПД</td>
+            <td class="px-4 py-2.5 text-right font-mono text-ink">2 400 000 ₽</td>
+            <td class="px-4 py-2.5 text-muted">2026</td>
+            <td class="px-4 py-2.5"><a href="https://www.nalog.gov.ru/rn78/news/smi/12272618/" target="_blank" rel="noopener noreferrer" class="text-accent text-xs">ФНС</a></td>
+          </tr>
+          <tr class="border-b border-line-2">
+            <td class="px-4 py-2.5 text-muted">Ставка НПД для физлиц</td>
+            <td class="px-4 py-2.5 text-right font-mono text-green font-medium">4%</td>
+            <td class="px-4 py-2.5 text-muted">2026</td>
+            <td class="px-4 py-2.5"><a href="https://www.nalog.gov.ru/rn78/news/smi/12272618/" target="_blank" rel="noopener noreferrer" class="text-accent text-xs">ФНС</a></td>
+          </tr>
+          <tr class="border-b border-line-2">
+            <td class="px-4 py-2.5 text-muted">Ставка НПД для юрлиц и ИП</td>
+            <td class="px-4 py-2.5 text-right font-mono text-green font-medium">6%</td>
+            <td class="px-4 py-2.5 text-muted">2026</td>
+            <td class="px-4 py-2.5"><a href="https://www.nalog.gov.ru/rn78/news/smi/12272618/" target="_blank" rel="noopener noreferrer" class="text-accent text-xs">ФНС</a></td>
+          </tr>
+          <tr class="border-b border-line-2">
+            <td class="px-4 py-2.5 text-muted">Налоговый вычет НПД</td>
+            <td class="px-4 py-2.5 text-right font-mono text-ink">10 000 ₽</td>
+            <td class="px-4 py-2.5 text-muted">2026</td>
+            <td class="px-4 py-2.5"><a href="https://www.nalog.gov.ru/rn78/news/smi/12272618/" target="_blank" rel="noopener noreferrer" class="text-accent text-xs">ФНС</a></td>
+          </tr>
+          <tr class="border-b border-line-2">
+            <td class="px-4 py-2.5 text-muted">Тариф больничного (добровольное соцстрахование)</td>
+            <td class="px-4 py-2.5 text-right font-mono text-ink">3,84%</td>
+            <td class="px-4 py-2.5 text-muted">2026–2028</td>
+            <td class="px-4 py-2.5"><span class="text-xs text-muted">СФР, № 456-ФЗ</span></td>
+          </tr>
+          <tr class="border-b border-line-2">
+            <td class="px-4 py-2.5 text-muted">Страховые суммы больничного</td>
+            <td class="px-4 py-2.5 text-right font-mono text-ink">35 000 / 50 000 ₽</td>
+            <td class="px-4 py-2.5 text-muted">2026–2028</td>
+            <td class="px-4 py-2.5"><span class="text-xs text-muted">СФР, № 456-ФЗ</span></td>
+          </tr>
+          <tr class="border-b border-line-2">
+            <td class="px-4 py-2.5 text-muted">Скидка на взнос 10%</td>
+            <td class="px-4 py-2.5 text-right font-mono text-ink">с 19-го месяца</td>
+            <td class="px-4 py-2.5 text-muted">2026–2028</td>
+            <td class="px-4 py-2.5"><a href="https://pravo.gov.ru" target="_blank" rel="noopener noreferrer" class="text-accent text-xs">№ 456-ФЗ, ст. 5</a></td>
+          </tr>
+          <tr class="border-b border-line-2">
+            <td class="px-4 py-2.5 text-muted">Скидка на взнос 30%</td>
+            <td class="px-4 py-2.5 text-right font-mono text-ink">с 25-го месяца</td>
+            <td class="px-4 py-2.5 text-muted">2026–2028</td>
+            <td class="px-4 py-2.5"><a href="https://pravo.gov.ru" target="_blank" rel="noopener noreferrer" class="text-accent text-xs">№ 456-ФЗ, ст. 5</a></td>
+          </tr>
+          <tr class="border-b border-line-2">
+            <td class="px-4 py-2.5 text-muted">Добровольные пенсионные взносы (год стажа)</td>
+            <td class="px-4 py-2.5 text-right font-mono text-ink">71 525,52 ₽</td>
+            <td class="px-4 py-2.5 text-muted">2026</td>
+            <td class="px-4 py-2.5"><span class="text-xs text-muted">СФР, ФЗ № 167-ФЗ</span></td>
+          </tr>
+          <tr class="border-b border-line-2">
+            <td class="px-4 py-2.5 text-muted">МРОТ (основа для расчёта ОПС)</td>
+            <td class="px-4 py-2.5 text-right font-mono text-ink">22 440 ₽</td>
+            <td class="px-4 py-2.5 text-muted">2026</td>
+            <td class="px-4 py-2.5"><span class="text-xs text-muted">ФЗ о МРОТ</span></td>
+          </tr>
+          <tr class="border-b border-line-2">
+            <td class="px-4 py-2.5 text-muted">Фиксированные взносы ИП «за себя»</td>
+            <td class="px-4 py-2.5 text-right font-mono text-ink">57 390 ₽</td>
+            <td class="px-4 py-2.5 text-muted">2026</td>
+            <td class="px-4 py-2.5"><a href="https://www.nalog.gov.ru/rn78/news/smi/12272618/" target="_blank" rel="noopener noreferrer" class="text-accent text-xs">ФНС</a></td>
+          </tr>
+          <tr class="border-b border-line-2">
+            <td class="px-4 py-2.5 text-muted">Доп. взнос ИП (1% свыше 300 000 ₽)</td>
+            <td class="px-4 py-2.5 text-right font-mono text-ink">макс. 321 818 ₽</td>
+            <td class="px-4 py-2.5 text-muted">2026</td>
+            <td class="px-4 py-2.5"><a href="https://www.nalog.gov.ru/rn78/news/smi/12272618/" target="_blank" rel="noopener noreferrer" class="text-accent text-xs">ФНС</a></td>
+          </tr>
+          <tr class="border-b border-line-2">
+            <td class="px-4 py-2.5 text-muted">УСН «Доходы»</td>
+            <td class="px-4 py-2.5 text-right font-mono text-green font-medium">6%</td>
+            <td class="px-4 py-2.5 text-muted">2026</td>
+            <td class="px-4 py-2.5"><span class="text-xs text-muted">НК РФ</span></td>
+          </tr>
+          <tr>
+            <td class="px-4 py-2.5 text-muted">УСН «Доходы минус расходы»</td>
+            <td class="px-4 py-2.5 text-right font-mono text-green font-medium">15%</td>
+            <td class="px-4 py-2.5 text-muted">2026</td>
+            <td class="px-4 py-2.5"><span class="text-xs text-muted">НК РФ</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Официальные источники -->
+  <section class="mt-8">
+    <h2 class="font-head text-[var(--fs-h2)] font-medium text-ink">Официальные источники</h2>
+
+    <details class="mt-4 group rounded-[var(--radius-card)] border border-line bg-surface" open>
+      <summary class="cursor-pointer px-5 py-4 font-head text-sm font-medium text-ink hover:text-accent transition-colors select-none">
+        Первоисточники
+      </summary>
+      <div class="px-5 pb-4 text-sm text-muted leading-relaxed">
+        <ul class="list-disc list-inside flex flex-col gap-1.5">
+          <li><a href="https://www.nalog.gov.ru/rn78/news/smi/12272618/" target="_blank" rel="noopener noreferrer">ФНС: налог на профессиональный доход</a> — ставки, лимит, вычет</li>
+          <li><a href="https://www.nalog.gov.ru/rn78/news/smi/12272618/" target="_blank" rel="noopener noreferrer">ФНС: фиксированные взносы ИП за себя в 2026 году</a></li>
+          <li><a href="https://www.nalog.gov.ru/rn77/program/" target="_blank" rel="noopener noreferrer">Приложение «Мой налог»</a></li>
+          <li><a href="https://sfr.gov.ru/" target="_blank" rel="noopener noreferrer">СФР: памятка самозанятым о соцобеспечении (2026)</a></li>
+          <li><a href="https://gosuslugi.ru/" target="_blank" rel="noopener noreferrer">Госуслуги</a></li>
+          <li><a href="https://pravo.gov.ru" target="_blank" rel="noopener noreferrer">Официальный портал правовой информации</a></li>
+          <li>ФЗ № 422-ФЗ от 27.11.2018 — закон о НПД</li>
+          <li>ФЗ № 456-ФЗ от 15.12.2025 — эксперимент по больничным</li>
+          <li>ФЗ № 167-ФЗ — об обязательном пенсионном страховании</li>
+          <li>НК РФ — УСН, страховые взносы ИП</li>
+        </ul>
+      </div>
+    </details>
+  </section>
+
+  <!-- Документы -->
+  <section class="mt-10">
+    <h2 class="font-head text-sm font-semibold text-ink">Документы</h2>
+    <div class="mt-3 grid grid-cols-1 sm:grid-cols-3 gap-3">
+      <a href="/privacy" class="rounded-[var(--radius-card)] border border-line bg-surface p-4 hover:bg-lavender transition-colors">
+        <span class="text-sm font-medium text-ink">Конфиденциальность</span>
+        <span class="mt-1 block text-xs text-muted">Как обрабатываются данные</span>
+      </a>
+      <a href="/disclaimer" class="rounded-[var(--radius-card)] border border-line bg-surface p-4 hover:bg-lavender transition-colors">
+        <span class="text-sm font-medium text-ink">Ограничение ответственности</span>
+        <span class="mt-1 block text-xs text-muted">Чего не учитывают расчёты</span>
+      </a>
+      <a href="/" class="rounded-[var(--radius-card)] border border-line bg-surface p-4 hover:bg-lavender transition-colors">
+        <span class="text-sm font-medium text-ink">Все калькуляторы</span>
+        <span class="mt-1 block text-xs text-muted">Вернуться на главную</span>
+      </a>
+    </div>
+  </section>
+</CalculatorLayout>

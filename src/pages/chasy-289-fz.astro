@@ -1,0 +1,82 @@
+---
+import CalculatorLayout from '../layouts/CalculatorLayout.astro';
+import { Chasy289Calculator } from '../components/react/calculators/Chasy289Calculator';
+import RelatedTools from '../components/astro/RelatedTools.astro';
+
+const title = 'Часы по 289-ФЗ — лимит для самозанятых 2026';
+const description = 'Проверьте, не превышаете ли вы лимит 60 часов в месяц на одного заказчика по закону 289-ФЗ. Калькулятор для самозанятых.';
+const url = '/chasy-289-fz';
+
+const breadcrumbs = [
+  { name: 'Главная', url: '/' },
+  { name: 'Калькуляторы', url: '/#tasks-anchor' },
+  { name: 'Часы по 289-ФЗ' },
+];
+
+const structuredData = [{
+  type: 'FAQPage' as const,
+  data: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'Сколько часов самозанятый может работать на одного заказчика?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Не более 60 часов в месяц по закону 289-ФЗ. Превышение может привести к переквалификации в трудовые отношения.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'Что будет, если превысить лимит часов?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'ФНС может признать relationship трудовыми — потеряете статус самозанятого, появится обязанность платить НДФЛ и взносы.',
+        },
+      },
+    ],
+  },
+}];
+
+const relatedTools = [
+  { title: 'Риск переквалификации', description: 'Оценка риска трудовых отношений', url: '/risk-trudovyh' },
+  { title: 'Концентрация дохода', description: 'Зависимость от одного клиента', url: '/koncentracia-dohoda' },
+  { title: 'Мастер выбора режима', description: 'Подберёт оптимальный режим', url: '/master-vybora-rezhima' },
+];
+---
+
+<CalculatorLayout
+  title={title}
+  description={description}
+  url={url}
+  breadcrumbs={breadcrumbs}
+  structuredData={structuredData}
+>
+  <p class="text-muted" slot="subtitle">
+    Закон 289-ФЗ ограничивает работу самозанятого с одним заказчиком 60 часами в месяц.
+    Превышение — риск переквалификации в трудовой договор.
+  </p>
+
+  <section class="mt-8">
+    <Chasy289Calculator client:load />
+  </section>
+
+  <section class="mt-10">
+    <details class="group">
+      <summary class="cursor-pointer font-head text-sm font-medium text-muted hover:text-ink transition-colors select-none">
+        Как считается: откуда цифры
+      </summary>
+      <div class="prose mt-4 text-sm">
+        <p>Лимит 60 часов в месяц на одного заказчика установлен Федеральным законом № 289-ФЗ от 03.08.2018. Ограничение введено для предотвращения маскировки трудовых отношений под гражданско-правовые.</p>
+        <p>Расчёт ориентировочный. <a href="/metodika">Подробнее о методике →</a></p>
+        <ul class="mt-2">
+          <li>ФЗ № 289-ФЗ от 03.08.2018 — лимит часов для самозанятых</li>
+          <li><a href="https://www.nalog.gov.ru/rn77/program/" target="_blank" rel="noopener noreferrer">nalog.gov.ru</a> — приложение «Мой налог»</li>
+        </ul>
+      </div>
+    </details>
+  </section>
+
+  <RelatedTools tools={relatedTools} currentUrl={url} />
+</CalculatorLayout>

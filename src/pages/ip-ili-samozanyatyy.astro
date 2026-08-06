@@ -1,0 +1,85 @@
+---
+import CalculatorLayout from '../layouts/CalculatorLayout.astro';
+import { IpVsSamozanyatyCalculator } from '../components/react/calculators/IpVsSamozanyatyCalculator';
+import RelatedTools from '../components/astro/RelatedTools.astro';
+
+const title = 'Самозанятый или ИП на УСН — сравнение налогов 2026';
+const description = 'Сравните ориентировочную нагрузку НПД и ИП на УСН 6% без работников';
+const url = '/ip-ili-samozanyatyy';
+const breadcrumbs = [
+  { name: 'Главная', url: '/' },
+  { name: 'Калькуляторы', url: '/#tasks-anchor' },
+  { name: 'ИП или НПД' },
+];
+
+const structuredData = [
+  {
+    type: 'FAQPage' as const,
+    data: {
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      mainEntity: [
+        {
+          '@type': 'Question',
+          name: 'Что выгоднее: самозанятый или ИП?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'Зависит от дохода и типа клиентов. При доходе до 2,4 млн ₽ от физлиц самозанятый обычно выгоднее (4% НПД без взносов). При работе с юрлицами и доходе свыше 2,4 млн ₽ ИП на УСН может быть выгоднее.',
+          },
+        },
+        {
+          '@type': 'Question',
+          name: 'Какие фиксированные взносы платит ИП?',
+          acceptedAnswer: {
+            '@type': 'Answer',
+            text: 'В 2026 году фиксированные взносы ИП составляют 57 390 ₽. Плюс 1% с дохода свыше 300 000 ₽ (максимум 321 818 ₽). Взносы уменьшают налог УСН 6% до нуля.',
+          },
+        },
+      ],
+    },
+  },
+];
+
+const relatedTools = [
+  { name: 'Мастер выбора режима', url: '/master-vybora-rezhima' },
+  { name: 'Лимит дохода', url: '/limit-dohoda' },
+  { name: 'Отложить на налог', url: '/otlozhit-na-nalog' },
+  { name: 'Договор и акт', url: '/dogovor-akt' },
+];
+---
+
+<CalculatorLayout
+  title={title}
+  description={description}
+  url={url}
+  eyebrow="НПД vs УСН · 2026"
+  h1="Самозанятый или ИП — что выгоднее"
+  breadcrumbs={breadcrumbs}
+  structuredData={structuredData}
+>
+  <p slot="subtitle">
+    Введите годовой доход и сравните, сколько уйдёт на налоги и взносы в каждом случае.
+  </p>
+
+  <section class="mt-8">
+    <IpVsSamozanyatyCalculator client:load />
+  </section>
+
+  <section class="mt-10">
+    <details class="group rounded-[var(--radius-card)] border border-line bg-surface">
+      <summary class="cursor-pointer px-4 py-3 text-sm font-medium text-ink select-none">
+        Какие параметры учитываются?
+      </summary>
+      <div class="px-4 pb-4 text-sm text-muted leading-relaxed">
+        <ul class="list-disc list-inside space-y-1">
+          <li>Фиксированные взносы ИП: 57 390 ₽</li>
+          <li>Доп. взносы: 1% свыше 300 000 ₽ (макс. 321 818 ₽)</li>
+          <li>НПД: 4% / 6% (без взносов, без отчётности)</li>
+          <li>УСН 6% без сотрудников — взносы уменьшают налог до нуля</li>
+        </ul>
+      </div>
+    </details>
+  </section>
+
+  <RelatedTools tools={relatedTools} currentUrl={url} />
+</CalculatorLayout>

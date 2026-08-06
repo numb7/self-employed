@@ -1,0 +1,79 @@
+---
+import CalculatorLayout from '../layouts/CalculatorLayout.astro';
+import { ModeWizard } from '../components/react/calculators/ModeWizard';
+import RelatedTools from '../components/astro/RelatedTools.astro';
+
+const title = 'Мастер выбора режима — самозанятость или ИП 2026';
+const description = 'Не знаете, что выбрать — самозанятость или ИП? Ответьте на 4 вопроса, и мастер подберёт оптимальный налоговый режим: НПД, УСН «Доходы» или УСН «Доходы минус расходы».';
+const url = '/master-vybora-rezhima';
+
+const breadcrumbs = [
+  { name: 'Главная', url: '/' },
+  { name: 'Калькуляторы', url: '/#tasks-anchor' },
+  { name: 'Мастер выбора режима' },
+];
+
+const structuredData = [{
+  type: 'FAQPage' as const,
+  data: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'Чем отличается самозанятый от ИП?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Самозанятый (НПД) платит 4–6% с дохода, без отчётности, лимит 2,4 млн ₽/год, нельзя нанимать сотрудников. ИП на УСН платит 6% с дохода или 15% с разницы, лимит дохода до 10 млн ₽ для УСН «Доходы», можно нанимать сотрудников.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'Когда самозанятость не подходит?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Самозанятость не подходит если: вы перепродаёте чужие товары, планируете нанимать сотрудников, ожидаемый доход превышает 2,4 млн ₽/год.',
+        },
+      },
+    ],
+  },
+}];
+
+const relatedTools = [
+  { title: 'ИП или самозанятый', description: 'Сравнение налоговой нагрузки', url: '/ip-ili-samozanyatyy' },
+  { title: 'Лимит дохода 2,4 млн', description: 'Сколько ещё можно заработать', url: '/limit-dohoda' },
+  { title: 'Ставка в час', description: 'Часовая ставка с учётом налога', url: '/stavka-v-chas' },
+];
+---
+
+<CalculatorLayout
+  title={title}
+  description={description}
+  url={url}
+  breadcrumbs={breadcrumbs}
+  structuredData={structuredData}
+>
+  <p class="text-muted" slot="subtitle">
+    Ответьте на 4 простых вопроса — мастер подберёт оптимальный налоговый режим
+    для вашей ситуации: НПД (самозанятость), УСН «Доходы» или УСН «Доходы минус расходы».
+  </p>
+
+  <section class="mt-8">
+    <ModeWizard client:load />
+  </section>
+
+  <section class="mt-10">
+    <details class="group">
+      <summary class="cursor-pointer font-head text-sm font-medium text-muted hover:text-ink transition-colors select-none">
+        Как работает мастер выбора
+      </summary>
+      <div class="prose mt-4 text-sm">
+        <p>Мастер анализирует 4 параметра: вид деятельности, наличие наёмных сотрудников, ожидаемый годовой доход и долю расходов.</p>
+        <p>Если перепродажа товаров, найм сотрудников или доход выше 2,4 млн ₽/год — НПД исключается. В этом случае выбирается между УСН «Доходы» (6%) и УСН «Доходы минус расходы» (15%) в зависимости от доли расходов.</p>
+        <p>Результат — рекомендация, а не юридическая консультация. Проверьте на сайте ФНС перед регистрацией.</p>
+      </div>
+    </details>
+  </section>
+
+  <RelatedTools tools={relatedTools} currentUrl={url} />
+</CalculatorLayout>

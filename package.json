@@ -1,12 +1,38 @@
 {
   "name": "self-employed",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Финансовый помощник для самозанятых — калькуляторы и инструменты",
+  "type": "module",
   "scripts": {
-    "test": "node tests/calculations.test.js"
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "engines": {
     "node": ">=20"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "astro": "^5.5.0",
+    "@astrojs/react": "^4.2.0",
+    "@tailwindcss/vite": "^4.1.0",
+    "@astrojs/vercel": "^8.1.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-number-format": "^5.4.0",
+    "tailwindcss": "^4.1.0",
+    "@tailwindcss/typography": "^0.5.16",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "tailwind-merge": "^3.0.0",
+    "lucide-react": "^0.475.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "typescript": "^5.7.0",
+    "vitest": "^3.0.0"
+  }
 }
