@@ -82,7 +82,7 @@ export function ContributionCalculator() {
                 : 'Норма',
             }}
             next={{ to: '/pensiya', label: 'Пенсионный стаж' }}
-            trust={['По 456-ФЗ', 'Актуально на 2026', 'Без отправки данных']}
+            trust={['По 456-ФЗ', 'СФР 2026', 'Без отправки данных']}
           >
             <div className="mt-3 rounded-[var(--radius-card)] bg-lavender p-3">
               <p className="text-sm font-medium text-ink">Взносы за год</p>

@@ -28,6 +28,19 @@ export function IpVsSamozanyatyCalculator() {
     <div className="flex flex-col gap-6" id="calculator-ip-vs-npd">
       <ControlGroup label="ИП или самозанятый">
         <div className="flex flex-col gap-1.5">
+          <span className="text-sm font-medium text-ink">От кого?</span>
+          <SegmentedToggle
+            name="ipClientType"
+            value={clientType}
+            onChange={(v) => setClientType(v as ClientType)}
+            options={[
+              { value: 'individual', label: 'Физлица (4% НПД)' },
+              { value: 'business', label: 'Юрлица / ИП (6% НПД)' },
+            ]}
+          />
+        </div>
+
+        <div className="flex flex-col gap-1.5">
           <label htmlFor="ip-revenue" className="text-sm font-medium text-ink">
             Сколько планируете заработать?
           </label>
@@ -38,19 +51,6 @@ export function IpVsSamozanyatyCalculator() {
             required
             placeholder="1 200 000"
             hint="Ожидаемый доход за год"
-          />
-        </div>
-
-        <div className="flex flex-col gap-1.5">
-          <span className="text-sm font-medium text-ink">От кого?</span>
-          <SegmentedToggle
-            name="ipClientType"
-            value={clientType}
-            onChange={(v) => setClientType(v as ClientType)}
-            options={[
-              { value: 'individual', label: 'Физлица (4% НПД)' },
-              { value: 'business', label: 'Юрлица / ИП (6% НПД)' },
-            ]}
           />
         </div>
       </ControlGroup>

@@ -65,7 +65,7 @@ export function Chasy289Calculator() {
                   : 'В норме',
             }}
             next={{ to: '/risk-trudovyh', label: 'Проверить риск переквалификации' }}
-            trust={['По 289-ФЗ', 'Актуально на 2026', 'Без отправки данных']}
+            trust={['По 289-ФЗ', 'С 01.10.2026', 'Без отправки данных']}
           >
             <ProgressIndicator
               percent={result.percent}

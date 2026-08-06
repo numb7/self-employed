@@ -14,6 +14,10 @@ const tools = [
   { num: '06', title: 'Риск переквалификации', desc: 'Чек-лист признаков ГПХ-трудовых по ФНС и судам — оцените риск доначислений', href: '/risk-trudovyh' },
   { num: '07', title: 'Концентрация дохода', desc: 'Проверьте, не слишком ли вы зависите от одного заказчика — признак риска', href: '/koncentracia-dohoda' },
   { num: '08', title: 'Часы по 289-ФЗ', desc: 'Трекер 60 часов/мес на одного заказчика через платформы — с 01.10.2026', href: '/chasy-289-fz', isNew: true },
+  { num: '09', title: 'Вычет 10 000 ₽', desc: 'Сколько экономите на налоге с вычетом — и сколько осталось', href: '/vychet-10000' },
+  { num: '10', title: 'Пенсионный стаж', desc: 'Сколько месяцев стажа даёт добровольный взнос и сколько это стоит', href: '/pensiya' },
+  { num: '11', title: 'Взносы на больничный', desc: 'Рассчитайте взносы в СФР для оплаты больничного листа', href: '/bolnichny' },
+  { num: '12', title: 'Мастер выбора режима', desc: 'Интерактивный помощник — самозанятость или ИП под ваши условия', href: '/master-vybora-rezhima' },
 ];
 
 const structuredData = [
@@ -76,7 +80,7 @@ const structuredData = [
   <section class="hero">
     <div class="container">
       <span class="hero__eyebrow">Помощник самозанятого</span>
-      <h1 class="hero__title font-head">
+      <h1 class="hero__title font-head max-w-[28rem]">
         Понятно про ваш <em>налог</em>, без бухгалтерии.
       </h1>
       <p class="hero__subtitle text-muted">
@@ -193,8 +197,6 @@ const structuredData = [
   <section class="container mt-16 mb-16">
     <div class="trust-strip flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-xs text-muted">
       <span>Ставки: <strong class="text-ink">ФНС · 4% / 6%</strong></span>
-      <span class="text-faint hidden sm:inline" aria-hidden="true">·</span>
-      <span>Актуально на: <strong class="text-ink">июль 2026</strong></span>
       <span class="text-faint hidden sm:inline" aria-hidden="true">·</span>
       <span>Данные: <strong class="text-ink">только на устройстве</strong></span>
     </div>

@@ -49,6 +49,19 @@ export function SetAsideCalculator() {
       {/* Input section */}
       <ControlGroup label="Оплата">
         <div className="flex flex-col gap-1.5">
+          <span className="text-sm font-medium text-ink">От кого?</span>
+          <SegmentedToggle
+            name="clientType"
+            value={clientType}
+            onChange={(v) => setClientType(v as ClientType)}
+            options={[
+              { value: 'individual', label: 'Физлицо' },
+              { value: 'business', label: 'Юрлицо/ИП' },
+            ]}
+          />
+        </div>
+
+        <div className="flex flex-col gap-1.5">
           <label htmlFor="set-aside-payment" className="text-sm font-medium text-ink">
             Сколько получили?
           </label>
@@ -59,19 +72,6 @@ export function SetAsideCalculator() {
             required
             placeholder="30 000"
             hint="Например, 30 000"
-          />
-        </div>
-
-        <div className="flex flex-col gap-1.5">
-          <span className="text-sm font-medium text-ink">От кого?</span>
-          <SegmentedToggle
-            name="clientType"
-            value={clientType}
-            onChange={(v) => setClientType(v as ClientType)}
-            options={[
-              { value: 'individual', label: 'Физлицо' },
-              { value: 'business', label: 'Юрлицо/ИП' },
-            ]}
           />
         </div>
 
@@ -109,7 +109,7 @@ export function SetAsideCalculator() {
                 }
               : undefined}
             next={{ to: '/limit-dohoda', label: 'Проверить лимит дохода' }}
-            trust={['По ФНС', 'Актуально на 2026', 'Без отправки данных']}
+            trust={['По ФНС', 'НПД 2026', 'Без отправки данных']}
           />
         ) : null}
       </div>
