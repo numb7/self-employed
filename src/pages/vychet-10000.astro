@@ -1,0 +1,81 @@
+---
+import CalculatorLayout from '../layouts/CalculatorLayout.astro';
+import { DeductionCalculator } from '../components/react/calculators/DeductionCalculator';
+import RelatedTools from '../components/astro/RelatedTools.astro';
+
+const title = 'Вычет 10 000 ₽ — калькулятор налогового вычета самозанятого 2026';
+const description = 'Рассчитайте, сколько вы экономите на налоге с вычетом 10 000 ₽, и сколько осталось. Ставка снижается: 4% → 3% с физлиц, 6% → 4% с юрлиц.';
+const url = '/vychet-10000';
+
+const breadcrumbs = [
+  { name: 'Главная', url: '/' },
+  { name: 'Калькуляторы', url: '/#tasks-anchor' },
+  { name: 'Вычет 10 000 ₽' },
+];
+
+const structuredData = [{
+  type: 'FAQPage' as const,
+  data: {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: [
+      {
+        '@type': 'Question',
+        name: 'Что такое вычет 10 000 ₽ для самозанятых?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Единовременный налоговый вычет при регистрации самозанятого. Снижает ставку НПД: 4% → 3% с физлиц и 6% → 4% с юрлиц, пока суммарная экономия не достигнет 10 000 ₽.',
+        },
+      },
+      {
+        '@type': 'Question',
+        name: 'Когда заканчивается вычет?',
+        acceptedAnswer: {
+          '@type': 'Answer',
+          text: 'Вычет исчерпывается, когда суммарная экономия достигает 10 000 ₽. После этого ставки возвращаются к стандартным: 4% с физлиц и 6% с юрлиц.',
+        },
+      },
+    ],
+  },
+}];
+
+const relatedTools = [
+  { title: 'Сколько налога заплатить', description: 'Отложить с каждой оплаты', url: '/otlozhit-na-nalog' },
+  { title: 'Лимит дохода 2,4 млн', description: 'Сколько ещё можно заработать', url: '/limit-dohoda' },
+  { title: 'Взносы на больничный', description: 'Расчёт взносов в СФР', url: '/bolnichny' },
+];
+---
+
+<CalculatorLayout
+  title={title}
+  description={description}
+  url={url}
+  breadcrumbs={breadcrumbs}
+  structuredData={structuredData}
+  showSharePrint
+>
+  <p class="text-muted" slot="subtitle">
+    Единовременная льгота при регистрации самозанятого. Снижает ставку НПД на 1–2 п.п., пока суммарная экономия не достигнет 10 000 ₽.
+  </p>
+
+  <section class="mt-8">
+    <DeductionCalculator client:load />
+  </section>
+
+  <section class="mt-10">
+    <details class="group">
+      <summary class="cursor-pointer font-head text-sm font-medium text-muted hover:text-ink transition-colors select-none">
+        Как это считается: откуда цифры
+      </summary>
+      <div class="prose mt-4 text-sm">
+        <p>Вычет уменьшает ставку: на 1 п.п. от доходов физлиц (4% → 3%) и на 2 п.п. от доходов юрлиц/ИП (6% → 4%). Исчерпывается при достижении экономии 10 000 ₽.</p>
+        <p>Расчёт ориентировочный. <a href="/metodika">Подробнее о методике →</a></p>
+        <ul class="mt-2">
+          <li>ФЗ № 422-ФЗ, ст. 12 — налоговый вычет для самозанятых</li>
+        </ul>
+      </div>
+    </details>
+  </section>
+
+  <RelatedTools tools={relatedTools} currentUrl={url} />
+</CalculatorLayout>
