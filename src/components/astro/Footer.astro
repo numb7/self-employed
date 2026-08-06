@@ -18,31 +18,26 @@ const SITE = 'https://npd-tools.ru';
           <li><a href="/stavka-v-chas">Ставка в час</a></li>
           <li><a href="/ip-ili-samozanyatyy">ИП или самозанятость</a></li>
           <li><a href="/bolnichny">Взносы на больничный</a></li>
+          <li><a href="/pensiya">Пенсионный стаж</a></li>
+          <li><a href="/risk-trudovyh">Риск переквалификации</a></li>
+          <li><a href="/koncentracia-dohoda">Концентрация дохода</a></li>
+          <li><a href="/chasy-289-fz">Часы по 289-ФЗ</a></li>
         </ul>
       </div>
       <div class="footer-column">
         <h3 class="footer-column__title">Инструменты</h3>
         <ul class="footer-column__list">
           <li><a href="/dogovor-akt">Договор и акт</a></li>
-          <li><a href="/risk-trudovyh">Риск переквалификации</a></li>
-          <li><a href="/koncentracia-dohoda">Концентрация дохода</a></li>
-          <li><a href="/chasy-289-fz">Часы по 289-ФЗ</a></li>
           <li><a href="/master-vybora-rezhima">Мастер выбора режима</a></li>
-        </ul>
-      </div>
-      <div class="footer-column">
-        <h3 class="footer-column__title">Полезное</h3>
-        <ul class="footer-column__list">
           <li><a href="/poleznoe">Статьи и гайды</a></li>
-          <li><a href="/pensiya">Пенсионный стаж</a></li>
-          <li><a href="/metodika">Методика и источники</a></li>
         </ul>
       </div>
       <div class="footer-column">
-        <h3 class="footer-column__title">Проект</h3>
+        <h3 class="footer-column__title">О проекте</h3>
         <ul class="footer-column__list">
-          <li><a href="/privacy">Политика конфиденциальности</a></li>
-          <li><a href="/disclaimer">Ограничение ответственности</a></li>
+          <li><a href="/metodika">Методика и источники</a></li>
+          <li><a href="/privacy">Конфиденциальность</a></li>
+          <li><a href="/disclaimer">Ответственность</a></li>
         </ul>
         <p class="footer-version">v2 · 2026 · Astro + React</p>
       </div>
@@ -81,7 +76,7 @@ const SITE = 'https://npd-tools.ru';
   }
   .footer-columns {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: clamp(1rem, 2vw, 2rem);
   }
   @media (max-width: 640px) {

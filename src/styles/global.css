@@ -11,7 +11,7 @@
 
   /* Fluid typography — not mapped to @theme because clamp() values
      aren't usable as Tailwind theme tokens, but available as CSS vars */
-  --fs-hero: clamp(2.5rem, 1.4rem + 6vw, 4.75rem);
+  --fs-hero: clamp(2rem, 1.1rem + 4vw, 3.25rem);
   --fs-h1: clamp(1.75rem, 1.4rem + 1.5vw, 2.5rem);
   --fs-h2: clamp(1.375rem, 1.2rem + 0.8vw, 1.75rem);
   --fs-h3: clamp(1.125rem, 1rem + 0.4vw, 1.25rem);
