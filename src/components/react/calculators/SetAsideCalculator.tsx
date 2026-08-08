@@ -85,9 +85,7 @@ export function SetAsideCalculator() {
 
       {/* Result section */}
       <div aria-live="polite" role="status">
-        {!isReady ? (
-          <p className="text-muted text-sm py-4">Укажите сумму оплаты — покажем, сколько отложить на налог</p>
-        ) : result ? (
+        {isReady && result ? (
           <ResultCard
             label="Отложите на налог"
             figure={`${formatMoney(result.setAside)} ₽`}
