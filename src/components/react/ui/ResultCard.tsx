@@ -34,7 +34,6 @@ export function ResultCard({
   whyItems,
   risk,
   next,
-  trust,
   children,
   className,
 }: ResultCardProps) {
@@ -102,19 +101,6 @@ export function ResultCard({
         </a>
       )}
 
-      {/* Trust strip */}
-      {trust && trust.length > 0 && (
-        <div className="flex flex-wrap gap-x-3 gap-y-1 mt-4 pt-3 border-t border-line">
-          {trust.map((text, i) => (
-            <span key={i} className="inline-flex items-center gap-1 text-xs text-faint">
-              <svg className="w-3 h-3 text-green shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                <path d="M20 6 9 17l-5-5" />
-              </svg>
-              {text}
-            </span>
-          ))}
-        </div>
-      )}
     </div>
   );
 }

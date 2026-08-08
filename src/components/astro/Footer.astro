@@ -1,48 +1,17 @@
----
-const SITE = 'https://npd-tools.ru';
----
-
 <footer class="footer">
   <div class="container">
     <div class="footer-disclaimer">
-      <p>Не финансовая консультация. Ставки и лимиты — по данным ФНС и СФР 2026.</p>
-      <p>Независимый калькулятор · не сервис ФНС или СФР · цифры ориентировочные</p>
+      <p>Независимый сервис для предварительных расчётов. Проверяйте важные решения по <a href="/metodika">официальным источникам</a>.</p>
     </div>
 
-    <div class="footer-columns">
-      <div class="footer-column">
-        <h3 class="footer-column__title">Калькуляторы</h3>
-        <ul class="footer-column__list">
-          <li><a href="/otlozhit-na-nalog">Сколько налога заплатить</a></li>
-          <li><a href="/limit-dohoda">Лимит дохода 2,4 млн</a></li>
-          <li><a href="/stavka-v-chas">Ставка в час</a></li>
-          <li><a href="/ip-ili-samozanyatyy">ИП или самозанятость</a></li>
-          <li><a href="/bolnichny">Взносы на больничный</a></li>
-          <li><a href="/pensiya">Пенсионный стаж</a></li>
-          <li><a href="/risk-trudovyh">Риск переквалификации</a></li>
-          <li><a href="/koncentracia-dohoda">Концентрация дохода</a></li>
-          <li><a href="/chasy-289-fz">Часы по 289-ФЗ</a></li>
-          <li><a href="/vychet-10000">Вычет 10 000 ₽</a></li>
-        </ul>
-      </div>
-      <div class="footer-column">
-        <h3 class="footer-column__title">Инструменты</h3>
-        <ul class="footer-column__list">
-          <li><a href="/dogovor-akt">Договор и акт</a></li>
-          <li><a href="/master-vybora-rezhima">Мастер выбора режима</a></li>
-          <li><a href="/poleznoe">Статьи и гайды</a></li>
-        </ul>
-      </div>
-      <div class="footer-column">
-        <h3 class="footer-column__title">О проекте</h3>
-        <ul class="footer-column__list">
-          <li><a href="/metodika">Методика и источники</a></li>
-          <li><a href="/privacy">Конфиденциальность</a></li>
-          <li><a href="/disclaimer">Ответственность</a></li>
-        </ul>
-        <p class="footer-version">v2 · 2026 · Astro + React</p>
-      </div>
-    </div>
+    <nav aria-label="Ссылки в подвале">
+      <ul class="footer-links">
+        <li><a href="/#tools">Все инструменты</a></li>
+        <li><a href="/metodika">Методика и источники</a></li>
+        <li><a href="/privacy">Конфиденциальность</a></li>
+        <li><a href="/disclaimer">Ответственность</a></li>
+      </ul>
+    </nav>
   </div>
 </footer>
 
@@ -75,40 +44,15 @@ const SITE = 'https://npd-tools.ru';
   .footer-disclaimer p + p {
     margin-top: 0.25rem;
   }
-  .footer-columns {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: clamp(1rem, 2vw, 2rem);
-  }
-  @media (max-width: 640px) {
-    .footer-columns {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-  .footer-column__title {
-    font-family: var(--font-head);
-    font-size: var(--fs-caption);
-    font-weight: 600;
-    color: #fff;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin-bottom: 0.75rem;
-  }
-  .footer-column__list {
+  .footer-links {
     list-style: none;
     padding: 0;
     margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 1.5rem;
   }
-  .footer-column__list li {
-    margin-bottom: 0.4rem;
-  }
-  .footer-column__list a {
+  .footer-links a {
     font-size: var(--fs-caption);
-  }
-  .footer-version {
-    font-size: var(--fs-caption);
-    margin-top: 1rem;
-    color: var(--color-faint);
-    opacity: 0.7;
   }
 </style>

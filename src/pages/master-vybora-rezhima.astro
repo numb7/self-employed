@@ -3,14 +3,14 @@ import CalculatorLayout from '../layouts/CalculatorLayout.astro';
 import { ModeWizard } from '../components/react/calculators/ModeWizard';
 import RelatedTools from '../components/astro/RelatedTools.astro';
 
-const title = 'Мастер выбора режима — самозанятость или ИП 2026';
+const title = 'Подобрать налоговый режим — самозанятость или ИП 2026';
 const description = 'Не знаете, что выбрать — самозанятость или ИП? Ответьте на 4 вопроса, и мастер подберёт оптимальный налоговый режим: НПД, УСН «Доходы» или УСН «Доходы минус расходы».';
 const url = '/master-vybora-rezhima';
 
 const breadcrumbs = [
   { name: 'Главная', url: '/' },
   { name: 'Калькуляторы', url: '/#tasks-anchor' },
-  { name: 'Мастер выбора режима' },
+  { name: 'Подобрать налоговый режим' },
 ];
 
 const structuredData = [{
@@ -54,8 +54,7 @@ const relatedTools = [
   structuredData={structuredData}
 >
   <p class="text-muted" slot="subtitle">
-    Ответьте на 4 простых вопроса — мастер подберёт оптимальный налоговый режим
-    для вашей ситуации: НПД (самозанятость), УСН «Доходы» или УСН «Доходы минус расходы».
+    Сравним ваши условия и подскажем, какой режим стоит рассмотреть: НПД или один из вариантов УСН.
   </p>
 
   <section class="mt-8">

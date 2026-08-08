@@ -39,28 +39,6 @@ const scenarios = [
   },
 ];
 
-/* ── Главные калькуляторы ── */
-const featured = [
-  {
-    title: 'Отложить на налог',
-    desc: 'Сколько отложить с каждой оплаты — 4% или 6%.',
-    example: 'с 30\u00a0000\u00a0₽ → отложить 1\u00a0200\u00a0₽',
-    href: '/otlozhit-na-nalog',
-  },
-  {
-    title: 'Лимит дохода',
-    desc: 'Сколько ещё можно заработать до конца года.',
-    example: 'осталось 1\u00a0200\u00a0000\u00a0₽ из 2\u00a0400\u00a0000\u00a0₽',
-    href: '/limit-dohoda',
-  },
-  {
-    title: 'ИП или самозанятый',
-    desc: 'Сравните налоговую нагрузку по режимам.',
-    example: 'НПД: 96\u00a0000\u00a0₽ · ИП УСН: 144\u00a0000\u00a0₽',
-    href: '/master-vybora-rezhima',
-  },
-];
-
 /* ── Категории инструментов ── */
 const categories = [
   {
@@ -84,8 +62,8 @@ const categories = [
     name: 'Документы и режим',
     tools: [
       { title: 'Договор и акт', desc: 'Готовый шаблон для банка', href: '/dogovor-akt' },
-      { title: 'ИП или самозанятый', desc: 'Сравнение нагрузки по режимам', href: '/ip-ili-samozanyatyy' },
-      { title: 'Мастер выбора режима', desc: 'Интерактивный помощник', href: '/master-vybora-rezhima' },
+      { title: 'Сравнить налоги НПД и ИП', desc: 'Расчёт нагрузки по двум режимам', href: '/ip-ili-samozanyatyy' },
+      { title: 'Подобрать налоговый режим', desc: 'Выбор по четырём условиям', href: '/master-vybora-rezhima' },
     ],
   },
   {
@@ -247,34 +225,6 @@ const structuredData = [
   </section>
 
   <!-- ═══════════════════════════════════════════
-       3. Главные калькуляторы
-       ═══════════════════════════════════════════ -->
-  <section class="container mt-12">
-    <h2 class="font-head text-[var(--fs-h2)] font-medium text-ink">Главные калькуляторы</h2>
-    <p class="mt-2 text-sm text-muted max-w-xl">
-      Самые нужные инструменты — крупнее и подробнее.
-    </p>
-
-    <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
-      {featured.map(f => (
-        <a href={f.href} class="featured-card group flex flex-col rounded-[var(--radius-card)] border border-line bg-surface p-6 transition-colors hover:bg-lavender">
-          <h3 class="featured-card__title font-head text-base font-medium text-ink group-hover:text-accent transition-colors">
-            {f.title}
-          </h3>
-          <span class="featured-card__desc mt-1 text-sm text-muted leading-relaxed md:min-h-[3.5rem]">{f.desc}</span>
-          <div class="featured-card__example mt-4 flex min-h-[3.5rem] items-center rounded-[var(--radius-control)] bg-accent-soft px-3 py-2">
-            <span class="font-mono text-sm font-semibold text-accent">{f.example}</span>
-          </div>
-          <span class="featured-card__cta mt-auto pt-4 inline-flex items-center gap-1 text-sm font-medium text-accent">
-            Перейти к расчёту
-            <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-          </span>
-        </a>
-      ))}
-    </div>
-  </section>
-
-  <!-- ═══════════════════════════════════════════
        4. Все инструменты по категориям
        ═══════════════════════════════════════════ -->
   <section class="container mt-12" id="tools">
@@ -313,67 +263,9 @@ const structuredData = [
   </section>
 
   <!-- ═══════════════════════════════════════════
-       5. Как это работает
-       ═══════════════════════════════════════════ -->
-  <section class="container mt-16" id="how-anchor">
-    <h2 class="font-head text-[var(--fs-h2)] font-medium text-ink">Как это работает</h2>
-
-    <ol class="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-6">
-      <li class="flex gap-4">
-        <span class="flex-shrink-0 flex items-center justify-center w-8 h-8 rounded-full bg-accent-soft text-accent font-mono text-sm font-semibold">1</span>
-        <div>
-          <span class="block font-head text-sm font-medium text-ink">Выберите, что хотите посчитать</span>
-          <span class="mt-1 block text-xs text-muted leading-relaxed">Например, налог, лимит дохода или риск работы с одним заказчиком.</span>
-        </div>
-      </li>
-      <li class="flex gap-4">
-        <span class="flex-shrink-0 flex items-center justify-center w-8 h-8 rounded-full bg-accent-soft text-accent font-mono text-sm font-semibold">2</span>
-        <div>
-          <span class="block font-head text-sm font-medium text-ink">Укажите исходные данные</span>
-          <span class="mt-1 block text-xs text-muted leading-relaxed">Все расчёты происходят прямо в браузере.</span>
-        </div>
-      </li>
-      <li class="flex gap-4">
-        <span class="flex-shrink-0 flex items-center justify-center w-8 h-8 rounded-full bg-accent-soft text-accent font-mono text-sm font-semibold">3</span>
-        <div>
-          <span class="block font-head text-sm font-medium text-ink">Получите понятный результат</span>
-          <span class="mt-1 block text-xs text-muted leading-relaxed">Сервис покажет главное число, краткое объяснение и следующий шаг.</span>
-        </div>
-      </li>
-    </ol>
-  </section>
-
-  <!-- ═══════════════════════════════════════════
-       6. Блок доверия
-       ═══════════════════════════════════════════ -->
-  <section class="container mt-16">
-    <div class="trust-block rounded-[var(--radius-card)] border border-line bg-surface px-6 py-8">
-      <h2 class="font-head text-[var(--fs-h3)] font-medium text-ink text-center">Как устроены расчёты</h2>
-      <ul class="mt-5 flex flex-col sm:flex-row flex-wrap items-start justify-center gap-x-8 gap-y-3 text-sm text-muted">
-        <li class="trust-block__item flex items-center gap-2">
-          <svg class="trust-block__check w-4 h-4 text-green flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
-          Без регистрации
-        </li>
-        <li class="trust-block__item flex items-center gap-2">
-          <svg class="trust-block__check w-4 h-4 text-green flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
-          Без отправки данных
-        </li>
-        <li class="trust-block__item flex items-center gap-2">
-          <svg class="trust-block__check w-4 h-4 text-green flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
-          По правилам НПД 2026
-        </li>
-        <li class="trust-block__item flex items-center gap-2">
-          <svg class="trust-block__check w-4 h-4 text-green flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
-          Для самопроверки
-        </li>
-      </ul>
-    </div>
-  </section>
-
-  <!-- ═══════════════════════════════════════════
        7. FAQ
        ═══════════════════════════════════════════ -->
-  <section class="container mt-16">
+  <section class="container mt-16 mb-16">
     <h2 class="font-head text-[var(--fs-h2)] font-medium text-ink">Частые вопросы</h2>
 
     <div class="mt-4 flex flex-col gap-3">
@@ -395,15 +287,6 @@ const structuredData = [
     <div class="mt-4">
       <a href="/poleznoe" class="text-sm text-accent hover:underline">Все вопросы и гайды →</a>
     </div>
-  </section>
-
-  <!-- ═══════════════════════════════════════════
-       8. Дисклеймер
-       ═══════════════════════════════════════════ -->
-  <section class="container mt-16 mb-16">
-    <p class="disclaimer text-xs text-muted text-center max-w-2xl mx-auto leading-relaxed">
-      Сервис помогает сделать предварительный расчёт и не является официальным сервисом ФНС, СФР, бухгалтерской или юридической консультацией. Перед принятием важных решений проверяйте актуальные правила в официальных источниках.
-    </p>
   </section>
 
 </BaseLayout>
@@ -442,11 +325,6 @@ const structuredData = [
 
   /* ── Scenario cards ── */
   .scenario-card {
-    text-decoration: none;
-  }
-
-  /* ── Featured cards ── */
-  .featured-card {
     text-decoration: none;
   }
 

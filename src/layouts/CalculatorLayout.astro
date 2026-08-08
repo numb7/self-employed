@@ -6,6 +6,7 @@ interface Props {
   description: string;
   url: string;
   eyebrow?: string;
+  heading?: string;
   ogImage?: string;
   structuredData?: Array<{ type: string; data: Record<string, unknown> }>;
   breadcrumbs?: Array<{ name: string; url: string }>;
@@ -15,7 +16,8 @@ const {
   title,
   description,
   url,
-  eyebrow = 'НПД · 2026',
+  eyebrow,
+  heading = title.split('—')[0].trim(),
   ogImage,
   structuredData = [],
   breadcrumbs = [
@@ -49,7 +51,7 @@ const jsonLd = [
   ogImage={ogImage}
   structuredData={jsonLd}
   navVariant="inner"
-  showSharePrint={true}
+  showSharePrint={false}
 >
   <header class="page-hero">
     <div class="container">
@@ -67,15 +69,15 @@ const jsonLd = [
           ))}
         </ol>
       </nav>
-      <span class="page-hero__eyebrow">{eyebrow}</span>
-      <h1 class="page-hero__title font-head" set:html={title.replace(/`([^`]+)`/, '<em>$1</em>')} />
-      <p class="page-hero__subtitle text-muted mt-3 text-lg max-w-2xl">
+      {eyebrow && <span class="page-hero__eyebrow">{eyebrow}</span>}
+      <h1 class="page-hero__title font-head" set:html={heading.replace(/`([^`]+)`/, '<em>$1</em>')} />
+      <div class="page-hero__subtitle text-muted mt-3 max-w-2xl">
         <slot name="subtitle" />
-      </p>
+      </div>
     </div>
   </header>
 
-  <div class="container mt-8">
+  <div class="container mt-6 mb-16">
     <div class="calculator-content">
       <slot />
     </div>
@@ -100,6 +102,10 @@ const jsonLd = [
     font-size: var(--fs-h1);
     line-height: 1.2;
     color: var(--color-ink);
+  }
+  .page-hero__subtitle {
+    font-size: var(--fs-body);
+    line-height: 1.6;
   }
   .page-hero__title :global(em) {
     font-style: italic;

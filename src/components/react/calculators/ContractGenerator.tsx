@@ -176,13 +176,15 @@ export function ContractGenerator() {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div className="flex flex-col gap-1.5">
             <label htmlFor="executorName" className="text-sm font-medium text-ink">
-              ФИО исполнителя
+              ФИО исполнителя <span className="text-red" aria-hidden="true">*</span>
             </label>
             <input
               id="executorName"
               type="text"
               value={formData.executorName}
               onChange={(e) => update('executorName', e.target.value)}
+              required
+              aria-required="true"
               placeholder="Иванов Иван Иванович"
               className="w-full rounded-[var(--radius-control)] border border-line bg-surface px-3 py-2.5 text-sm text-ink placeholder:text-faint outline-none focus:border-accent focus:ring-1 focus:ring-accent/30 hover:border-line-2 transition-colors duration-[var(--duration-fast)]"
             />
@@ -206,13 +208,15 @@ export function ContractGenerator() {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <div className="flex flex-col gap-1.5">
             <label htmlFor="clientName" className="text-sm font-medium text-ink">
-              Название / ФИО заказчика
+              Название или ФИО заказчика <span className="text-red" aria-hidden="true">*</span>
             </label>
             <input
               id="clientName"
               type="text"
               value={formData.clientName}
               onChange={(e) => update('clientName', e.target.value)}
+              required
+              aria-required="true"
               placeholder="ООО «Компания»"
               className="w-full rounded-[var(--radius-control)] border border-line bg-surface px-3 py-2.5 text-sm text-ink placeholder:text-faint outline-none focus:border-accent focus:ring-1 focus:ring-accent/30 hover:border-line-2 transition-colors duration-[var(--duration-fast)]"
             />
@@ -286,10 +290,17 @@ export function ContractGenerator() {
           </div>
         </div>
 
+        {!isReady && (
+          <p className="text-xs text-muted" id="contract-required-hint">
+            Заполните ФИО исполнителя и название или ФИО заказчика. Остальные поля можно добавить позже.
+          </p>
+        )}
+
         <button
           type="button"
           onClick={() => setShowPreview(true)}
           disabled={!isReady}
+          aria-describedby={!isReady ? 'contract-required-hint' : undefined}
           className={cn(
             'min-h-11 rounded-[var(--radius-card)] px-5 py-2.5 text-sm font-medium transition-colors duration-[var(--duration-fast)]',
             isReady

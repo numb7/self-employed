@@ -11,6 +11,7 @@ export function SetAsideCalculator() {
   const [payment, setPayment] = useState<number | null>(null);
   const [clientType, setClientType] = useState<ClientType>('individual');
   const [deductionRemaining, setDeductionRemaining] = useState<number | null>(null);
+  const [useDeduction, setUseDeduction] = useState(false);
 
   // Обязательное поле: только payment
   const isReady = payment !== null && payment > 0;
@@ -20,9 +21,9 @@ export function SetAsideCalculator() {
     return calculateSetAside(
       payment,
       clientType,
-      deductionRemaining && deductionRemaining > 0 ? deductionRemaining : 0,
+      useDeduction && deductionRemaining && deductionRemaining > 0 ? deductionRemaining : 0,
     );
-  }, [isReady, payment, clientType, deductionRemaining]);
+  }, [isReady, payment, clientType, deductionRemaining, useDeduction]);
 
   const whyItems = useMemo(() => {
     if (!result) return [];
@@ -69,18 +70,30 @@ export function SetAsideCalculator() {
           />
         </div>
 
-        <div className="flex flex-col gap-1.5">
-          <label htmlFor="set-aside-deduction" className="text-sm font-medium text-ink">
-            Остаток вычета
-          </label>
-          <CurrencyInput
-            id="set-aside-deduction"
-            value={deductionRemaining}
-            onValueChange={setDeductionRemaining}
-            placeholder="0"
-            hint="Если не знаете остаток или вычет исчерпан, оставьте поле пустым"
+        <label className="flex min-h-11 cursor-pointer items-center gap-3 text-sm text-ink">
+          <input
+            type="checkbox"
+            checked={useDeduction}
+            onChange={(event) => setUseDeduction(event.target.checked)}
+            className="h-4 w-4 accent-[var(--color-accent)]"
           />
-        </div>
+          Учитывать налоговый вычет
+        </label>
+
+        {useDeduction && (
+          <div className="flex flex-col gap-1.5">
+            <label htmlFor="set-aside-deduction" className="text-sm font-medium text-ink">
+              Сколько вычета осталось
+            </label>
+            <CurrencyInput
+              id="set-aside-deduction"
+              value={deductionRemaining}
+              onValueChange={setDeductionRemaining}
+              placeholder="10 000"
+              hint="Остаток можно посмотреть в приложении «Мой налог»"
+            />
+          </div>
+        )}
       </ControlGroup>
 
       {/* Result section */}

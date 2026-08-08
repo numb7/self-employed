@@ -52,9 +52,9 @@
   --color-ink: #1C1A28;
   --color-ink-2: #3A3650;
   --color-muted: #6B6680;
-  --color-faint: #A8A4BA;
-  --color-line: #E7E3F1;
-  --color-line-2: #EFEAF6;
+  --color-faint: #716C84;
+  --color-line: #8C879C;
+  --color-line-2: #716C84;
   --color-surface: #FFFFFF;
   --color-accent: #6F5DC9;
   --color-accent-2: #6350BF;
@@ -100,9 +100,9 @@
   --color-ink: #f5f3fb;
   --color-ink-2: #d9d4ea;
   --color-muted: #9a94b0;
-  --color-faint: #6b6680;
-  --color-line: #2a2740;
-  --color-line-2: #221f33;
+  --color-faint: #aaa4bd;
+  --color-line: #777184;
+  --color-line-2: #918a9f;
   --color-surface: #1c1a28;
   --color-accent: #9d8ee0;
   --color-accent-soft: #2a2440;
