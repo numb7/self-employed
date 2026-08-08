@@ -20,7 +20,7 @@ const { tools, currentUrl } = Astro.props;
 
 {tools.length > 0 && (
   <section class="related-tools mt-12 pt-8 border-t border-line">
-    <h2 class="font-head text-lg text-ink mb-4">Другие инструменты</h2>
+    <h2 class="related-tools__title font-head text-lg text-ink">Другие инструменты</h2>
     <div class="related-tools__grid">
       {tools
         .filter(t => !currentUrl.endsWith(t.url))
@@ -35,6 +35,9 @@ const { tools, currentUrl } = Astro.props;
 )}
 
 <style>
+  .related-tools__title {
+    margin-bottom: 1rem;
+  }
   .related-tools__grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
