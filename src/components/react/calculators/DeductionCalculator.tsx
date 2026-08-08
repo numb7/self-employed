@@ -51,7 +51,7 @@ export function DeductionCalculator() {
             onValueChange={setIncomeIndividual}
             required
             placeholder="100 000"
-            hint="Все оплаты от физических лиц"
+            hint="Суммарный доход от физлиц за период использования вычета"
           />
         </div>
 
@@ -64,7 +64,7 @@ export function DeductionCalculator() {
             value={incomeBusiness}
             onValueChange={setIncomeBusiness}
             placeholder="0"
-            hint="Если оплат от юрлиц и ИП не было, оставьте поле пустым"
+            hint="Суммарный доход от юрлиц и ИП; если его не было, оставьте поле пустым"
           />
         </div>
       </ControlGroup>

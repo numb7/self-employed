@@ -137,8 +137,6 @@ const RESULT_DATA: Record<Regime, {
   title: string;
   receipts: { label: string; value: string; highlight?: boolean }[];
   nextSteps: string[];
-  ctaTitle: string;
-  ctaText: string;
   relatedUrl: string;
   relatedText: string;
 }> = {
@@ -150,10 +148,8 @@ const RESULT_DATA: Record<Regime, {
     ],
     nextSteps: [
       'Зарегистрироваться в приложении «Мой налог»',
-      'Открыть счёт самозанятого в банке-партнёре, если нужен отдельный счёт',
+      'Решить, нужен ли отдельный счёт для рабочих поступлений',
     ],
-    ctaTitle: 'Открыть счёт самозанятого',
-    ctaText: 'Отдельный счёт для приёма оплат от клиентов — оформление в приложении банка-партнёра.',
     relatedUrl: '/limit-dohoda',
     relatedText: 'Калькулятор лимита дохода НПД →',
   },
@@ -167,8 +163,6 @@ const RESULT_DATA: Record<Regime, {
       'Зарегистрировать ИП через Госуслуги или банк-партнёр',
       'Открыть расчётный счёт для ИП',
     ],
-    ctaTitle: 'Открыть ИП и расчётный счёт',
-    ctaText: 'Оформление ИП и счёта в банке-партнёре — онлайн, без визита в налоговую.',
     relatedUrl: '/ip-ili-samozanyatyy',
     relatedText: 'Сравнить точную налоговую нагрузку →',
   },
@@ -182,8 +176,6 @@ const RESULT_DATA: Record<Regime, {
       'Зарегистрировать ИП через Госуслуги или банк-партнёр',
       'Открыть расчётный счёт для ИП и вести учёт расходов с подтверждающими документами',
     ],
-    ctaTitle: 'Открыть ИП и расчётный счёт',
-    ctaText: 'Оформление ИП и счёта в банке-партнёре — онлайн, без визита в налоговую.',
     relatedUrl: '/ip-ili-samozanyatyy',
     relatedText: 'Сравнить точную налоговую нагрузку →',
   },
@@ -344,15 +336,6 @@ export function ModeWizard() {
       {/* Intro */}
       {step === 0 && (
         <div className={cn('flex flex-col items-center gap-5 text-center', getSlideClass(direction, true))}>
-          <div className="mx-auto max-w-md">
-            <h2 className="font-head text-xl font-semibold text-ink">
-              Не знаете, что выбрать — самозанятость или ИП?
-            </h2>
-            <p className="mt-3 text-sm text-muted">
-              Ответьте на 4 вопроса — покажем предварительный вариант налогового режима.
-            </p>
-          </div>
-
           {previousResult && (
             <div className="w-full max-w-md rounded-[var(--radius-card)] border border-line bg-surface p-4 text-sm">
               <p className="text-muted">
@@ -429,7 +412,7 @@ export function ModeWizard() {
 
             {/* Reasons */}
             <ul className="mt-4 flex flex-col gap-2">
-              {result.reasons.map((reason, i) => (
+              {result?.reasons.map((reason, i) => (
                 <li key={i} className="flex items-start gap-2 text-sm text-ink">
                   <svg className="mt-0.5 h-4 w-4 shrink-0 text-green" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
@@ -460,13 +443,6 @@ export function ModeWizard() {
               >
                 {resultData.relatedText}
               </a>
-            </div>
-
-            {/* CTA card */}
-            <div className="mt-5 rounded-[var(--radius-card)] border border-accent/20 bg-accent-soft p-5">
-              <span className="text-xs font-medium uppercase tracking-wider text-accent">Полезный расчёт</span>
-              <h3 className="mt-1 font-head text-base font-semibold text-ink">{resultData.ctaTitle}</h3>
-              <p className="mt-1 text-sm text-muted">{resultData.ctaText}</p>
             </div>
 
             {/* Disclaimer */}

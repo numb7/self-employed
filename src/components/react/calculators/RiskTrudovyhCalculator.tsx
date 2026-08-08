@@ -9,23 +9,30 @@ import type { RiskLevel } from '@/lib/rules-2026';
 interface RiskFactor {
   id: string;
   label: string;
+  group: 'work' | 'control' | 'payment';
 }
 
 const RISK_FACTORS: RiskFactor[] = [
-  { id: 'oneClient', label: 'Один основной заказчик' },
-  { id: 'office', label: 'Работа из офиса/помещения заказчика' },
-  { id: 'schedule', label: 'График/расписание работы задано заказчиком' },
-  { id: 'noFixedPrice', label: 'Типовой договор без фиксированной цены' },
-  { id: 'equipment', label: 'Инвентарь, оборудование, ПО заказчика' },
-  { id: 'longTerm', label: 'Работа с заказчиком дольше 6 месяцев' },
-  { id: 'subordination', label: 'Подчинение правилам внутреннего распорядка' },
-  { id: 'vacation', label: 'Оплачиваемые отпуск/больничный от заказчика' },
-  { id: 'continuity', label: 'Непрерывность работы (а не разовый результат)' },
-  { id: 'integration', label: 'Интеграция в штат (корпоративная почта, пропуск)' },
-  { id: 'sameDuties', label: 'Те же обязанности, что и у штатных сотрудников' },
-  { id: 'paymentPeriodic', label: 'Периодическая (а не сдельная) оплата' },
-  { id: 'noResult', label: 'Оплата за процесс, а не за результат' },
+  { id: 'oneClient', label: 'Один основной заказчик', group: 'work' },
+  { id: 'longTerm', label: 'Работа с заказчиком дольше 6 месяцев', group: 'work' },
+  { id: 'continuity', label: 'Непрерывная работа вместо разового результата', group: 'work' },
+  { id: 'schedule', label: 'Заказчик устанавливает график', group: 'control' },
+  { id: 'office', label: 'Работа из помещения заказчика', group: 'control' },
+  { id: 'equipment', label: 'Оборудование или ПО предоставляет заказчик', group: 'control' },
+  { id: 'subordination', label: 'Подчинение внутренним правилам заказчика', group: 'control' },
+  { id: 'integration', label: 'Корпоративная почта, пропуск или другие признаки штата', group: 'control' },
+  { id: 'sameDuties', label: 'Те же обязанности, что у штатных сотрудников', group: 'control' },
+  { id: 'noFixedPrice', label: 'В договоре нет фиксированной цены за результат', group: 'payment' },
+  { id: 'vacation', label: 'Заказчик оплачивает отпуск или больничный', group: 'payment' },
+  { id: 'paymentPeriodic', label: 'Регулярная оплата вместо оплаты за результат', group: 'payment' },
+  { id: 'noResult', label: 'Оплата за процесс, а не за результат', group: 'payment' },
 ];
+
+const RISK_GROUPS = [
+  { id: 'work', label: 'Характер работы' },
+  { id: 'control', label: 'Контроль заказчика' },
+  { id: 'payment', label: 'Договор и оплата' },
+] as const;
 
 export function RiskTrudovyhCalculator() {
   const [checked, setChecked] = useState<Set<string>>(new Set());
@@ -59,9 +66,12 @@ export function RiskTrudovyhCalculator() {
   return (
     <div className="flex flex-col gap-6" id="calculator-risk-trudovyh">
       <ControlGroup label="Признаки трудовых отношений">
-        <fieldset className="flex flex-col gap-2">
-          <legend className="sr-only">Признаки трудовых отношений</legend>
-          {RISK_FACTORS.map((factor) => (
+        <fieldset className="flex flex-col gap-5">
+          <legend className="sr-only">Отметьте признаки, которые есть в вашей работе</legend>
+          {RISK_GROUPS.map((group) => (
+            <div key={group.id} className="flex flex-col gap-2">
+              <p className="text-xs font-semibold uppercase tracking-wide text-muted">{group.label}</p>
+              {RISK_FACTORS.filter((factor) => factor.group === group.id).map((factor) => (
             <label
               key={factor.id}
               className={cn(
@@ -78,6 +88,8 @@ export function RiskTrudovyhCalculator() {
               />
               {factor.label}
             </label>
+              ))}
+            </div>
           ))}
         </fieldset>
 
@@ -85,7 +97,7 @@ export function RiskTrudovyhCalculator() {
           <label htmlFor="risk-share" className="text-sm font-medium text-ink">
             Доля от главного заказчика, %
           </label>
-          <div className="flex items-center gap-3">
+          <div className="grid grid-cols-[1fr_5.5rem] items-center gap-3">
             <input
               id="risk-share"
               type="range"
@@ -96,9 +108,19 @@ export function RiskTrudovyhCalculator() {
               onChange={(e) => setShare(parseInt(e.target.value, 10))}
               className="flex-1 accent-accent"
             />
-            <span className="font-mono text-sm text-ink w-12 text-right tabular-nums">
-              {share ?? 0}%
-            </span>
+            <label className="sr-only" htmlFor="risk-share-number">Доля точным числом</label>
+            <div className="relative">
+              <input
+                id="risk-share-number"
+                type="number"
+                min={0}
+                max={100}
+                value={share ?? 0}
+                onChange={(e) => setShare(Math.max(0, Math.min(100, Number(e.target.value))))}
+                className="min-h-11 w-full rounded-[var(--radius-control)] border border-line bg-surface px-3 pr-7 font-mono text-sm text-ink"
+              />
+              <span className="pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-xs text-muted">%</span>
+            </div>
           </div>
           {share !== null && share > 80 && (
             <p className="text-red text-xs">Больше 80% дохода от одного заказчика — признак, который требует внимания</p>

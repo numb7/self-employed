@@ -1,5 +1,4 @@
 import { useState, useMemo } from 'react';
-import { CurrencyInput } from '../ui/CurrencyInput';
 import { SegmentedToggle } from '../ui/SegmentedToggle';
 import { ControlGroup } from '../ui/ControlGroup';
 import { ResultCard } from '../ui/ResultCard';
@@ -7,19 +6,13 @@ import { calculateContribution } from '@/lib/calculations';
 import { formatMoney } from '@/lib/format';
 
 const PRESETS = [
-  { value: '10000', label: '10 000 ₽' },
-  { value: '20000', label: '20 000 ₽' },
-  { value: '30000', label: '30 000 ₽' },
-  { value: 'custom', label: 'Своё' },
+  { value: '35000', label: '35 000 ₽' },
+  { value: '50000', label: '50 000 ₽' },
 ];
 
 export function ContributionCalculator() {
-  const [preset, setPreset] = useState('20000');
-  const [customAmount, setCustomAmount] = useState<number | null>(null);
-
-  const insuranceAmount = preset === 'custom'
-    ? (customAmount && customAmount > 0 ? customAmount : null)
-    : parseInt(preset, 10);
+  const [preset, setPreset] = useState('35000');
+  const insuranceAmount = parseInt(preset, 10);
 
   const isReady = insuranceAmount !== null && insuranceAmount > 0;
 
@@ -46,21 +39,7 @@ export function ContributionCalculator() {
           />
         </div>
 
-        {preset === 'custom' && (
-          <div className="flex flex-col gap-1.5">
-            <label htmlFor="contribution-amount" className="text-sm font-medium text-ink">
-              Своя сумма
-            </label>
-            <CurrencyInput
-              id="contribution-amount"
-              value={customAmount}
-              onValueChange={setCustomAmount}
-              required
-              placeholder="15 000"
-              hint="Минимум 12 792 ₽ (МРОТ)"
-            />
-          </div>
-        )}
+        <p className="text-xs text-muted">Это два варианта страховой суммы, предусмотренные экспериментом СФР.</p>
       </ControlGroup>
 
       <div aria-live="polite" role="status">
@@ -69,13 +48,11 @@ export function ContributionCalculator() {
             label="Ежемесячный взнос"
             figure={`${formatMoney(result.monthlyContribution)} ₽`}
             subtitle={`Тариф 3,84% от ${formatMoney(result.insuranceAmount)} ₽`}
-            detail={`Выплата при больничном: до ${formatMoney(result.payoutAfter6)} ₽ (6 мес.), до ${formatMoney(result.payoutAfter12)} ₽ (12 мес.)`}
+            detail={`Расчётная база пособия: ${formatMoney(result.payoutAfter6)} ₽ после 6 мес., ${formatMoney(result.payoutAfter12)} ₽ после 12 мес.`}
             whyItems={whyItems}
             risk={{
-              level: result.insuranceAmount < 12992 ? 'amber' : 'green',
-              label: result.insuranceAmount < 12992
-                ? 'Ниже МРОТ'
-                : 'Выбранная сумма',
+              level: 'green',
+              label: 'Вариант СФР',
             }}
             next={{ to: '/pensiya', label: 'Пенсионный стаж' }}
             trust={['По 456-ФЗ', 'СФР 2026', 'Без отправки данных']}
@@ -83,7 +60,8 @@ export function ContributionCalculator() {
             <div className="mt-3 rounded-[var(--radius-card)] bg-lavender p-3">
               <p className="text-sm font-medium text-ink">Взносы за год</p>
               <p className="font-mono text-lg text-ink mt-0.5">{formatMoney(result.yearCost)} ₽</p>
-              <p className="text-xs text-muted mt-1">С учётом скидки с 19-го месяца (10%) и с 25-го (30%)</p>
+              <p className="text-xs text-muted mt-1">Без будущих скидок за непрерывную уплату</p>
+              <p className="mt-2 text-xs text-muted">Фактическая выплата зависит от страхового стажа и количества дней больничного.</p>
             </div>
           </ResultCard>
         ) : null}

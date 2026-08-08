@@ -142,6 +142,9 @@ export function IpVsSamozanyatyCalculator() {
                 </tbody>
               </table>
             </div>
+            <p className="mt-3 text-xs leading-relaxed text-muted">
+              В сравнении: НПД 4% или 6%, ИП на УСН «Доходы» 6% без сотрудников, фиксированные и дополнительные взносы. Не учтены банковские тарифы, бухгалтерия, региональные льготы и НДС.
+            </p>
           </ResultCard>
         ) : null}
       </div>

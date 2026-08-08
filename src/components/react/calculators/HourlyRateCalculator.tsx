@@ -152,7 +152,7 @@ export function HourlyRateCalculator() {
           <ResultCard
             label={
               result.mode === 'target'
-                ? 'Ставка для счёта'
+                ? 'Сколько назвать клиенту'
                 : 'Реальная ставка (после налога)'
             }
             figure={

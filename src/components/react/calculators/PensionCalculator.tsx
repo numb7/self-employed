@@ -98,12 +98,12 @@ export function PensionCalculator() {
             figure={
               result.mode === 'costForMonths'
                 ? `${formatMoney(result.cost)} ₽`
-                : `${result.months} мес.`
+                : `≈ ${result.months} мес.`
             }
             subtitle={
               result.mode === 'costForMonths'
                 ? `За ${result.months} мес. (${result.pctOfFullYear}% года)`
-                : `За ${formatMoney(result.amount)} ₽`
+                : `Оценка по сумме ${formatMoney(result.amount)} ₽; фактический стаж подтвердит СФР`
             }
             whyItems={whyItems}
             next={{ to: '/bolnichny', label: 'Взносы на больничный' }}

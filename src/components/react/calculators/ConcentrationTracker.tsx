@@ -53,7 +53,7 @@ export function ConcentrationTracker() {
 
   return (
     <div className="flex flex-col gap-6" id="calculator-concentration">
-      <ControlGroup label="Заказчики">
+      <ControlGroup label="Доход по заказчикам" description="Добавьте месячный доход от каждого заказчика — покажем долю крупнейшего.">
         {/* Mobile cards keep every field readable instead of squeezing a table. */}
         <div className="flex flex-col gap-3 sm:hidden">
           {sources.map((source, index) => (
@@ -174,9 +174,9 @@ export function ConcentrationTracker() {
           <ResultCard
             label={
               result.level === 'red'
-                ? 'Высокая концентрация'
+                ? 'Сильная зависимость от одного заказчика'
                 : result.level === 'amber'
-                  ? 'Средняя концентрация'
+                  ? 'Заметная зависимость от одного заказчика'
                   : 'Доход распределён между клиентами'
             }
             figure={`${result.maxShare}%`}

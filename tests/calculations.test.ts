@@ -417,29 +417,37 @@ describe('Риск переквалификации', () => {
 // ============================================
 
 describe('Часы 289-ФЗ', () => {
-  it('лимит 60 часов', () => {
+  it('порог критерия — 60 часов', () => {
     const result = calculateChasy289(0);
     expect(result.limit).toBe(60);
   });
 
   it('в пределах лимита — green', () => {
-    const result = calculateChasy289(40);
+    const result = calculateChasy289(40, 6);
     expect(result.remaining).toBe(20);
     expect(result.percent).toBe(67);
     expect(result.risk).toBe('green');
   });
 
-  it('на грани лимита — red', () => {
-    const result = calculateChasy289(60);
+  it('60 часов не превышают критерий, но близки к порогу', () => {
+    const result = calculateChasy289(60, 6);
     expect(result.remaining).toBe(0);
-    expect(result.risk).toBe('red');
+    expect(result.risk).toBe('amber');
+    expect(result.criterionMet).toBe(false);
   });
 
-  it('превышение лимита — red', () => {
-    const result = calculateChasy289(80);
+  it('превышение 6 месяцев подряд — red', () => {
+    const result = calculateChasy289(80, 6);
     expect(result.remaining).toBe(0); // Math.max(0, 60-80)
     expect(result.risk).toBe('red');
     expect(result.percent).toBe(100);
+    expect(result.criterionMet).toBe(true);
+  });
+
+  it('превышение меньше 6 месяцев — amber', () => {
+    const result = calculateChasy289(80, 5);
+    expect(result.risk).toBe('amber');
+    expect(result.criterionMet).toBe(false);
   });
 
   it('нулевые часы', () => {

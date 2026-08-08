@@ -1,17 +1,16 @@
 ---
 import CalculatorLayout from '../layouts/CalculatorLayout.astro';
 import { ContributionCalculator } from '../components/react/calculators/ContributionCalculator';
-import { DeductionCalculator } from '../components/react/calculators/DeductionCalculator';
 import RelatedTools from '../components/astro/RelatedTools.astro';
 
-const title = 'Взносы на больничный и налоговый вычет — калькулятор самозанятого 2026';
-const description = 'Рассчитайте стоимость взносов на социальное страхование (тариф 2,9%, скидки со 2-го года) и налоговый вычет 10 000 ₽ для самозанятых.';
+const title = 'Взносы на больничный для самозанятых — калькулятор 2026';
+const description = 'Рассчитайте добровольные взносы на больничный для самозанятых: страховая сумма 35 000 ₽ или 50 000 ₽, тариф 3,84%.';
 const url = '/bolnichny';
 
 const breadcrumbs = [
   { name: 'Главная', url: '/' },
   { name: 'Калькуляторы', url: '/#tasks-anchor' },
-  { name: 'Взносы и вычеты' },
+  { name: 'Взносы на больничный' },
 ];
 
 const structuredData = [{
@@ -25,7 +24,7 @@ const structuredData = [{
         name: 'Сколько платит самозанятый за больничный?',
         acceptedAnswer: {
           '@type': 'Answer',
-          text: '2,9% от выбранной страховой суммы в месяц. Со скидкой 10% с 19-го месяца и 30% с 25-го.',
+          text: '3,84% от страховой суммы: 1 344 ₽ в месяц для 35 000 ₽ или 1 920 ₽ для 50 000 ₽.',
         },
       },
       {
@@ -34,14 +33,6 @@ const structuredData = [{
         acceptedAnswer: {
           '@type': 'Answer',
           text: 'Нет, взносы на больничный — добровольные для самозанятых (НПД). Но без них нет больничных пособий.',
-        },
-      },
-      {
-        '@type': 'Question',
-        name: 'Что такое налоговый вычет 10 000 ₽?',
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: 'Единовременный вычет снижает ставку НПД: 4% → 3% с физлиц и 6% → 4% с юрлиц, пока суммарная экономия не достигнет 10 000 ₽.',
         },
       },
     ],
@@ -72,25 +63,17 @@ const relatedTools = [
   </section>
 
   <section class="mt-10">
-    <h2 class="font-head text-lg font-semibold text-ink">Налоговый вычет 10 000 ₽</h2>
-    <p class="mt-1 text-sm text-muted">Единовременная льгота при регистрации самозанятого. Снижает ставку на 1–2 п.п., пока не исчерпается.</p>
-    <div class="mt-4">
-      <DeductionCalculator client:visible />
-    </div>
-  </section>
-
-  <section class="mt-10">
     <details class="group">
       <summary class="cursor-pointer font-head text-sm font-medium text-muted hover:text-ink transition-colors select-none">
         Как считается: откуда цифры
       </summary>
       <div class="prose mt-4 text-sm">
-        <p><strong>Взносы:</strong> добровольные. Тариф: 2,9% от выбранной страховой суммы. Скидки: 10% с 19-го месяца, 30% с 25-го месяца непрерывной уплаты. Пособие: 70% от страховой суммы при стаже ≤6 мес., 100% — при стаже &gt;12 мес.</p>
-        <p><strong>Вычет:</strong> единовременный налоговый вычет 10 000 ₽ уменьшает ставку: на 1 п.п. от доходов физлиц (4% → 3%) и на 2 п.п. от доходов юрлиц/ИП (6% → 4%). Исчерпывается при достижении экономии 10 000 ₽.</p>
+        <p>Взносы добровольные. Тариф — 3,84% от выбранной страховой суммы: 35 000 ₽ или 50 000 ₽. Право на пособие появляется после 6 месяцев непрерывной уплаты.</p>
+        <p>После 6 месяцев для расчёта используется 70% страховой суммы, после 12 месяцев — 100%. Фактическая выплата зависит от страхового стажа и продолжительности больничного.</p>
         <p>Расчёт ориентировочный. <a href="/metodika">Подробнее о методике →</a></p>
         <ul class="mt-2">
-          <li>ФЗ № 456-ФЗ, ст. 5 — тариф добровольного страхования</li>
-          <li>Постановление Правительства № 1467 — порядок уплаты</li>
+          <li><a href="https://sfr.gov.ru/branches/kchr/news~2026/01/21/278268" target="_blank" rel="noopener noreferrer">СФР: условия эксперимента и размеры взносов</a></li>
+          <li>ФЗ № 456-ФЗ — эксперимент по добровольному социальному страхованию</li>
         </ul>
       </div>
     </details>

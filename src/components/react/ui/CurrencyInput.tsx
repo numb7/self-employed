@@ -3,7 +3,7 @@ import { NumericFormat } from 'react-number-format';
 import { cn } from '@/lib/cn';
 
 export interface CurrencyInputProps
-  extends Omit<InputHTMLAttributes<HTMLInputElement>, 'value' | 'onChange' | 'type'> {
+  extends Omit<InputHTMLAttributes<HTMLInputElement>, 'value' | 'onChange' | 'type' | 'defaultValue'> {
   /** Числовое значение (без форматирования) */
   value: number | null;
   /** Callback с числовым значением */
@@ -23,7 +23,7 @@ const CurrencyInput = forwardRef<HTMLInputElement, CurrencyInputProps>(
         <NumericFormat
           {...rest}
           id={id}
-          ref={ref}
+          getInputRef={ref}
           type="text"
           inputMode="numeric"
           placeholder={placeholder ?? '0'}

@@ -127,16 +127,26 @@ export function ContractGenerator() {
     setFormData((prev) => ({ ...prev, [key]: value }));
   };
 
-  const isReady = formData.executorName.trim() !== '' && formData.clientName.trim() !== '';
+  const executorInnValid = /^\d{12}$/.test(formData.executorInn);
+  const clientInnValid = formData.clientInn === '' || /^\d{10}$|^\d{12}$/.test(formData.clientInn);
+  const requiredMissing = [
+    !formData.executorName.trim() && 'ФИО исполнителя',
+    !executorInnValid && 'ИНН исполнителя из 12 цифр',
+    !formData.clientName.trim() && 'заказчика',
+    !formData.service.trim() && 'описание услуги',
+    (!formData.amount || formData.amount <= 0) && 'сумму',
+    !clientInnValid && 'корректный ИНН заказчика',
+  ].filter(Boolean) as string[];
+  const isReady = requiredMissing.length === 0;
 
-  const document = useMemo(() => {
+  const generatedDocument = useMemo(() => {
     if (!showPreview) return '';
     return generateDocument(formData);
   }, [showPreview, formData]);
 
   const handleCopy = async () => {
     try {
-      await navigator.clipboard.writeText(document);
+      await navigator.clipboard.writeText(generatedDocument);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch {
@@ -145,7 +155,7 @@ export function ContractGenerator() {
   };
 
   const handleDownload = () => {
-    const blob = new Blob([document], { type: 'text/plain;charset=utf-8' });
+    const blob = new Blob([generatedDocument], { type: 'text/plain;charset=utf-8' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
@@ -191,7 +201,7 @@ export function ContractGenerator() {
           </div>
           <div className="flex flex-col gap-1.5">
             <label htmlFor="executorInn" className="text-sm font-medium text-ink">
-              ИНН исполнителя
+              ИНН исполнителя <span className="text-red" aria-hidden="true">*</span>
             </label>
             <input
               id="executorInn"
@@ -199,9 +209,15 @@ export function ContractGenerator() {
               inputMode="numeric"
               value={formData.executorInn}
               onChange={(e) => update('executorInn', e.target.value.replace(/\D/g, '').slice(0, 12))}
+              required
+              aria-required="true"
+              aria-invalid={formData.executorInn !== '' && !executorInnValid ? 'true' : undefined}
               placeholder="000000000000"
               className="w-full rounded-[var(--radius-control)] border border-line bg-surface px-3 py-2.5 font-mono text-sm text-ink placeholder:text-faint outline-none focus:border-accent focus:ring-1 focus:ring-accent/30 hover:border-line-2 transition-colors duration-[var(--duration-fast)]"
             />
+            {formData.executorInn !== '' && !executorInnValid && (
+              <p className="text-xs text-red" role="alert">Нужно 12 цифр</p>
+            )}
           </div>
         </div>
 
@@ -231,20 +247,26 @@ export function ContractGenerator() {
               inputMode="numeric"
               value={formData.clientInn}
               onChange={(e) => update('clientInn', e.target.value.replace(/\D/g, '').slice(0, 12))}
+              aria-invalid={formData.clientInn !== '' && !clientInnValid ? 'true' : undefined}
               placeholder="0000000000"
               className="w-full rounded-[var(--radius-control)] border border-line bg-surface px-3 py-2.5 font-mono text-sm text-ink placeholder:text-faint outline-none focus:border-accent focus:ring-1 focus:ring-accent/30 hover:border-line-2 transition-colors duration-[var(--duration-fast)]"
             />
+            {formData.clientInn !== '' && !clientInnValid && (
+              <p className="text-xs text-red" role="alert">Укажите 10 или 12 цифр либо оставьте поле пустым</p>
+            )}
           </div>
         </div>
 
         <div className="flex flex-col gap-1.5">
           <label htmlFor="service" className="text-sm font-medium text-ink">
-            Описание услуги
+            Описание услуги <span className="text-red" aria-hidden="true">*</span>
           </label>
           <textarea
             id="service"
             value={formData.service}
             onChange={(e) => update('service', e.target.value)}
+            required
+            aria-required="true"
             placeholder="Разработка дизайна сайта, написание текстов..."
             rows={3}
             className="w-full rounded-[var(--radius-control)] border border-line bg-surface px-3 py-2.5 text-sm text-ink placeholder:text-faint outline-none focus:border-accent focus:ring-1 focus:ring-accent/30 hover:border-line-2 transition-colors duration-[var(--duration-fast)] resize-y"
@@ -254,12 +276,13 @@ export function ContractGenerator() {
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           <div className="flex flex-col gap-1.5">
             <label htmlFor="amount" className="text-sm font-medium text-ink">
-              Сумма, ₽
+              Сумма, ₽ <span className="text-red" aria-hidden="true">*</span>
             </label>
             <CurrencyInput
               id="amount"
               value={formData.amount}
               onValueChange={(v) => update('amount', v)}
+              required
               placeholder="50 000"
             />
           </div>
@@ -292,7 +315,7 @@ export function ContractGenerator() {
 
         {!isReady && (
           <p className="text-xs text-muted" id="contract-required-hint">
-            Заполните ФИО исполнителя и название или ФИО заказчика. Остальные поля можно добавить позже.
+            Для готового документа заполните: {requiredMissing.join(', ')}. ИНН заказчика необязателен.
           </p>
         )}
 
@@ -322,7 +345,7 @@ export function ContractGenerator() {
               </span>
             </div>
             <pre className="whitespace-pre-wrap font-body text-sm text-ink leading-relaxed">
-              {document}
+              {generatedDocument}
             </pre>
           </div>
 

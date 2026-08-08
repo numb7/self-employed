@@ -123,10 +123,13 @@ export type HourlyRateResult = HourlyTargetResult | HourlyActualResult;
 
 export interface Chasy289Result {
   hours: number;
+  consecutiveMonths: number;
   remaining: number;
+  exceededBy: number;
   percent: number;
   risk: RiskLevel;
   limit: number;
+  criterionMet: boolean;
 }
 
 export interface RiskTrudovyhResult {
@@ -178,8 +181,8 @@ export function calculateContribution(insuranceAmount: number): ContributionResu
       `Страховая сумма: ${insuranceAmount.toLocaleString('ru-RU')} ₽`,
       `Тариф: ${RULES_2026.socialInsurance.tariff * 100}% (№ 456-ФЗ, ст. 5)`,
       `Взнос в месяц: ${monthlyContribution.toLocaleString('ru-RU')} ₽`,
-      `Выплата через 6 мес: ${payoutAfter6.toLocaleString('ru-RU')} ₽ (70%)`,
-      `Выплата через 12 мес: ${payoutAfter12.toLocaleString('ru-RU')} ₽ (100%)`,
+      `Расчётная база через 6 мес: ${payoutAfter6.toLocaleString('ru-RU')} ₽ (70%)`,
+      `Расчётная база через 12 мес: ${payoutAfter12.toLocaleString('ru-RU')} ₽ (100%)`,
       `Взнос за год: ${yearCost.toLocaleString('ru-RU')} ₽`,
     ],
   };
@@ -496,13 +499,15 @@ export function calculateRiskTrudovyh(
 
 const CHASY_289_LIMIT = 60;
 
-export function calculateChasy289(hours: number): Chasy289Result {
+export function calculateChasy289(hours: number, consecutiveMonths = 1): Chasy289Result {
   const remaining = Math.max(0, CHASY_289_LIMIT - hours);
+  const exceededBy = Math.max(0, hours - CHASY_289_LIMIT);
   const percent = Math.min(100, Math.round((hours / CHASY_289_LIMIT) * 100));
+  const criterionMet = hours > CHASY_289_LIMIT && consecutiveMonths >= 6;
 
   let risk: RiskLevel = 'green';
-  if (hours >= CHASY_289_LIMIT) risk = 'red';
-  else if (hours > 50) risk = 'amber';
+  if (criterionMet) risk = 'red';
+  else if (hours > CHASY_289_LIMIT || (hours > 50 && consecutiveMonths >= 5)) risk = 'amber';
 
-  return { hours, remaining, percent, risk, limit: CHASY_289_LIMIT };
+  return { hours, consecutiveMonths, remaining, exceededBy, percent, risk, limit: CHASY_289_LIMIT, criterionMet };
 }
