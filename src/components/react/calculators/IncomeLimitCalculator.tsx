@@ -32,6 +32,13 @@ export function IncomeLimitCalculator() {
 
   const result = remainingResult ?? forecastResult;
 
+  const resultRisk = useMemo(() => {
+    if (!result) return 'green' as const;
+    if (result.mode === 'remaining') return result.risk;
+    if (result.earned >= 2_400_000) return 'red' as const;
+    return result.willReach ? 'amber' as const : 'green' as const;
+  }, [result]);
+
   const whyItems = useMemo(() => {
     if (!result) return [];
     if (result.mode === 'remaining') {
@@ -138,12 +145,14 @@ export function IncomeLimitCalculator() {
             }
             whyItems={whyItems}
             risk={{
-              level: result.risk,
-              label: result.risk === 'red'
-                ? 'Лимит превышен'
-                : result.risk === 'amber'
-                  ? 'Близко к лимиту'
-                  : 'Безопасно',
+              level: resultRisk,
+              label: resultRisk === 'red'
+                ? 'Лимит уже превышен'
+                : result.mode === 'whenLimit' && result.willReach
+                  ? 'Лимит будет достигнут'
+                  : resultRisk === 'amber'
+                    ? 'Близко к лимиту'
+                    : 'Есть запас',
             }}
             next={{ to: '/otlozhit-na-nalog', label: 'Сколько отложить на налог' }}
             trust={['ФНС 2026', 'Лимит 2,4 млн ₽', 'Без отправки данных']}
@@ -152,7 +161,7 @@ export function IncomeLimitCalculator() {
               <ProgressIndicator
                 percent={result.earnedPercent}
                 label={`${formatMoney(result.earned)} ₽ из 2 400 000 ₽`}
-                color={result.risk === 'red' ? 'red' : result.risk === 'amber' ? 'amber' : 'accent'}
+                color={resultRisk === 'red' ? 'red' : resultRisk === 'amber' ? 'amber' : 'accent'}
                 className="mt-3"
               />
             )}
