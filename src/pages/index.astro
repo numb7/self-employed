@@ -77,7 +77,7 @@ const categories = [
     tools: [
       { title: 'Риск переквалификации', desc: 'Чек-лист признаков трудовых отношений', href: '/risk-trudovyh' },
       { title: 'Концентрация дохода', desc: 'Зависимость от одного заказчика', href: '/koncentracia-dohoda' },
-      { title: 'Часы по 289-ФЗ', desc: '60 часов/мес на одного заказчика', href: '/chasy-289-fz', badge: 'Новый' },
+      { title: 'Часы по 289-ФЗ', desc: '60 часов/мес на одного заказчика', href: '/chasy-289-fz' },
     ],
   },
   {
@@ -85,7 +85,7 @@ const categories = [
     tools: [
       { title: 'Договор и акт', desc: 'Готовый шаблон для банка', href: '/dogovor-akt' },
       { title: 'ИП или самозанятый', desc: 'Сравнение нагрузки по режимам', href: '/ip-ili-samozanyatyy' },
-      { title: 'Мастер выбора режима', desc: 'Интерактивный помощник', href: '/master-vybora-rezhima', badge: 'Популярное' },
+      { title: 'Мастер выбора режима', desc: 'Интерактивный помощник', href: '/master-vybora-rezhima' },
     ],
   },
   {
@@ -301,11 +301,6 @@ const structuredData = [
                   </span>
                   <span class="ml-2 text-xs text-muted">{tool.desc}</span>
                 </span>
-                {tool.badge && (
-                  <span class="inline-block rounded-[var(--radius-badge)] bg-accent-soft px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-accent flex-shrink-0">
-                    {tool.badge}
-                  </span>
-                )}
                 <svg class="category__tool-arrow w-3.5 h-3.5 text-faint group-hover:text-accent transition-colors flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                   <path d="m9 18 6-6-6-6" />
                 </svg>
