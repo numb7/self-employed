@@ -32,7 +32,7 @@ export function Chasy289Calculator() {
       <ControlGroup label="Часы">
         <div className="flex flex-col gap-1.5">
           <label htmlFor="chasy-hours" className="text-sm font-medium text-ink">
-            Сколько часов отработали?
+            Часов с одним заказчиком за месяц
           </label>
           <NumberInput
             id="chasy-hours"
@@ -49,7 +49,7 @@ export function Chasy289Calculator() {
 
       <div aria-live="polite" role="status">
         {!isReady ? (
-          <p className="text-muted text-sm py-4">Введите количество часов, чтобы увидеть расчёт</p>
+          <p className="text-muted text-sm py-4">Укажите часы — покажем остаток до месячного лимита</p>
         ) : result ? (
           <ResultCard
             label={result.remaining > 0 ? 'Осталось часов' : 'Лимит исчерпан'}
@@ -62,7 +62,7 @@ export function Chasy289Calculator() {
                 ? 'Превышение'
                 : result.risk === 'amber'
                   ? 'Близко к лимиту'
-                  : 'В норме',
+                  : 'В пределах лимита',
             }}
             next={{ to: '/risk-trudovyh', label: 'Проверить риск переквалификации' }}
             trust={['По 289-ФЗ', 'С 01.10.2026', 'Без отправки данных']}

@@ -38,14 +38,6 @@ export function DeductionCalculator() {
     return items;
   }, [result]);
 
-  const riskLevel = result
-    ? result.exhausted
-      ? 'red' as const
-      : result.pct >= 80
-        ? 'amber' as const
-        : 'green' as const
-    : undefined;
-
   return (
     <div className="flex flex-col gap-6" id="calculator-deduction">
       <ControlGroup label="Доход">
@@ -72,14 +64,14 @@ export function DeductionCalculator() {
             value={incomeBusiness}
             onValueChange={setIncomeBusiness}
             placeholder="0"
-            hint="Оставьте пустым, если нет"
+            hint="Если оплат от юрлиц и ИП не было, оставьте поле пустым"
           />
         </div>
       </ControlGroup>
 
       <div aria-live="polite" role="status">
         {!hasAnyIncome ? (
-          <p className="text-muted text-sm py-4">Введите доход, чтобы увидеть расчёт вычета</p>
+          <p className="text-muted text-sm py-4">Укажите доход — покажем, сколько вычета уже использовано</p>
         ) : result ? (
           <ResultCard
             label="Экономия от вычета"
@@ -90,21 +82,13 @@ export function DeductionCalculator() {
               : `Остаток: ${formatMoney(result.remaining)} ₽`
             }
             whyItems={whyItems}
-            risk={riskLevel ? {
-              level: riskLevel,
-              label: riskLevel === 'red'
-                ? 'Исчерпан'
-                : riskLevel === 'amber'
-                  ? 'Почти использован'
-                  : 'Активен',
-            } : undefined}
             next={{ to: '/otlozhit-na-nalog', label: 'Сколько отложить на налог' }}
             trust={['ФЗ № 422-ФЗ', 'Вычет 10 000 ₽', 'Без отправки данных']}
           >
             <ProgressIndicator
               percent={result.pct}
               label={`${formatMoney(result.used)} ₽ из 10 000 ₽`}
-              color={result.exhausted ? 'red' : result.pct >= 80 ? 'amber' : 'accent'}
+              color="accent"
               className="mt-3"
             />
           </ResultCard>

@@ -59,6 +59,7 @@ const { variant = 'inner', showSharePrint = false } = Astro.props;
     </div>
   </div>
 </nav>
+<div id="copy-toast" class="copy-toast" role="status" aria-live="polite" hidden>Ссылка скопирована</div>
 
 <style>
   .page-nav {
@@ -87,8 +88,8 @@ const { variant = 'inner', showSharePrint = false } = Astro.props;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 36px;
-    height: 36px;
+    width: 44px;
+    height: 44px;
     border: 1px solid var(--color-line);
     border-radius: var(--radius-card);
     background: transparent;
@@ -102,6 +103,19 @@ const { variant = 'inner', showSharePrint = false } = Astro.props;
   }
   .theme-toggle {
     color: var(--color-ink);
+  }
+  .copy-toast {
+    position: fixed;
+    right: 16px;
+    bottom: 16px;
+    z-index: var(--z-toast);
+    padding: 10px 14px;
+    border-radius: var(--radius-card);
+    background: var(--color-ink);
+    color: var(--color-paper);
+    box-shadow: var(--shadow-elevated);
+    font-size: var(--fs-caption);
+    font-weight: 600;
   }
 </style>
 
@@ -120,6 +134,14 @@ const { variant = 'inner', showSharePrint = false } = Astro.props;
 
   // Share button
   var shareBtn = document.querySelector('[data-action="share"]');
+  var copyToast = document.getElementById('copy-toast');
+  var toastTimer;
+  function showCopyToast() {
+    if (!copyToast) return;
+    copyToast.hidden = false;
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function() { copyToast.hidden = true; }, 1800);
+  }
   if (shareBtn && navigator.share) {
     shareBtn.addEventListener('click', function() {
       navigator.share({
@@ -130,9 +152,7 @@ const { variant = 'inner', showSharePrint = false } = Astro.props;
   } else if (shareBtn) {
     shareBtn.addEventListener('click', function() {
       navigator.clipboard.writeText(window.location.href).then(function() {
-        var orig = shareBtn.getAttribute('aria-label');
-        shareBtn.setAttribute('aria-label', 'Скопировано!');
-        setTimeout(function() { shareBtn.setAttribute('aria-label', orig); }, 1500);
+        showCopyToast();
       });
     });
     shareBtn.style.display = '';

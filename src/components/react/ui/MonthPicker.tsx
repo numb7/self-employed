@@ -34,7 +34,7 @@ export function MonthPicker({
             disabled={isDisabled}
             onClick={() => onChange(month)}
             className={cn(
-              'rounded-[var(--radius-badge)] px-2.5 py-1',
+              'min-h-11 min-w-11 rounded-[var(--radius-badge)] px-2.5 py-2',
               'text-xs font-medium transition-colors duration-[var(--duration-fast)]',
               'outline-none focus-visible:ring-2 focus-visible:ring-accent/50',
               // Disabled

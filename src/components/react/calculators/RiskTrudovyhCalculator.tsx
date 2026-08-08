@@ -17,7 +17,7 @@ const RISK_FACTORS: RiskFactor[] = [
   { id: 'schedule', label: 'График/расписание работы задано заказчиком' },
   { id: 'noFixedPrice', label: 'Типовой договор без фиксированной цены' },
   { id: 'equipment', label: 'Инвентарь, оборудование, ПО заказчика' },
-  { id: 'longTerm', label: 'Длительные отношения > 6 мес.' },
+  { id: 'longTerm', label: 'Работа с заказчиком дольше 6 месяцев' },
   { id: 'subordination', label: 'Подчинение правилам внутреннего распорядка' },
   { id: 'vacation', label: 'Оплачиваемые отпуск/больничный от заказчика' },
   { id: 'continuity', label: 'Непрерывность работы (а не разовый результат)' },
@@ -101,7 +101,7 @@ export function RiskTrudovyhCalculator() {
             </span>
           </div>
           {share !== null && share > 80 && (
-            <p className="text-red text-xs">Доля {'>'}80% от одного заказчика — сильный сигнал риска</p>
+            <p className="text-red text-xs">Больше 80% дохода от одного заказчика — признак, который требует внимания</p>
           )}
         </div>
       </ControlGroup>
@@ -109,17 +109,17 @@ export function RiskTrudovyhCalculator() {
       <div aria-live="polite" role="status">
         {!isReady ? (
           <p className="text-muted text-sm py-4">
-            Отметьте признаки, чтобы увидеть оценку риска
+            Отметьте подходящие признаки — покажем предварительную оценку
           </p>
         ) : result ? (
           <ResultCard
-            label="Уровень риска переквалификации"
+            label="Предварительная оценка"
             figure={
               result.risk === 'red'
-                ? 'Высокий'
+                ? 'Много признаков'
                 : result.risk === 'amber'
-                  ? 'Средний'
-                  : 'Низкий'
+                  ? 'Есть признаки'
+                  : 'Мало признаков'
             }
             subtitle={
               count > 0
@@ -134,16 +134,16 @@ export function RiskTrudovyhCalculator() {
             whyItems={[
               'При переквалификации заказчику доначисляют:',
               'НДФЛ 13% + страховые взносы 30% + пени и штрафы',
-              count >= 3 ? '⚠️ Наличие 3+ признаков — критический уровень' : null,
-              share !== null && share > 80 ? '⚠️ Доля >80% от одного заказчика — сильный сигнал' : null,
+              count >= 3 ? 'Отмечено 3 или больше признаков — ситуацию лучше проверить подробнее' : null,
+              share !== null && share > 80 ? 'Больше 80% дохода приходится на одного заказчика' : null,
             ].filter(Boolean) as string[]}
             risk={{
               level: result.risk,
               label: result.risk === 'red'
-                ? 'Высокий риск'
+                ? 'Требует внимания'
                 : result.risk === 'amber'
-                  ? 'Средний риск'
-                  : 'Низкий риск',
+                  ? 'Есть признаки'
+                  : 'Мало признаков',
             }}
             next={{ to: '/dogovor-akt', label: 'Создать договор и акт' }}
             trust={['ФНС · ст. 15 ТК РФ', '13 признаков', 'Без отправки данных']}

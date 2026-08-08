@@ -35,9 +35,9 @@ export function ContributionCalculator() {
 
   return (
     <div className="flex flex-col gap-6" id="calculator-contribution">
-      <ControlGroup label="Страховка на больничный">
+      <ControlGroup label="Добровольное страхование">
         <div className="flex flex-col gap-1.5">
-          <span className="text-sm font-medium text-ink">Выберите сумму</span>
+          <span className="text-sm font-medium text-ink">Страховая сумма</span>
           <SegmentedToggle
             name="insurancePreset"
             value={preset}
@@ -66,11 +66,13 @@ export function ContributionCalculator() {
       <div aria-live="polite" role="status">
         {!isReady ? (
           <p className="text-muted text-sm py-4">
-            {preset === 'custom' ? 'Введите страховую сумму' : 'Выберите или введите страховую сумму'}
+            {preset === 'custom'
+              ? 'Укажите страховую сумму — рассчитаем ежемесячный взнос'
+              : 'Выберите страховую сумму — покажем взнос и возможную выплату'}
           </p>
         ) : result ? (
           <ResultCard
-            label="Взнос в месяц"
+            label="Ежемесячный взнос"
             figure={`${formatMoney(result.monthlyContribution)} ₽`}
             subtitle={`Тариф 3,84% от ${formatMoney(result.insuranceAmount)} ₽`}
             detail={`Выплата при больничном: до ${formatMoney(result.payoutAfter6)} ₽ (6 мес.), до ${formatMoney(result.payoutAfter12)} ₽ (12 мес.)`}
@@ -79,7 +81,7 @@ export function ContributionCalculator() {
               level: result.insuranceAmount < 12992 ? 'amber' : 'green',
               label: result.insuranceAmount < 12992
                 ? 'Ниже МРОТ'
-                : 'Норма',
+                : 'Выбранная сумма',
             }}
             next={{ to: '/pensiya', label: 'Пенсионный стаж' }}
             trust={['По 456-ФЗ', 'СФР 2026', 'Без отправки данных']}

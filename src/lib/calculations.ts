@@ -195,7 +195,9 @@ export function calculateIncomeRemaining(
 ): IncomeRemainingResult {
   const limit = RULES_2026.npd.incomeLimit;
   const remaining = limit - earned;
-  const monthsLeft = 12 - currentMonth + 1;
+  // earned is the income already received through currentMonth, so only the
+  // following months are available for future income.
+  const monthsLeft = Math.max(0, 12 - currentMonth);
   const safePace = monthsLeft > 0 ? remaining / monthsLeft : 0;
   const earnedPercent = Math.round((earned / limit) * 100);
 
@@ -250,7 +252,9 @@ export function calculateIncomeWhenLimit(
     };
   }
 
-  const monthsToLimit = Math.floor(remaining / avgMonthly);
+  // A partial month of income means the limit is reached in that next month,
+  // not in the current one.
+  const monthsToLimit = Math.ceil(remaining / avgMonthly);
   const limitMonth = currentMonth + monthsToLimit;
 
   if (limitMonth > 12) {
@@ -364,7 +368,7 @@ export function calculateConcentration(
   const maxShare = enriched.reduce((max, s) => Math.max(max, s.share), 0);
 
   let level: RiskLevel = 'green';
-  if (maxShare >= 70) level = 'red';
+  if (enriched.some(s => s.risky)) level = 'red';
   else if (maxShare >= 50) level = 'amber';
 
   return { sources: enriched, total: Math.round(total), maxShare, level };

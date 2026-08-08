@@ -22,13 +22,16 @@ export function IpVsSamozanyatyCalculator() {
   const npdRate = clientType === 'business' ? 6 : 4;
   const npdNet = result ? revenue! - result.npd : 0;
   const ipNet = result ? revenue! - result.ip : 0;
+  const ipTaxAfterContributions = result
+    ? Math.max(0, result.ip - result.ipContributions)
+    : 0;
   const winner = result ? (result.npd <= result.ip ? 'npd' : 'ip') : null;
 
   return (
     <div className="flex flex-col gap-6" id="calculator-ip-vs-npd">
       <ControlGroup label="ИП или самозанятый">
         <div className="flex flex-col gap-1.5">
-          <span className="text-sm font-medium text-ink">От кого?</span>
+          <span className="text-sm font-medium text-ink">Кто ваш клиент?</span>
           <SegmentedToggle
             name="ipClientType"
             value={clientType}
@@ -42,7 +45,7 @@ export function IpVsSamozanyatyCalculator() {
 
         <div className="flex flex-col gap-1.5">
           <label htmlFor="ip-revenue" className="text-sm font-medium text-ink">
-            Сколько планируете заработать?
+            Доход за год
           </label>
           <CurrencyInput
             id="ip-revenue"
@@ -58,11 +61,11 @@ export function IpVsSamozanyatyCalculator() {
       <div aria-live="polite" role="status">
         {!isReady ? (
           <p className="text-muted text-sm py-4">
-            Введите годовой доход, чтобы увидеть сравнение
+            Укажите годовой доход — сравним предварительную нагрузку по двум режимам
           </p>
         ) : result ? (
           <ResultCard
-            label={winner === 'npd' ? 'Самозанятость выгоднее' : winner === 'ip' ? 'ИП на УСН выгоднее' : 'Нагрузка примерно одинаковая'}
+            label={winner === 'npd' ? 'Предварительно меньше нагрузка на НПД' : winner === 'ip' ? 'Предварительно меньше нагрузка у ИП' : 'Нагрузка примерно одинаковая'}
             figure={winner === 'npd'
               ? `+${formatMoney(result.ip - result.npd)} ₽/год`
               : winner === 'ip'
@@ -72,17 +75,13 @@ export function IpVsSamozanyatyCalculator() {
             detail={result.overLimit ? `⚠️ При доходе ${formatMoney(revenue!)} ₽ превышен лимит 2,4 млн ₽` : undefined}
             whyItems={[
               `НПД: ${npdRate}% от ${formatMoney(revenue!)} ₽ = ${formatMoney(result.npd)} ₽`,
-              `ИП УСН 6%: 6% от ${formatMoney(revenue!)} ₽ = ${formatMoney(result.ip - result.ipContributions)} ₽ налог`,
+              `ИП УСН 6%: налог после уменьшения на взносы = ${formatMoney(ipTaxAfterContributions)} ₽`,
               `ИП фиксированные взносы: ${formatMoney(result.ipContributions)} ₽`,
             ]}
-            risk={{
-              level: winner === 'npd' ? 'green' : winner === 'ip' ? 'amber' : 'green',
-              label: winner === 'npd' ? 'Выгоднее' : winner === 'ip' ? 'ИП выгоднее' : 'Равно',
-            }}
             trust={['ФНС 2026', 'УСН 6%', 'Без отправки данных']}
           >
-            <div className="mt-3 rounded-[var(--radius-control)] border border-line overflow-hidden">
-              <table className="w-full text-sm">
+            <div className="mt-3 overflow-x-auto rounded-[var(--radius-control)] border border-line" tabIndex={0} aria-label="Сравнение налоговой нагрузки">
+              <table className="w-full min-w-[28rem] text-sm">
                 <thead>
                   <tr className="border-b border-line bg-lavender/50">
                     <th className="px-3 py-2.5 text-left font-medium text-muted">Параметр</th>
@@ -104,7 +103,7 @@ export function IpVsSamozanyatyCalculator() {
                   <tr className="border-b border-line-2">
                     <td className="px-3 py-2 text-muted">Налог</td>
                     <td className="px-3 py-2 text-right font-mono text-ink">{formatMoney(result.npd)} ₽</td>
-                    <td className="px-3 py-2 text-right font-mono text-ink">{formatMoney(result.ip)} ₽</td>
+                    <td className="px-3 py-2 text-right font-mono text-ink">{formatMoney(ipTaxAfterContributions)} ₽</td>
                   </tr>
                   <tr className="border-b border-line-2">
                     <td className="px-3 py-2 text-muted">Взносы</td>

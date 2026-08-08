@@ -158,7 +158,7 @@ export function ContractGenerator() {
     <div className="flex flex-col gap-6" id="calculator-contract">
       <ControlGroup
         label="Документ"
-        description="Создайте редактируемый шаблон договора оказания услуг и акта для работы с заказчиком."
+        description="Укажите данные — сервис соберёт редактируемый шаблон договора или акта."
       >
         <div className="flex flex-col gap-1.5">
           <span className="text-sm font-medium text-ink">Тип документа</span>
@@ -291,13 +291,13 @@ export function ContractGenerator() {
           onClick={() => setShowPreview(true)}
           disabled={!isReady}
           className={cn(
-            'rounded-[var(--radius-card)] px-5 py-2.5 text-sm font-medium transition-colors duration-[var(--duration-fast)]',
+            'min-h-11 rounded-[var(--radius-card)] px-5 py-2.5 text-sm font-medium transition-colors duration-[var(--duration-fast)]',
             isReady
               ? 'bg-accent text-white hover:bg-accent-2'
               : 'bg-lavender text-faint cursor-not-allowed',
           )}
         >
-          Показать документ
+          {formData.docType === 'agreement' ? 'Сформировать договор' : 'Сформировать акт'}
         </button>
       </ControlGroup>
 
@@ -307,7 +307,7 @@ export function ContractGenerator() {
             <div className="flex items-center gap-2 mb-4">
               <span className="inline-flex items-center gap-1 rounded-[var(--radius-badge)] bg-green/10 px-2 py-0.5 text-xs font-medium text-green">
                 <svg className="w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5" /></svg>
-                Документ готов
+                {formData.docType === 'agreement' ? 'Договор сформирован' : 'Акт сформирован'}
               </span>
             </div>
             <pre className="whitespace-pre-wrap font-body text-sm text-ink leading-relaxed">
@@ -319,21 +319,21 @@ export function ContractGenerator() {
             <button
               type="button"
               onClick={handleCopy}
-              className="rounded-[var(--radius-card)] border border-line bg-surface px-4 py-2 text-sm font-medium text-ink hover:bg-lavender transition-colors duration-[var(--duration-fast)]"
+              className="min-h-11 rounded-[var(--radius-card)] border border-line bg-surface px-4 py-2 text-sm font-medium text-ink hover:bg-lavender transition-colors duration-[var(--duration-fast)]"
             >
-              {copied ? '✓ Скопировано' : 'Скопировать текст'}
+              {copied ? 'Текст скопирован' : 'Скопировать текст'}
             </button>
             <button
               type="button"
               onClick={handleDownload}
-              className="rounded-[var(--radius-card)] border border-line bg-surface px-4 py-2 text-sm font-medium text-ink hover:bg-lavender transition-colors duration-[var(--duration-fast)]"
+              className="min-h-11 rounded-[var(--radius-card)] border border-line bg-surface px-4 py-2 text-sm font-medium text-ink hover:bg-lavender transition-colors duration-[var(--duration-fast)]"
             >
-              Скачать как .txt
+              Скачать файл .txt
             </button>
           </div>
 
           <p className="mt-3 text-xs text-faint">
-            Шаблон носит справочный характер и требует проверки под конкретную сделку. Он не заменяет юридическую консультацию.
+            Проверьте условия перед подписанием: шаблон не учитывает особенности конкретной сделки и не заменяет консультацию юриста.
           </p>
         </div>
       )}

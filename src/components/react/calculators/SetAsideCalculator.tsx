@@ -38,18 +38,12 @@ export function SetAsideCalculator() {
     return items;
   }, [result, clientType]);
 
-  const riskLevel = result
-    ? payment! > 200_000
-      ? 'amber' as const
-      : 'green' as const
-    : undefined;
-
   return (
     <div className="flex flex-col gap-6" id="calculator-set-aside">
       {/* Input section */}
       <ControlGroup label="Оплата">
         <div className="flex flex-col gap-1.5">
-          <span className="text-sm font-medium text-ink">От кого?</span>
+          <span className="text-sm font-medium text-ink">Кто заплатил?</span>
           <SegmentedToggle
             name="clientType"
             value={clientType}
@@ -63,7 +57,7 @@ export function SetAsideCalculator() {
 
         <div className="flex flex-col gap-1.5">
           <label htmlFor="set-aside-payment" className="text-sm font-medium text-ink">
-            Сколько получили?
+            Сумма оплаты
           </label>
           <CurrencyInput
             id="set-aside-payment"
@@ -71,7 +65,7 @@ export function SetAsideCalculator() {
             onValueChange={setPayment}
             required
             placeholder="30 000"
-            hint="Например, 30 000"
+            hint="Сумма, которая поступила от клиента"
           />
         </div>
 
@@ -84,7 +78,7 @@ export function SetAsideCalculator() {
             value={deductionRemaining}
             onValueChange={setDeductionRemaining}
             placeholder="0"
-            hint="Оставьте пустым, если вычет уже израсходован"
+            hint="Если не знаете остаток или вычет исчерпан, оставьте поле пустым"
           />
         </div>
       </ControlGroup>
@@ -92,7 +86,7 @@ export function SetAsideCalculator() {
       {/* Result section */}
       <div aria-live="polite" role="status">
         {!isReady ? (
-          <p className="text-muted text-sm py-4">Введите сумму оплаты, чтобы увидеть расчёт</p>
+          <p className="text-muted text-sm py-4">Укажите сумму оплаты — покажем, сколько отложить на налог</p>
         ) : result ? (
           <ResultCard
             label="Отложите на налог"
@@ -100,14 +94,6 @@ export function SetAsideCalculator() {
             subtitle={`${result.rateLabel} от ${formatMoney(payment)} ₽`}
             detail={`Можно тратить: ${formatMoney(result.toKeep)} ₽`}
             whyItems={whyItems}
-            risk={riskLevel
-              ? {
-                  level: riskLevel,
-                  label: riskLevel === 'amber'
-                    ? 'Крупная сумма'
-                    : 'В норме',
-                }
-              : undefined}
             next={{ to: '/limit-dohoda', label: 'Проверить лимит дохода' }}
             trust={['По ФНС', 'НПД 2026', 'Без отправки данных']}
           />

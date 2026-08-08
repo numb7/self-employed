@@ -56,7 +56,7 @@ export function IncomeLimitCalculator() {
     <div className="flex flex-col gap-6" id="calculator-income-limit">
       <ControlGroup label="Доход">
         <div className="flex flex-col gap-1.5">
-          <span className="text-sm font-medium text-ink">Что считать?</span>
+          <span className="text-sm font-medium text-ink">Что хотите узнать?</span>
           <SegmentedToggle
             name="limitMode"
             value={mode}
@@ -70,7 +70,7 @@ export function IncomeLimitCalculator() {
 
         <div className="flex flex-col gap-1.5">
           <label htmlFor="limit-earned" className="text-sm font-medium text-ink">
-            Сколько заработали?
+            Доход с начала года
           </label>
           <CurrencyInput
             id="limit-earned"
@@ -93,7 +93,7 @@ export function IncomeLimitCalculator() {
         {mode === 'forecast' && (
           <div className="flex flex-col gap-1.5">
             <label htmlFor="limit-avg" className="text-sm font-medium text-ink">
-              Сколько в среднем в месяц?
+              Средний доход в месяц
             </label>
             <CurrencyInput
               id="limit-avg"
@@ -111,14 +111,14 @@ export function IncomeLimitCalculator() {
         {!isReady ? (
           <p className="text-muted text-sm py-4">
             {mode === 'remaining'
-              ? 'Введите заработанный доход, чтобы увидеть остаток'
-              : 'Заполните все поля, чтобы увидеть прогноз'}
+              ? 'Укажите доход с начала года — покажем остаток до лимита'
+              : 'Укажите доход и среднюю сумму в месяц — покажем прогноз'}
           </p>
         ) : result ? (
           <ResultCard
             label={
               result.mode === 'remaining'
-                ? (result.remaining > 0 ? 'Осталось до лимита' : 'Лимит превышен')
+                ? (result.remaining >= 0 ? 'Осталось до лимита' : 'Лимит превышен')
                 : (forecastResult?.willReach ? 'Лимит будет достигнут' : 'Лимит не будет достигнут')
             }
             figure={
@@ -126,7 +126,7 @@ export function IncomeLimitCalculator() {
                 ? `${formatMoney(result.remaining)} ₽`
                 : (forecastResult?.limitMonthName
                     ? `${forecastResult.limitMonthName} (мес. ${forecastResult.limitMonth})`
-                    : 'Не достигнет')
+                    : 'Есть запас')
             }
             subtitle={
               result.mode === 'remaining'
@@ -139,14 +139,14 @@ export function IncomeLimitCalculator() {
                 : forecastResult
                   ? forecastResult.willReach
                     ? `Прогноз дохода: ${formatMoney(forecastResult.projectedIncome)} ₽`
-                    : `Запас: ${formatMoney(forecastResult.safetyMargin)} ₽`
+                    : `Запас до лимита: ${formatMoney(forecastResult.safetyMargin)} ₽`
                   : undefined
             }
             whyItems={whyItems}
             risk={{
               level: result.risk,
               label: result.risk === 'red'
-                ? 'Опасная зона'
+                ? 'Лимит превышен'
                 : result.risk === 'amber'
                   ? 'Близко к лимиту'
                   : 'Безопасно',

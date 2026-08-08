@@ -164,6 +164,19 @@ describe('Лимит дохода', () => {
     expect(result.willReach).toBe(false);
     expect(result.monthsToLimit).toBe(Infinity);
   });
+
+  it('whenLimit: неполный остаток переносит достижение на следующий месяц', () => {
+    const result = calculateIncomeWhenLimit(2_350_000, 6, 100_000);
+    expect(result.monthsToLimit).toBe(1);
+    expect(result.limitMonth).toBe(7);
+    expect(result.limitMonthName).toBe('Июль');
+  });
+
+  it('remaining: текущий месяц не считается повторно', () => {
+    const result = calculateIncomeRemaining(1_200_000, 12);
+    expect(result.monthsLeft).toBe(0);
+    expect(result.safePace).toBe(0);
+  });
 });
 
 // ============================================
@@ -337,6 +350,7 @@ describe('Концентрация дохода', () => {
     ];
     const result = calculateConcentration(sources);
     expect(result.sources[0].risky).toBe(false);
+    expect(result.level).toBe('amber');
   });
 
   it('отрицательный доход нормализуется', () => {

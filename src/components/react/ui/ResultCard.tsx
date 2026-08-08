@@ -12,7 +12,7 @@ export interface ResultCardProps {
   subtitle?: string;
   /** Дополнительная информация: «можно тратить X ₽» */
   detail?: string;
-  /** Почему столько — раскрывающийся блок */
+  /** Как рассчитали — раскрывающийся блок */
   whyItems?: string[];
   /** Индикатор риска — показывается в шапке рядом с label */
   risk?: { level: 'green' | 'amber' | 'red'; label?: string };
@@ -48,15 +48,15 @@ export function ResultCard({
       )}
     >
       {/* Label + RiskBadge */}
-      <div className="flex items-center gap-2">
-        <p className="text-muted text-sm">{label}</p>
+      <div className="flex min-w-0 flex-wrap items-center gap-2">
+        <p className="min-w-0 text-muted text-sm">{label}</p>
         {risk && (
           <RiskBadge level={risk.level} label={risk.label} />
         )}
       </div>
 
       {/* Big number */}
-      <p className="font-mono text-3xl tabular-nums text-ink mt-0.5">{figure}</p>
+      <p className="mt-1 break-words font-mono text-2xl sm:text-3xl leading-tight tabular-nums text-ink">{figure}</p>
 
       {subtitle && (
         <p className="text-muted text-sm mt-1">{subtitle}</p>
@@ -73,7 +73,7 @@ export function ResultCard({
 
       {/* Why accordion (closed by default) */}
       {whyItems && whyItems.length > 0 && (
-        <DetailsAccordion title="Почему столько" icon="info">
+        <DetailsAccordion title="Как рассчитали" icon="info">
           <ul className="mt-2 space-y-1 pl-6 text-sm text-muted">
             {whyItems.map((item, i) => (
               <li key={i} className="flex gap-2">
@@ -92,7 +92,7 @@ export function ResultCard({
       {next && (
         <a
           href={next.to}
-          className="result-card__next inline-flex items-center gap-1.5 mt-4 text-sm font-medium text-accent hover:text-accent-2 transition-colors"
+          className="result-card__next mt-2 inline-flex min-h-11 items-center gap-1.5 text-sm font-medium text-accent hover:text-accent-2 transition-colors"
         >
           <span>{next.label}</span>
           <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">

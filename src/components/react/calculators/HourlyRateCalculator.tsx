@@ -44,7 +44,7 @@ export function HourlyRateCalculator() {
     if (!result) return [];
     if (result.mode === 'target') {
       return [
-        `Желаемый чистый доход: ${formatMoney(result.grossMonthly)} ₽/мес.`,
+        `Желаемый чистый доход: ${formatMoney(desiredNet!)} ₽/мес.`,
         `Ставка НПД: ${rate}% (${clientType === 'business' ? 'юрлица / ИП' : 'физлица'})`,
         `Необходимо выставить: ${formatMoney(result.grossNeeded)} ₽/мес.`,
       ];
@@ -60,7 +60,7 @@ export function HourlyRateCalculator() {
     <div className="flex flex-col gap-6" id="calculator-hourly-rate">
       <ControlGroup label="Ставка в час">
         <div className="flex flex-col gap-1.5">
-          <span className="text-sm font-medium text-ink">От кого?</span>
+          <span className="text-sm font-medium text-ink">Кто ваш клиент?</span>
           <SegmentedToggle
             name="hourlyClientType"
             value={clientType}
@@ -73,7 +73,7 @@ export function HourlyRateCalculator() {
         </div>
 
         <div className="flex flex-col gap-1.5">
-          <span className="text-sm font-medium text-ink">Что считаем?</span>
+          <span className="text-sm font-medium text-ink">Какой расчёт нужен?</span>
           <SegmentedToggle
             name="hourlyMode"
             value={mode}
@@ -89,7 +89,7 @@ export function HourlyRateCalculator() {
           <>
             <div className="flex flex-col gap-1.5">
               <label htmlFor="hourly-desired" className="text-sm font-medium text-ink">
-                Сколько хочу получать?
+                Желаемый доход после налога
               </label>
               <CurrencyInput
                 id="hourly-desired"
@@ -102,7 +102,7 @@ export function HourlyRateCalculator() {
             </div>
             <div className="flex flex-col gap-1.5">
               <label htmlFor="hourly-hours-target" className="text-sm font-medium text-ink">
-                Сколько часов в месяц?
+                Рабочих часов в месяц
               </label>
               <NumberInput
                 id="hourly-hours-target"
@@ -119,7 +119,7 @@ export function HourlyRateCalculator() {
           <>
             <div className="flex flex-col gap-1.5">
               <label htmlFor="hourly-payment" className="text-sm font-medium text-ink">
-                Сколько платят?
+                Оплата за проект
               </label>
               <CurrencyInput
                 id="hourly-payment"
@@ -151,8 +151,8 @@ export function HourlyRateCalculator() {
         {!isReady ? (
           <p className="text-muted text-sm py-4">
             {mode === 'target'
-              ? 'Введите желаемый доход и рабочие часы'
-              : 'Введите оплату за проект и реально потраченные часы'}
+              ? 'Укажите желаемый доход и рабочие часы — рассчитаем ставку'
+              : 'Укажите оплату и потраченные часы — рассчитаем реальную ставку'}
           </p>
         ) : result ? (
           <ResultCard

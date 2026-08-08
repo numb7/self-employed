@@ -9,7 +9,7 @@ import { ProgressIndicator } from '../ui/ProgressIndicator';
 type ActivityType = 'services' | 'own_goods' | 'resale' | 'rental';
 type YesNo = 'true' | 'false';
 type IncomeRange = 'under_2_4m' | '2_4_to_10m' | 'over_10m';
-type ExpenseShare = 'none' | 'low' | 'high';
+type ExpenseShare = 'none' | 'low' | 'medium' | 'high';
 type Regime = 'npd' | 'usn_income' | 'usn_income_minus_expenses';
 
 interface Answers {
@@ -63,7 +63,8 @@ const QUESTIONS: Question[] = [
     options: [
       { value: 'none', label: 'Расходов почти нет', caption: 'Услуги, консультации' },
       { value: 'low', label: 'Небольшие расходы', caption: 'До 20–30% от дохода' },
-      { value: 'high', label: 'Существенные расходы', caption: 'От 40% и выше' },
+      { value: 'medium', label: 'Заметные расходы', caption: 'От 30% до 59% дохода' },
+      { value: 'high', label: 'Существенные расходы', caption: '60% дохода и выше' },
     ],
   },
 ];
@@ -89,15 +90,15 @@ function buildUsnReasons(answers: Answers, regime: Regime): string[] {
     reasons.push('Перепродажа товаров не подпадает под НПД');
   }
   if (answers.hasEmployees === 'true') {
-    reasons.push('Планируете нанимать сотрудников — НПД это запрещает');
+    reasons.push('При найме сотрудников применять НПД нельзя');
   }
   if (answers.expectedIncome === '2_4_to_10m' || answers.expectedIncome === 'over_10m') {
     reasons.push('Ожидаемый доход выше лимита НПД (2,4 млн ₽/год)');
   }
   if (regime === 'usn_income_minus_expenses') {
-    reasons.push('Высокая доля расходов делает эту схему выгоднее');
+    reasons.push('При расходах от 60% этот вариант может снизить налоговую нагрузку');
   } else if (reasons.length < 2) {
-    reasons.push('Расходы минимальны — платить с полного дохода проще и выгоднее');
+    reasons.push('При небольшой доле расходов УСН «Доходы» обычно даёт меньшую нагрузку');
   }
   return reasons.slice(0, 3);
 }
@@ -142,7 +143,7 @@ const RESULT_DATA: Record<Regime, {
   relatedText: string;
 }> = {
   npd: {
-    title: 'Вам подходит самозанятость',
+    title: 'Предварительно подходит самозанятость',
     receipts: [
       { label: 'Ставка налога (доход от физлиц)', value: '4%', highlight: true },
       { label: 'Ставка налога (доход от юрлиц/ИП)', value: '6%', highlight: true },
@@ -157,7 +158,7 @@ const RESULT_DATA: Record<Regime, {
     relatedText: 'Калькулятор лимита дохода НПД →',
   },
   usn_income: {
-    title: 'Вам подходит ИП на УСН «Доходы»',
+    title: 'Предварительно подходит ИП на УСН «Доходы»',
     receipts: [
       { label: 'Ставка налога', value: '6% с дохода', highlight: true },
       { label: 'Фикс. взносы ИП «за себя» (2026)', value: '57 390 ₽/год' },
@@ -172,7 +173,7 @@ const RESULT_DATA: Record<Regime, {
     relatedText: 'Сравнить точную налоговую нагрузку →',
   },
   usn_income_minus_expenses: {
-    title: 'Вам подходит ИП на УСН «Доходы минус расходы»',
+    title: 'Предварительно подходит ИП на УСН «Доходы минус расходы»',
     receipts: [
       { label: 'Ставка налога', value: '15% с разницы (доходы − расходы)', highlight: true },
       { label: 'Фикс. взносы ИП «за себя» (2026)', value: '57 390 ₽/год' },
@@ -348,14 +349,14 @@ export function ModeWizard() {
               Не знаете, что выбрать — самозанятость или ИП?
             </h2>
             <p className="mt-3 text-sm text-muted">
-              Ответьте на 4 вопроса, и мы подберём оптимальный налоговый режим для вашей ситуации.
+              Ответьте на 4 вопроса — покажем предварительный вариант налогового режима.
             </p>
           </div>
 
           {previousResult && (
             <div className="w-full max-w-md rounded-[var(--radius-card)] border border-line bg-surface p-4 text-sm">
               <p className="text-muted">
-                Вы уже проходили тест. Ваш результат:{' '}
+                Предыдущий результат:{' '}
                 <strong className="text-ink">{REGIME_LABELS[previousResult]}</strong>
               </p>
             </div>
@@ -364,9 +365,9 @@ export function ModeWizard() {
           <button
             type="button"
             onClick={handleStart}
-            className="rounded-[var(--radius-card)] bg-accent px-6 py-2.5 text-sm font-medium text-white hover:bg-accent-2 transition-colors duration-[var(--duration-fast)]"
+            className="min-h-11 rounded-[var(--radius-card)] bg-accent px-6 py-2.5 text-sm font-medium text-white hover:bg-accent-2 transition-colors duration-[var(--duration-fast)]"
           >
-            Начать
+            Подобрать режим
           </button>
         </div>
       )}
@@ -421,7 +422,7 @@ export function ModeWizard() {
               <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
               </svg>
-              Рекомендация готова
+              Предварительный вариант готов
             </div>
 
             <h2 className="font-head text-xl font-semibold text-ink">{resultData.title}</h2>
@@ -447,7 +448,7 @@ export function ModeWizard() {
 
             {/* Next steps */}
             <div className="mt-5">
-              <h3 className="font-head text-sm font-semibold text-ink">Что дальше</h3>
+              <h3 className="font-head text-sm font-semibold text-ink">Что проверить дальше</h3>
               <ol className="mt-2 flex flex-col gap-1.5 text-sm text-muted list-decimal list-inside">
                 {resultData.nextSteps.map((s, i) => (
                   <li key={i}>{s}</li>
@@ -455,7 +456,7 @@ export function ModeWizard() {
               </ol>
               <a
                 href={resultData.relatedUrl}
-                className="mt-3 inline-block rounded-[var(--radius-card)] border border-line bg-surface px-4 py-2.5 text-sm font-medium text-accent hover:bg-lavender transition-colors duration-[var(--duration-fast)]"
+                className="mt-3 inline-flex min-h-11 items-center rounded-[var(--radius-card)] border border-line bg-surface px-4 py-2.5 text-sm font-medium text-accent hover:bg-lavender transition-colors duration-[var(--duration-fast)]"
               >
                 {resultData.relatedText}
               </a>
@@ -463,21 +464,21 @@ export function ModeWizard() {
 
             {/* CTA card */}
             <div className="mt-5 rounded-[var(--radius-card)] border border-accent/20 bg-accent-soft p-5">
-              <span className="text-xs font-medium uppercase tracking-wider text-accent">Следующий шаг</span>
+              <span className="text-xs font-medium uppercase tracking-wider text-accent">Полезный расчёт</span>
               <h3 className="mt-1 font-head text-base font-semibold text-ink">{resultData.ctaTitle}</h3>
               <p className="mt-1 text-sm text-muted">{resultData.ctaText}</p>
             </div>
 
             {/* Disclaimer */}
             <p className="mt-4 text-xs text-faint">
-              Это ориентир, а не официальная консультация. Точный расчёт может отличаться в зависимости от региона и вида деятельности — проверьте на сайте ФНС или у бухгалтера перед регистрацией.
+              Это предварительный вариант. Перед регистрацией проверьте региональные ставки, ограничения по деятельности и расчёт налогов на сайте ФНС или с бухгалтером.
             </p>
 
             {/* Restart */}
             <button
               type="button"
               onClick={handleRestart}
-              className="mt-2 rounded-[var(--radius-card)] border border-line bg-surface px-4 py-2 text-sm font-medium text-ink hover:bg-lavender transition-colors duration-[var(--duration-fast)]"
+              className="mt-2 min-h-11 rounded-[var(--radius-card)] border border-line bg-surface px-4 py-2 text-sm font-medium text-ink hover:bg-lavender transition-colors duration-[var(--duration-fast)]"
             >
               Пройти заново
             </button>

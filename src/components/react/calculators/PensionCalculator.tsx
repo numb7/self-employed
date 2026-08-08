@@ -44,14 +44,14 @@ export function PensionCalculator() {
     <div className="flex flex-col gap-6" id="calculator-pension">
       <ControlGroup label="Пенсионный стаж">
         <div className="flex flex-col gap-1.5">
-          <span className="text-sm font-medium text-ink">Что считаем?</span>
+          <span className="text-sm font-medium text-ink">Какой расчёт нужен?</span>
           <SegmentedToggle
             name="pensionMode"
             value={mode}
             onChange={(v) => setMode(v as 'months' | 'amount')}
             options={[
-              { value: 'months', label: 'Стоимость за N мес.' },
-              { value: 'amount', label: 'Сколько месяцев за сумму' },
+              { value: 'months', label: 'Стоимость за период' },
+              { value: 'amount', label: 'Стаж по сумме взноса' },
             ]}
           />
         </div>
@@ -59,7 +59,7 @@ export function PensionCalculator() {
         {mode === 'months' && (
           <div className="flex flex-col gap-1.5">
             <label htmlFor="pension-months" className="text-sm font-medium text-ink">
-              Сколько месяцев?
+              Период стажа
             </label>
             <NumberInput
               id="pension-months"
@@ -77,7 +77,7 @@ export function PensionCalculator() {
         {mode === 'amount' && (
           <div className="flex flex-col gap-1.5">
             <label htmlFor="pension-amount" className="text-sm font-medium text-ink">
-              Какая сумма?
+              Сумма взноса
             </label>
             <CurrencyInput
               id="pension-amount"
@@ -94,11 +94,13 @@ export function PensionCalculator() {
       <div aria-live="polite" role="status">
         {!isReady ? (
           <p className="text-muted text-sm py-4">
-            {mode === 'months' ? 'Введите количество месяцев' : 'Введите сумму взносов'}
+            {mode === 'months'
+              ? 'Укажите период — покажем стоимость пенсионного стажа'
+              : 'Укажите сумму — покажем, сколько месяцев стажа она даёт'}
           </p>
         ) : result ? (
           <ResultCard
-            label={result.mode === 'costForMonths' ? 'Стоимость стажа' : 'Получите стаж'}
+            label={result.mode === 'costForMonths' ? 'Стоимость стажа' : 'Стаж по указанной сумме'}
             figure={
               result.mode === 'costForMonths'
                 ? `${formatMoney(result.cost)} ₽`

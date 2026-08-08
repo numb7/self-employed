@@ -54,14 +54,14 @@ const jsonLd = [
   <header class="page-hero">
     <div class="container">
       <nav class="breadcrumbs" aria-label="Хлебные крошки">
-        <ol class="flex items-center gap-1.5 text-sm text-muted">
+        <ol class="flex flex-wrap items-center gap-x-1.5 gap-y-1 text-sm text-muted min-w-0">
           {breadcrumbs.map((item, i) => (
-            <li class="flex items-center gap-1.5">
+            <li class="flex items-center gap-1.5 min-w-0">
               {i > 0 && <span class="text-faint" aria-hidden="true">/</span>}
               {i < breadcrumbs.length - 1 ? (
                 <a href={item.url} class="hover:text-ink transition-colors">{item.name}</a>
               ) : (
-                <span class="text-ink">{item.name}</span>
+                <span class="text-ink break-words">{item.name}</span>
               )}
             </li>
           ))}
@@ -76,7 +76,9 @@ const jsonLd = [
   </header>
 
   <div class="container mt-8">
-    <slot />
+    <div class="calculator-content">
+      <slot />
+    </div>
   </div>
 </BaseLayout>
 
@@ -101,5 +103,9 @@ const jsonLd = [
   }
   .page-hero__title :global(em) {
     font-style: italic;
+  }
+  .calculator-content {
+    width: 100%;
+    max-width: 48rem;
   }
 </style>

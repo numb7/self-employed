@@ -28,7 +28,7 @@ export function SegmentedToggle({
     <div
       role="radiogroup"
       className={cn(
-        'relative inline-flex rounded-[var(--radius-card)] p-0.5',
+        'relative flex w-full items-stretch rounded-[var(--radius-card)] p-0.5',
         variant === 'default' && 'bg-lavender',
         variant === 'ghost' && 'border border-line',
         className,
@@ -46,8 +46,9 @@ export function SegmentedToggle({
             value={opt.value}
             onClick={() => onChange(opt.value)}
             className={cn(
-              'relative z-10 rounded-[calc(var(--radius-card)-2px)] px-3.5 py-1.5',
+              'relative z-10 flex min-h-11 min-w-0 flex-1 items-center justify-center rounded-[calc(var(--radius-card)-2px)] px-2.5 py-2',
               'text-sm font-medium transition-all duration-[var(--duration-fast)] ease-[var(--ease-out)]',
+              'text-center leading-snug whitespace-normal',
               'outline-none focus-visible:ring-2 focus-visible:ring-accent/50',
               // Inactive
               !isActive && 'text-muted hover:text-ink',

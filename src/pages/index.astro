@@ -33,8 +33,8 @@ const scenarios = [
     href: '/dogovor-akt',
   },
   {
-    title: 'Хочу понять ставку',
-    hint: 'Сколько вы реально получаете в час.',
+    title: 'Хочу рассчитать ставку',
+    hint: 'Узнайте ставку до и после налога.',
     href: '/stavka-v-chas',
   },
 ];
@@ -119,7 +119,7 @@ const faqItems = [
   },
   {
     q: 'Чем самозанятый отличается от ИП?',
-    a: 'Самозанятый платит 4–6% НПД без обязательных взносов. ИП на УСН платит 6% (доходы) или 15% (доходы минус расходы), плюс обязательные страховые взносы (~49 500 ₽/год в 2026). ИП подходит при доходах свыше 2,4 млн ₽ или если нужен расчётный счёт для определённых видов деятельности.',
+    a: 'Самозанятый платит 4–6% НПД без обязательных взносов. ИП на УСН платит 6% с доходов или 15% с разницы между доходами и расходами, плюс обязательные страховые взносы — 57 390 ₽ в 2026 году. ИП нужен при доходе выше 2,4 млн ₽, найме сотрудников и для видов деятельности, недоступных на НПД.',
     link: { text: 'Сравнить режимы →', href: '/ip-ili-samozanyatyy' },
   },
   {
@@ -188,7 +188,7 @@ const structuredData = [
         Финансовый помощник для самозанятых
       </h1>
       <p class="hero__subtitle text-muted">
-        Посчитайте налог, лимит дохода, ставку, риски и взносы — без бухгалтерии и сложных форм.
+        Посчитайте налог, лимит дохода, ставку, риски и взносы для быстрой самопроверки.
       </p>
 
       <div class="hero__cta mt-6 flex flex-wrap gap-3">
@@ -266,7 +266,7 @@ const structuredData = [
             <span class="font-mono text-sm font-semibold text-accent">{f.example}</span>
           </div>
           <span class="featured-card__cta mt-auto pt-4 inline-flex items-center gap-1 text-sm font-medium text-accent">
-            Открыть
+            Перейти к расчёту
             <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
           </span>
         </a>
@@ -334,7 +334,7 @@ const structuredData = [
       <li class="flex gap-4">
         <span class="flex-shrink-0 flex items-center justify-center w-8 h-8 rounded-full bg-accent-soft text-accent font-mono text-sm font-semibold">2</span>
         <div>
-          <span class="block font-head text-sm font-medium text-ink">Введите данные</span>
+          <span class="block font-head text-sm font-medium text-ink">Укажите исходные данные</span>
           <span class="mt-1 block text-xs text-muted leading-relaxed">Все расчёты происходят прямо в браузере.</span>
         </div>
       </li>
@@ -353,7 +353,7 @@ const structuredData = [
        ═══════════════════════════════════════════ -->
   <section class="container mt-16">
     <div class="trust-block rounded-[var(--radius-card)] border border-line bg-surface px-6 py-8">
-      <h2 class="font-head text-[var(--fs-h3)] font-medium text-ink text-center">Почему можно доверять</h2>
+      <h2 class="font-head text-[var(--fs-h3)] font-medium text-ink text-center">Как устроены расчёты</h2>
       <ul class="mt-5 flex flex-col sm:flex-row flex-wrap items-start justify-center gap-x-8 gap-y-3 text-sm text-muted">
         <li class="trust-block__item flex items-center gap-2">
           <svg class="trust-block__check w-4 h-4 text-green flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
