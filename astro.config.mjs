@@ -3,7 +3,7 @@ import react from '@astrojs/react';
 import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
-  site: 'https://npd-tools.ru',
+  site: 'https://samozanyatye.vercel.app',
   output: 'static',
   trailingSlash: 'never',
   integrations: [
