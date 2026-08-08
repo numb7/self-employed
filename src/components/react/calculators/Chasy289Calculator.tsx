@@ -48,9 +48,7 @@ export function Chasy289Calculator() {
       </ControlGroup>
 
       <div aria-live="polite" role="status">
-        {!isReady ? (
-          <p className="text-muted text-sm py-4">Укажите часы — покажем остаток до месячного лимита</p>
-        ) : result ? (
+        {isReady && result ? (
           <ResultCard
             label={result.remaining > 0 ? 'Осталось часов' : 'Лимит исчерпан'}
             figure={result.remaining > 0 ? `${result.remaining} ч.` : '0 ч.'}

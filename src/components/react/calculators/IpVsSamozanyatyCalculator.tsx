@@ -59,11 +59,7 @@ export function IpVsSamozanyatyCalculator() {
       </ControlGroup>
 
       <div aria-live="polite" role="status">
-        {!isReady ? (
-          <p className="text-muted text-sm py-4">
-            Укажите годовой доход — сравним предварительную нагрузку по двум режимам
-          </p>
-        ) : result ? (
+        {isReady && result ? (
           <ResultCard
             label={winner === 'npd' ? 'Предварительно меньше нагрузка на НПД' : winner === 'ip' ? 'Предварительно меньше нагрузка у ИП' : 'Нагрузка примерно одинаковая'}
             figure={winner === 'npd'

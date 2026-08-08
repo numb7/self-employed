@@ -70,9 +70,7 @@ export function DeductionCalculator() {
       </ControlGroup>
 
       <div aria-live="polite" role="status">
-        {!hasAnyIncome ? (
-          <p className="text-muted text-sm py-4">Укажите доход — покажем, сколько вычета уже использовано</p>
-        ) : result ? (
+        {hasAnyIncome && result ? (
           <ResultCard
             label="Экономия от вычета"
             figure={`${formatMoney(result.used)} ₽`}

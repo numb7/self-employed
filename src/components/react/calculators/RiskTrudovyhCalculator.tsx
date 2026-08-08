@@ -107,11 +107,7 @@ export function RiskTrudovyhCalculator() {
       </ControlGroup>
 
       <div aria-live="polite" role="status">
-        {!isReady ? (
-          <p className="text-muted text-sm py-4">
-            Отметьте подходящие признаки — покажем предварительную оценку
-          </p>
-        ) : result ? (
+        {isReady && result ? (
           <ResultCard
             label="Предварительная оценка"
             figure={

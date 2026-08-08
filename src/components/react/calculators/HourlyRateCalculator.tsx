@@ -148,13 +148,7 @@ export function HourlyRateCalculator() {
       </ControlGroup>
 
       <div aria-live="polite" role="status">
-        {!isReady ? (
-          <p className="text-muted text-sm py-4">
-            {mode === 'target'
-              ? 'Укажите желаемый доход и рабочие часы — рассчитаем ставку'
-              : 'Укажите оплату и потраченные часы — рассчитаем реальную ставку'}
-          </p>
-        ) : result ? (
+        {isReady && result ? (
           <ResultCard
             label={
               result.mode === 'target'

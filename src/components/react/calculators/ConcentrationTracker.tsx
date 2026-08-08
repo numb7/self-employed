@@ -170,11 +170,7 @@ export function ConcentrationTracker() {
       </ControlGroup>
 
       <div aria-live="polite" role="status">
-        {!isReady ? (
-          <p className="text-muted text-sm py-4">
-            Добавьте клиентов и доход — покажем долю каждого в общей сумме
-          </p>
-        ) : result ? (
+        {isReady && result ? (
           <ResultCard
             label={
               result.level === 'red'

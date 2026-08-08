@@ -108,13 +108,7 @@ export function IncomeLimitCalculator() {
       </ControlGroup>
 
       <div aria-live="polite" role="status">
-        {!isReady ? (
-          <p className="text-muted text-sm py-4">
-            {mode === 'remaining'
-              ? 'Укажите доход с начала года — покажем остаток до лимита'
-              : 'Укажите доход и среднюю сумму в месяц — покажем прогноз'}
-          </p>
-        ) : result ? (
+        {isReady && result ? (
           <ResultCard
             label={
               result.mode === 'remaining'

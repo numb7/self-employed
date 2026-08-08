@@ -92,13 +92,7 @@ export function PensionCalculator() {
       </ControlGroup>
 
       <div aria-live="polite" role="status">
-        {!isReady ? (
-          <p className="text-muted text-sm py-4">
-            {mode === 'months'
-              ? 'Укажите период — покажем стоимость пенсионного стажа'
-              : 'Укажите сумму — покажем, сколько месяцев стажа она даёт'}
-          </p>
-        ) : result ? (
+        {isReady && result ? (
           <ResultCard
             label={result.mode === 'costForMonths' ? 'Стоимость стажа' : 'Стаж по указанной сумме'}
             figure={

@@ -64,13 +64,7 @@ export function ContributionCalculator() {
       </ControlGroup>
 
       <div aria-live="polite" role="status">
-        {!isReady ? (
-          <p className="text-muted text-sm py-4">
-            {preset === 'custom'
-              ? 'Укажите страховую сумму — рассчитаем ежемесячный взнос'
-              : 'Выберите страховую сумму — покажем взнос и возможную выплату'}
-          </p>
-        ) : result ? (
+        {isReady && result ? (
           <ResultCard
             label="Ежемесячный взнос"
             figure={`${formatMoney(result.monthlyContribution)} ₽`}
