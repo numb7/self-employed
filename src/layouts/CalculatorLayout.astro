@@ -5,7 +5,6 @@ interface Props {
   title: string;
   description: string;
   url: string;
-  eyebrow?: string;
   heading?: string;
   ogImage?: string;
   structuredData?: Array<{ type: string; data: Record<string, unknown> }>;
@@ -16,7 +15,6 @@ const {
   title,
   description,
   url,
-  eyebrow,
   heading = title.split('—')[0].trim(),
   ogImage,
   structuredData = [],
@@ -55,7 +53,6 @@ const jsonLd = [
 >
   <header class="page-hero">
     <div class="container">
-      {eyebrow && <span class="page-hero__eyebrow">{eyebrow}</span>}
       <h1 class="page-hero__title font-head" set:html={heading.replace(/`([^`]+)`/, '<em>$1</em>')} />
       <div class="page-hero__subtitle text-muted mt-3 max-w-2xl">
         <slot name="subtitle" />
@@ -74,15 +71,6 @@ const jsonLd = [
   .page-hero {
     padding-top: clamp(1.5rem, 4vw, 2.5rem);
     padding-bottom: 0.5rem;
-  }
-  .page-hero__eyebrow {
-    font-size: var(--fs-caption);
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--color-accent);
-    font-weight: 600;
-    display: block;
-    margin-bottom: 0.5rem;
   }
   .page-hero__title {
     font-size: var(--fs-h1);

@@ -3,7 +3,7 @@ import { HomeTaxCalculator } from '../components/react/calculators/HomeTaxCalcul
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 const title = 'Помощник самозанятого — налоги, цена работы и документы';
-const description = 'Рассчитайте налог с оплаты, проверьте лимит дохода и подготовьте договор. Понятные инструменты для самозанятых, бесплатно и без регистрации.';
+const description = 'Рассчитайте налог с оплаты, проверьте лимит дохода и подготовьте договор. Понятные инструменты для самозанятых.';
 const tasks = [
  {title:'Рассчитать налог',desc:'Сколько отложить с оплаты и сколько останется вам.',href:'#home-tax',kind:'tax'},
  {title:'Проверить лимит дохода',desc:'Проверьте, сколько осталось до годового лимита 2,4 млн ₽.',href:'/limit-dohoda',kind:'limit'},
@@ -19,7 +19,7 @@ const extra = [
 <BaseLayout title={title} description={description} url="/" navVariant="home" structuredData={[{type:'WebSite',data:{'@context':'https://schema.org','@type':'WebSite',name:'НПД.помощник',url:'https://samozanyatye.vercel.app',inLanguage:'ru'}}]}>
   <header class="directory-intro container">
     <div><h1>Деньги и документы<br/>самозанятого.</h1></div>
-    <div class="directory-intro-aside"><p>Посчитайте налог, определите цену работы <br/>или подготовьте договор с заказчиком.</p><span>Бесплатно · Без регистрации</span></div>
+    <div class="directory-intro-aside"><p>Посчитайте налог, определите цену работы <br/>или подготовьте договор с заказчиком.</p></div>
   </header>
   <section class="clear-tasks container" id="tools" aria-labelledby="tasks-title"><span id="tasks-anchor"></span><div class="directory-heading"><h2 id="tasks-title">С чего начнём?</h2><span>4 основные задачи</span></div><div class="clear-task-grid">{tasks.map(task => <a class={`clear-task task-${task.kind}`} href={task.href}><div class="task-art" aria-hidden="true">{task.kind==='tax'?<svg viewBox="0 0 96 70" fill="none"><path d="M20 8h56v54l-7-4-7 4-7-4-7 4-7-4-7 4-7-4-7 4V8Z"/><path class="art-accent" d="M32 26h31M32 37h20M60 34v12M54 40h12"/></svg>:task.kind==='limit'?<svg viewBox="0 0 96 70" fill="none"><path d="M8 55h80M12 55V43m18 12V33m18 22V23m18 32V13m18 42V3"/><path class="art-accent" d="M8 55h45M53 49v12"/></svg>:task.kind==='price'?<svg viewBox="0 0 96 70" fill="none"><circle cx="48" cy="35" r="28"/><path d="M48 14v21l14 8M48 3v6m0 52v6M16 35h6m52 0h6"/><path class="art-accent" d="M48 7a28 28 0 0 1 28 28"/></svg>:<svg viewBox="0 0 96 70" fill="none"><path d="M27 6h34l12 12v46H27zM61 6v14h12M35 31h29M35 40h29M35 49h17"/><path class="art-accent" d="m52 56 4 4 13-14"/></svg>}</div><h3>{task.title}</h3><p>{task.desc}</p><span class="task-arrow" aria-hidden="true">↗</span></a>)}</div>
     <details class="clear-more"><summary>Все остальные инструменты <span aria-hidden="true">+</span></summary><div class="clear-extra-grid">{extra.map(group=><section><h3>{group.name}</h3>{group.tools.map(tool=><a href={tool.href}>{tool.title}<span aria-hidden="true">↗</span></a>)}</section>)}</div></details>
