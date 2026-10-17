@@ -3,6 +3,7 @@ import { NumericFormat } from 'react-number-format';
 import { calculateSetAside } from '@/lib/calculations';
 import { formatMoney } from '@/lib/format';
 import { RULES_2026, type ClientType } from '@/lib/rules-2026';
+import { PaymentFlow } from '../ui/PaymentFlow';
 import { AnimatedMoney } from '../ui/AnimatedMoney';
 
 export function HomeTaxCalculator() {
@@ -37,10 +38,11 @@ export function HomeTaxCalculator() {
     </div>
     <div className="simple-tax-answer" role="status" aria-live="polite" aria-atomic="true">
       {overLimit ? <div className="simple-tax-unavailable"><strong>Сначала проверьте лимит</strong><p>Оплата больше годового лимита самозанятости — 2,4 млн ₽. Считать всю сумму по ставке {rate}% нельзя.</p><a href="/limit-dohoda">Проверить лимит дохода ↗</a></div> : !valid ? <div className="simple-tax-unavailable"><strong>{amount === undefined ? 'Укажите сумму оплаты' : 'Укажите остаток бонуса'}</strong><p>Тогда здесь появятся налог и сумма после него.</p></div> : <>
+        <PaymentFlow share={value > 0 ? result.setAside / value : 0} motionKey={`${value}-${client}-${useDeduction}-${deduction}`} />
         <span className="simple-answer-label">{value === 0 ? 'Нет оплаты — нет налога' : 'Отложите на налог'}</span>
         <strong className="simple-answer-number"><AnimatedMoney value={result.setAside}/></strong>
         <span className="simple-answer-basis">{useDeduction ? 'С учётом налогового бонуса' : `${rate}% с этой оплаты · без налогового бонуса`}</span>
-        <div className="desk-money-share" aria-hidden="true"><span style={{width: `${value > 0 ? result.setAside / value * 100 : 0}%`}} /></div>
+        <div className="desk-money-share" aria-hidden="true"><span style={{'--tax-share': value > 0 ? result.setAside / value : 0} as CSSProperties} /></div>
         <div className="simple-keep"><span>Вам останется</span><strong><AnimatedMoney value={result.toKeep}/></strong></div>
       </>}
     </div>

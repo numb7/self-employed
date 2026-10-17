@@ -1,0 +1,30 @@
+<script>
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const running = new WeakMap<Element, Animation>();
+  let pendingFrame = 0;
+  document.addEventListener('input', event => {
+    if (reduceMotion.matches || !(event.target instanceof HTMLElement)) return;
+    const workspace = event.target.closest('.calculator-ready');
+    if (!workspace || workspace.querySelector('.simple-tax')) return;
+    cancelAnimationFrame(pendingFrame);
+    pendingFrame = requestAnimationFrame(() => {
+      workspace.querySelectorAll('.instrument-output,.compare-card,.criterion-verdict').forEach(output => {
+        running.get(output)?.cancel();
+        running.set(output, output.animate([{transform:'translateY(3px)',opacity:.8},{transform:'translateY(0)',opacity:1}], {duration:240,easing:'ease-out'}));
+      });
+    });
+  });
+  const next = document.querySelector('.clear-next');
+  if (next && 'IntersectionObserver' in window) {
+    const observer = new IntersectionObserver(entries => {
+      if (entries.some(entry=>entry.isIntersecting)) {
+        if (!reduceMotion.matches) next.classList.add('motion-seen');
+        observer.disconnect();
+      }
+    },{threshold:.2});
+    observer.observe(next);
+  }
+  reduceMotion.addEventListener('change', () => {
+    if (reduceMotion.matches) document.getAnimations().forEach(animation=>animation.cancel());
+  });
+</script>

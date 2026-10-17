@@ -1,5 +1,6 @@
 ---
 import { HomeTaxCalculator } from '../components/react/calculators/HomeTaxCalculator';
+import ToolArtwork from '../components/astro/ToolArtwork.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 const title = 'Помощник самозанятого — налоги, цена работы и документы';
@@ -18,7 +19,7 @@ const extra = [
 <BaseLayout title={title} description={description} url="/" navVariant="home" structuredData={[{type:'WebSite',data:{'@context':'https://schema.org','@type':'WebSite',name:'НПД.помощник',url:'https://samozanyatye.vercel.app',inLanguage:'ru'}}]}>
   <section class="desk container" id="tools" aria-labelledby="desk-title">
     <header class="desk-intro">
-      <h1 id="desk-title">Деньги <br/>вашего дела.</h1>
+      <h1 id="desk-title"><span class="title-line"><span>Деньги</span></span><span class="title-line"><span>вашего дела.</span></span></h1>
       <p>Помощник самозанятого: посчитайте налог, проверьте лимит и оформите работу с заказчиком.</p>
     </header>
     <section class="desk-calculator" id="home-tax" aria-labelledby="tax-title">
@@ -27,7 +28,7 @@ const extra = [
       <noscript><p>Чтобы пользоваться инструментом, включите JavaScript в браузере.</p></noscript>
     </section>
     <nav class="desk-tools" aria-label="Другие основные задачи">
-      {tasks.map(task=><a href={task.href}><div><h2>{task.title}</h2><p>{task.desc}</p></div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6"/></svg></a>)}
+      {tasks.map(task=><a href={task.href}><ToolArtwork kind={task.kind}/><div><h2>{task.title}</h2><p>{task.desc}</p></div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6"/></svg></a>)}
     </nav>
   </section>
   <section class="desk-library container" aria-label="Все инструменты">

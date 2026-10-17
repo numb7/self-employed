@@ -1,0 +1,24 @@
+---
+interface Props { kind: string }
+const { kind } = Astro.props;
+---
+<svg class:list={['tool-artwork',`artwork-${kind}`]} viewBox="0 0 110 90" fill="none" aria-hidden="true">
+  {kind==='limit' ? <>
+    <path d="M9 70h90" stroke="currentColor" stroke-width="1.5"/>
+    <path class="art-tape" d="M15 62V35c0-13 10-21 23-21h45v48H15Z" fill="#e9efb2" stroke="#213d33" stroke-width="1.5"/>
+    <path d="M25 62V49m13 13V42m14 20V49m14 13V42m13 20V49" stroke="#2b614e" stroke-width="1.5"/>
+    <g class="art-marker"><path d="M57 7v66" stroke="#213d33" stroke-width="2"/><path d="m50 7 7 10 7-10" fill="#ee896b" stroke="#213d33" stroke-width="1.5"/></g>
+    <path d="M15 72v7h68v-7" stroke="currentColor" stroke-width="1.5"/>
+  </> : kind==='price' ? <>
+    <circle cx="54" cy="43" r="32" fill="#fff" stroke="#213d33" stroke-width="1.5"/>
+    <path d="M54 15v5m28 23h-5M54 71v-5M26 43h5" stroke="#7c9182" stroke-width="2"/>
+    <path d="M54 11a32 32 0 0 1 32 32H54V11Z" fill="#e9efb2"/>
+    <g class="art-hands"><path d="M54 24v19l13 9" stroke="#213d33" stroke-width="2.5" stroke-linecap="round"/></g>
+    <circle cx="54" cy="43" r="3" fill="#ee896b"/>
+    <path d="m26 73-6 8m62-8 6 8" stroke="#213d33" stroke-width="2"/>
+  </> : <>
+    <g class="art-back-sheet"><rect x="24" y="10" width="59" height="69" rx="3" fill="#e9efb2" stroke="#213d33" stroke-width="1.5"/></g>
+    <g class="art-front-sheet"><rect x="16" y="15" width="59" height="69" rx="3" fill="#fff" stroke="#213d33" stroke-width="1.5"/><path d="M28 29h33M28 38h33M28 47h22" stroke="#7c9182" stroke-width="1.5"/><path d="m29 70 5-8 4 6 6-3 3 5 13-7" stroke="#2b614e" stroke-width="1.5"/></g>
+    <g class="art-stamp"><circle cx="80" cy="62" r="16" fill="#ee896b" stroke="#213d33" stroke-width="1.5"/><path d="m72 62 6 6 10-12" stroke="#213d33" stroke-width="2"/></g>
+  </>}
+</svg>

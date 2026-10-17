@@ -1,0 +1,43 @@
+/* One entrance sequence; the remaining motion follows an action. */
+.title-line{display:block;overflow:hidden;padding-bottom:.08em;margin-bottom:-.08em}
+.title-line>span{display:block;animation:title-arrive .7s cubic-bezier(.22,1,.36,1) both}
+.title-line:nth-child(2)>span{animation-delay:90ms}
+.desk-calculator{animation:sheet-arrive .7s 120ms cubic-bezier(.22,1,.36,1) both}
+.desk-tools>a{gap:18px;padding-block:14px}
+.desk-tools>a>div{flex:1;min-width:0}
+.desk-tools .tool-artwork{display:block;width:96px;height:82px;flex-shrink:0;color:var(--color-ink);transform:none;transition:none;overflow:visible}
+.desk-tools>a:hover .tool-artwork{transform:none}
+.tool-artwork g,.tool-artwork .art-marker{transform-box:fill-box;transform-origin:center;transition:transform .4s cubic-bezier(.22,1,.36,1)}
+.desk-tools>a:is(:hover,:focus-visible) .art-marker{transform:translateX(14px)}
+.desk-tools>a:is(:hover,:focus-visible) .art-hands{animation:clock-work .75s cubic-bezier(.22,1,.36,1)}
+.art-hands{transform-origin:54px 43px!important;transform-box:view-box!important}
+.desk-tools>a:is(:hover,:focus-visible) .art-back-sheet{transform:translate(5px,-3px) rotate(8deg)}
+.desk-tools>a:is(:hover,:focus-visible) .art-front-sheet{transform:rotate(-5deg)}
+.desk-tools>a:is(:hover,:focus-visible) .art-stamp{transform:translateY(-6px) rotate(12deg)}
+.payment-flow{display:block;width:100%;height:112px;margin:-4px 0 18px;color:#7c9182;overflow:visible}
+.payment-flow g{transform-box:fill-box;transform-origin:center}
+.flow-payment{animation:payment-arrive .6s cubic-bezier(.22,1,.36,1) both}
+.flow-tax{animation:tax-arrive .6s 70ms cubic-bezier(.22,1,.36,1) both}
+.flow-wallet{animation:wallet-arrive .6s 100ms cubic-bezier(.22,1,.36,1) both}
+.flow-share{animation:share-arrive .5s 80ms ease-out both}
+.simple-tax .simple-tax-answer{position:relative;border-radius:3px 3px 22px 3px;padding-top:20px}
+.simple-tax .desk-money-share>span{width:100%!important;transform:scaleX(var(--tax-share));transform-origin:left;transition:transform .45s cubic-bezier(.22,1,.36,1)}
+.nav-capsule a{position:relative;box-shadow:none!important}
+.nav-capsule a::after{content:'';position:absolute;bottom:0;left:0;width:100%;height:2px;background:var(--color-accent);transform:scaleX(0);transform-origin:left;transition:transform .25s cubic-bezier(.22,1,.36,1)}
+.nav-capsule a:is(:hover,:focus-visible,[aria-current])::after{transform:scaleX(1)}
+.clear-more[open] .clear-extra-grid{animation:sheet-arrive .3s ease-out both}
+.simple-tax-details[open]>div{animation:sheet-arrive .25s ease-out both}
+.clear-more>summary>span,.simple-tax-details>summary>span{transition:transform .25s ease-out}
+.clear-next.motion-seen li>span{animation:step-arrive .5s ease-out both}
+.clear-next.motion-seen li:nth-child(2)>span{animation-delay:100ms}.clear-next.motion-seen li:nth-child(3)>span{animation-delay:200ms}
+@keyframes title-arrive{from{transform:translateY(105%);opacity:.3}to{transform:translateY(0);opacity:1}}
+@keyframes sheet-arrive{from{transform:translateY(14px);opacity:.35}to{transform:translateY(0);opacity:1}}
+@keyframes payment-arrive{from{transform:translateY(-10px) rotate(-4deg);opacity:.25}to{transform:translateY(0) rotate(0);opacity:1}}
+@keyframes tax-arrive{from{transform:translate(28px,-12px) rotate(8deg);opacity:.2}to{transform:translate(0,0) rotate(0);opacity:1}}
+@keyframes wallet-arrive{from{transform:translate(-24px,-8px) rotate(-6deg);opacity:.2}to{transform:translate(0,0) rotate(0);opacity:1}}
+@keyframes share-arrive{from{transform:scale(.85);opacity:.2}to{transform:scale(1);opacity:1}}
+@keyframes clock-work{from{transform:rotate(-70deg)}to{transform:rotate(0)}}
+@keyframes step-arrive{from{transform:scale(.75) rotate(-15deg)}to{transform:scale(1) rotate(0)}}
+@media(max-width:1000px){.desk-tools .tool-artwork{width:75px;height:72px}.desk-tools>a{gap:12px}.desk-tools h2{font-size:16px}.desk-tools p{font-size:12px}.payment-flow{height:100px}}
+@media(max-width:700px){.desk-tools .tool-artwork{width:82px;height:76px}.desk-tools h2{font-size:17px}.desk-tools>a>svg:last-child{width:20px;height:20px}.desk-tools>a{gap:12px;padding-block:15px}.payment-flow{height:102px;margin-bottom:15px}.simple-tax .simple-tax-answer{padding-inline:18px}.desk-tools p{font-size:12px}.desk-intro h1 .title-line{display:block}}
+@media(prefers-reduced-motion:reduce){.title-line>span,.desk-calculator,.payment-flow g,.clear-more[open] .clear-extra-grid,.simple-tax-details[open]>div,.clear-next.motion-seen li>span,.desk-tools>a:is(:hover,:focus-visible) .art-hands{animation:none}.tool-artwork g,.tool-artwork .art-marker,.nav-capsule a::after,.clear-more>summary>span,.simple-tax-details>summary>span,.simple-tax .desk-money-share>span{transition:none}.desk-tools>a:is(:hover,:focus-visible) .art-marker,.desk-tools>a:is(:hover,:focus-visible) .art-back-sheet,.desk-tools>a:is(:hover,:focus-visible) .art-front-sheet,.desk-tools>a:is(:hover,:focus-visible) .art-stamp{transform:none}}
