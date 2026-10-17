@@ -30,7 +30,7 @@ export function ControlGroup({
       {(label || description) && (
         <div className="mb-3">
           {label && (
-            <h3 className="font-head text-sm font-medium text-ink">{label}</h3>
+            <h2 className="font-head text-sm font-medium text-ink">{label}</h2>
           )}
           {description && (
             <p className="text-xs text-muted mt-0.5">{description}</p>

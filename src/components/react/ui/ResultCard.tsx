@@ -45,7 +45,7 @@ export function ResultCard({
     >
       {/* Label + RiskBadge */}
       <div className="flex min-w-0 flex-wrap items-center gap-2">
-        <p className="min-w-0 text-muted text-sm">{label}</p>
+        <h2 className="min-w-0 text-muted text-sm">{label}</h2>
         {risk && (
           <RiskBadge level={risk.level} label={risk.label} />
         )}
