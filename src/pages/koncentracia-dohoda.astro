@@ -1,7 +1,6 @@
 ---
 import CalculatorLayout from '../layouts/CalculatorLayout.astro';
 import { ConcentrationTracker } from '../components/react/calculators/ConcentrationTracker';
-import RelatedTools from '../components/astro/RelatedTools.astro';
 
 const title = 'Зависимость от одного заказчика — проверка для самозанятого';
 const description = 'Проверьте, не слишком ли вы зависите от одного заказчика. Доля дохода и срок работы помогают оценить зависимость. Это ориентир, а не юридическое заключение.';
@@ -25,11 +24,6 @@ const structuredData = [
   },
 ];
 
-const relatedTools = [
-  { title: 'Договор и акт', description: 'Шаблон договора оказания услуг и акта', url: '/dogovor-akt' },
-  { title: 'Самозанятый или ИП', description: 'Сравните налоговую нагрузку НПД и ИП', url: '/ip-ili-samozanyatyy' },
-  { title: 'Лимит дохода', description: 'Сколько ещё можно заработать до конца года', url: '/limit-dohoda' },
-];
 ---
 
 <CalculatorLayout
@@ -76,6 +70,4 @@ const relatedTools = [
       </div>
     </details>
   </section>
-
-  <RelatedTools tools={relatedTools} currentUrl={url} />
 </CalculatorLayout>

@@ -1,7 +1,6 @@
 ---
 import CalculatorLayout from '../layouts/CalculatorLayout.astro';
 import { HourlyRateCalculator } from '../components/react/calculators/HourlyRateCalculator';
-import RelatedTools from '../components/astro/RelatedTools.astro';
 
 const title = 'Ставка в час для самозанятого — калькулятор 2026';
 const description = 'Сколько просить за проект, чтобы выйти на желаемый доход — и сколько вы реально получаете в час с учётом всех правок и переписок. Калькулятор для самозанятых.';
@@ -48,11 +47,6 @@ const structuredData = [
   },
 ];
 
-const relatedTools = [
-  { title: 'Отложить на налог', description: 'Сколько отложить с каждой оплаты', url: '/otlozhit-na-nalog' },
-  { title: 'Лимит дохода', description: 'Сколько ещё можно заработать до конца года', url: '/limit-dohoda' },
-  { title: 'Договор и акт', description: 'Шаблон договора оказания услуг и акта', url: '/dogovor-akt' },
-];
 ---
 
 <CalculatorLayout
@@ -71,8 +65,4 @@ const relatedTools = [
   <section class="mt-8">
     <fieldset class="calculator-ready" data-calculator-loading disabled aria-busy="true" aria-label="Инструмент расчёта"><HourlyRateCalculator client:load /></fieldset><noscript><p>Чтобы пользоваться инструментом, включите JavaScript в браузере.</p></noscript>
   </section>
-
-
-
-  <RelatedTools tools={relatedTools} currentUrl={url} />
 </CalculatorLayout>

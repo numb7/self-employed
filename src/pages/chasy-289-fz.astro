@@ -1,7 +1,6 @@
 ---
 import CalculatorLayout from '../layouts/CalculatorLayout.astro';
 import { Chasy289Calculator } from '../components/react/calculators/Chasy289Calculator';
-import RelatedTools from '../components/astro/RelatedTools.astro';
 
 const title = 'Часы работы через цифровую платформу — проверка критерия 2026';
 const description = 'Проверьте критерий продолжительности работы через посредническую цифровую платформу: больше 60 часов в месяц у одного заказчика в течение 6 месяцев подряд.';
@@ -39,11 +38,6 @@ const structuredData = [{
   },
 }];
 
-const relatedTools = [
-  { title: 'Риск переквалификации', description: 'Оценка риска трудовых отношений', url: '/risk-trudovyh' },
-  { title: 'Зависимость от заказчика', description: 'Доля дохода от крупнейшего клиента', url: '/koncentracia-dohoda' },
-  { title: 'Мастер выбора режима', description: 'Подберёт оптимальный режим', url: '/master-vybora-rezhima' },
-];
 ---
 
 <CalculatorLayout
@@ -62,8 +56,4 @@ const relatedTools = [
   <section class="mt-8">
     <fieldset class="calculator-ready" data-calculator-loading disabled aria-busy="true" aria-label="Инструмент расчёта"><Chasy289Calculator client:load /></fieldset><noscript><p>Чтобы пользоваться инструментом, включите JavaScript в браузере.</p></noscript>
   </section>
-
-
-
-  <RelatedTools tools={relatedTools} currentUrl={url} />
 </CalculatorLayout>

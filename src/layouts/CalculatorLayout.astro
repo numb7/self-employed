@@ -32,7 +32,7 @@ const jsonLd = [
     data: {
       '@context': 'https://schema.org',
       '@type': 'BreadcrumbList',
-      itemListElement: breadcrumbs.map((item, i) => ({
+      itemListElement: breadcrumbs.filter(item => item.url !== '/#tasks-anchor').map((item, i) => ({
         '@type': 'ListItem',
         position: i + 1,
         name: item.name,
@@ -55,20 +55,6 @@ const jsonLd = [
 >
   <header class="page-hero">
     <div class="container">
-      <nav class="breadcrumbs" aria-label="Хлебные крошки">
-        <ol class="flex flex-wrap items-center gap-x-1.5 gap-y-1 text-sm text-muted min-w-0">
-          {breadcrumbs.map((item, i) => (
-            <li class="flex items-center gap-1.5 min-w-0">
-              {i > 0 && <span class="text-faint" aria-hidden="true">/</span>}
-              {i < breadcrumbs.length - 1 ? (
-                <a href={item.url} class="hover:text-ink transition-colors">{item.name}</a>
-              ) : (
-                <span class="text-ink break-words">{item.name}</span>
-              )}
-            </li>
-          ))}
-        </ol>
-      </nav>
       {eyebrow && <span class="page-hero__eyebrow">{eyebrow}</span>}
       <h1 class="page-hero__title font-head" set:html={heading.replace(/`([^`]+)`/, '<em>$1</em>')} />
       <div class="page-hero__subtitle text-muted mt-3 max-w-2xl">

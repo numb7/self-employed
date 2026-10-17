@@ -1,7 +1,6 @@
 ---
 import CalculatorLayout from '../layouts/CalculatorLayout.astro';
 import { PensionCalculator } from '../components/react/calculators/PensionCalculator';
-import RelatedTools from '../components/astro/RelatedTools.astro';
 
 const title = 'Пенсионный стаж самозанятого — стоимость взносов 2026';
 const description = 'Рассчитайте стоимость добровольных пенсионных взносов для самозанятых. Стоимость полного 2026 года — 71 525,52 ₽.';
@@ -39,11 +38,6 @@ const structuredData = [{
   },
 }];
 
-const relatedTools = [
-  { title: 'Взносы на больничный', description: 'Социальное страхование', url: '/bolnichny' },
-  { title: 'Сколько налога заплатить', description: 'Калькулятор НПД', url: '/otlozhit-na-nalog' },
-  { title: 'ИП или самозанятый', description: 'Сравнение нагрузки', url: '/ip-ili-samozanyatyy' },
-];
 ---
 
 <CalculatorLayout
@@ -62,8 +56,4 @@ const relatedTools = [
   <section class="mt-8">
     <fieldset class="calculator-ready" data-calculator-loading disabled aria-busy="true" aria-label="Инструмент расчёта"><PensionCalculator client:load /></fieldset><noscript><p>Чтобы пользоваться инструментом, включите JavaScript в браузере.</p></noscript>
   </section>
-
-
-
-  <RelatedTools tools={relatedTools} currentUrl={url} />
 </CalculatorLayout>

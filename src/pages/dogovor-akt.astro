@@ -1,7 +1,6 @@
 ---
 import CalculatorLayout from '../layouts/CalculatorLayout.astro';
 import { ContractGenerator } from '../components/react/calculators/ContractGenerator';
-import RelatedTools from '../components/astro/RelatedTools.astro';
 
 const title = 'Договор и акт для самозанятого — шаблон 2026';
 const description = 'Бесплатный шаблон договора оказания услуг и акта для самозанятых (НПД). Заполните поля — получите готовый документ. Копирование и скачивание в один клик.';
@@ -39,11 +38,6 @@ const structuredData = [{
   },
 }];
 
-const relatedTools = [
-  { title: 'Сколько налога заплатить', description: 'Отложить с каждой оплаты', url: '/otlozhit-na-nalog' },
-  { title: 'Ставка в час', description: 'Часовая ставка с учётом налога', url: '/stavka-v-chas' },
-  { title: 'ИП или самозанятый', description: 'Сравнение нагрузки', url: '/ip-ili-samozanyatyy' },
-];
 ---
 
 <CalculatorLayout
@@ -78,6 +72,4 @@ const relatedTools = [
       </div>
     </details>
   </section>
-
-  <RelatedTools tools={relatedTools} currentUrl={url} />
 </CalculatorLayout>

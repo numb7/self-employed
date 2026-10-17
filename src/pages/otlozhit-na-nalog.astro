@@ -1,7 +1,6 @@
 ---
 import CalculatorLayout from '../layouts/CalculatorLayout.astro';
 import { SetAsideCalculator } from '../components/react/calculators/SetAsideCalculator';
-import RelatedTools from '../components/astro/RelatedTools.astro';
 
 const title = 'Сколько отложить на налог НПД — калькулятор самозанятого 2026';
 const description = 'Рассчитайте, сколько отложить с каждой оплаты на налог НПД (4% или 6%), а сколько можно тратить сразу. Быстрый расчёт для самозанятых.';
@@ -47,11 +46,6 @@ const structuredData = [{
   },
 }];
 
-const relatedTools = [
-  { title: 'Лимит дохода 2,4 млн', description: 'Сколько ещё можно заработать', url: '/limit-dohoda' },
-  { title: 'ИП или самозанятый', description: 'Сравнение налоговой нагрузки', url: '/ip-ili-samozanyatyy' },
-  { title: 'Вычет 10 000 ₽', description: 'Снижает ставку НПД', url: '/vychet-10000' },
-];
 ---
 
 <CalculatorLayout
@@ -85,6 +79,4 @@ const relatedTools = [
       </div>
     </details>
   </section>
-
-  <RelatedTools tools={relatedTools} currentUrl={url} />
 </CalculatorLayout>

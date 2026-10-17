@@ -1,7 +1,6 @@
 ---
 import CalculatorLayout from '../layouts/CalculatorLayout.astro';
 import { IncomeLimitCalculator } from '../components/react/calculators/IncomeLimitCalculator';
-import RelatedTools from '../components/astro/RelatedTools.astro';
 
 const title = 'Калькулятор лимита дохода самозанятого в 2026 году';
 const description = 'Рассчитайте остаток годового лимита НПД, безопасный темп дохода и риск превышения лимита';
@@ -48,12 +47,6 @@ const structuredData = [
   },
 ];
 
-const relatedTools = [
-  { title: 'Мастер выбора режима', description: 'Интерактивный помощник для выбора налогового режима', url: '/master-vybora-rezhima' },
-  { title: 'Отложить на налог', description: 'Сколько отложить с каждой оплаты', url: '/otlozhit-na-nalog' },
-  { title: 'Концентрация дохода', description: 'Проверьте зависимость от одного заказчика', url: '/koncentracia-dohoda' },
-  { title: 'Ставка в час', description: 'Сколько вы реально получаете в час', url: '/stavka-v-chas' },
-];
 ---
 
 <CalculatorLayout
@@ -72,8 +65,4 @@ const relatedTools = [
   <section class="mt-8">
     <fieldset class="calculator-ready" data-calculator-loading disabled aria-busy="true" aria-label="Инструмент расчёта"><IncomeLimitCalculator client:load /></fieldset><noscript><p>Чтобы пользоваться инструментом, включите JavaScript в браузере.</p></noscript>
   </section>
-
-
-
-  <RelatedTools tools={relatedTools} currentUrl={url} />
 </CalculatorLayout>

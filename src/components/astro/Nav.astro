@@ -7,12 +7,12 @@ interface Props {
 const { variant = 'inner', showSharePrint = false } = Astro.props;
 ---
 
-<nav class="page-nav">
+<nav class:list={["page-nav", variant === "home" ? "navigation-home" : "navigation-tool"]} aria-label="Основная навигация">
   <div class="container page-nav-inner">
     {variant === 'home' ? (
       <a href="/" class="nav-back nav-brand font-head font-medium text-ink"><span class="brand-mark" aria-hidden="true">н.</span><span>нпд<span class="brand-suffix">/помощник</span></span></a>
     ) : (
-      <a href="/" class="nav-back text-muted hover:text-ink transition-colors flex items-center gap-1">
+      <a href="/#tools" class="nav-back tool-return text-muted hover:text-ink transition-colors flex items-center gap-1">
         <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <path d="m15 18-6-6 6-6" />
         </svg>
@@ -21,8 +21,7 @@ const { variant = 'inner', showSharePrint = false } = Astro.props;
     )}
 
     <div class="page-nav-actions flex items-center gap-2">
-      <a class="nav-tools-link" href="/#tools">Инструменты</a>
-      <a class="nav-method-link" href="/metodika">Как считаем</a>
+      {variant === 'home' ? <div class="nav-capsule"><a href="#tools" aria-current="location">Инструменты</a><a href="#home-tax">Налог</a><a href="/poleznoe">Помощь</a></div> : <span class="nav-quiet-brand" aria-hidden="true">нпд<span>/помощник</span></span>}
       {showSharePrint && (
         <>
           <button class="btn-icon" type="button" data-action="share" aria-label="Поделиться">
@@ -140,6 +139,16 @@ const { variant = 'inner', showSharePrint = false } = Astro.props;
       localStorage.setItem('npd-theme', isDark ? 'dark' : 'light');
     } catch(e) {}
   });
+
+  function updateSection() {
+    var target = window.location.hash === '#home-tax' ? '#home-tax' : '#tools';
+    document.querySelectorAll('.nav-capsule a').forEach(function(link) {
+      if (link.getAttribute('href') === target) link.setAttribute('aria-current', 'location');
+      else link.removeAttribute('aria-current');
+    });
+  }
+  updateSection();
+  window.addEventListener('hashchange', updateSection);
 
   // Share button
   var shareBtn = document.querySelector('[data-action="share"]');

@@ -1,7 +1,6 @@
 ---
 import CalculatorLayout from '../layouts/CalculatorLayout.astro';
 import { DeductionCalculator } from '../components/react/calculators/DeductionCalculator';
-import RelatedTools from '../components/astro/RelatedTools.astro';
 
 const title = 'Вычет 10 000 ₽ — калькулятор налогового вычета самозанятого 2026';
 const description = 'Рассчитайте, сколько вы экономите на налоге с вычетом 10 000 ₽, и сколько осталось. Ставка снижается: 4% → 3% с физлиц, 6% → 4% с юрлиц.';
@@ -39,11 +38,6 @@ const structuredData = [{
   },
 }];
 
-const relatedTools = [
-  { title: 'Сколько налога заплатить', description: 'Отложить с каждой оплаты', url: '/otlozhit-na-nalog' },
-  { title: 'Лимит дохода 2,4 млн', description: 'Сколько ещё можно заработать', url: '/limit-dohoda' },
-  { title: 'Взносы на больничный', description: 'Расчёт взносов в СФР', url: '/bolnichny' },
-];
 ---
 
 <CalculatorLayout
@@ -62,8 +56,4 @@ const relatedTools = [
   <section class="mt-8">
     <fieldset class="calculator-ready" data-calculator-loading disabled aria-busy="true" aria-label="Инструмент расчёта"><DeductionCalculator client:load /></fieldset><noscript><p>Чтобы пользоваться инструментом, включите JavaScript в браузере.</p></noscript>
   </section>
-
-
-
-  <RelatedTools tools={relatedTools} currentUrl={url} />
 </CalculatorLayout>

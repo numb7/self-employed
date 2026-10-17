@@ -1,7 +1,6 @@
 ---
 import CalculatorLayout from '../layouts/CalculatorLayout.astro';
 import { IpVsSamozanyatyCalculator } from '../components/react/calculators/IpVsSamozanyatyCalculator';
-import RelatedTools from '../components/astro/RelatedTools.astro';
 
 const title = 'Самозанятый или ИП на УСН — сравнение налогов 2026';
 const description = 'Сравните ориентировочную нагрузку НПД и ИП на УСН 6% без работников';
@@ -40,12 +39,6 @@ const structuredData = [
   },
 ];
 
-const relatedTools = [
-  { title: 'Мастер выбора режима', description: 'Интерактивный помощник для выбора налогового режима', url: '/master-vybora-rezhima' },
-  { title: 'Лимит дохода', description: 'Сколько ещё можно заработать до конца года', url: '/limit-dohoda' },
-  { title: 'Отложить на налог', description: 'Сколько отложить с каждой оплаты', url: '/otlozhit-na-nalog' },
-  { title: 'Договор и акт', description: 'Шаблон договора оказания услуг и акта', url: '/dogovor-akt' },
-];
 ---
 
 <CalculatorLayout
@@ -80,6 +73,4 @@ const relatedTools = [
       </div>
     </details>
   </section>
-
-  <RelatedTools tools={relatedTools} currentUrl={url} />
 </CalculatorLayout>

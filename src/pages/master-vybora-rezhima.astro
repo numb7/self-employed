@@ -1,7 +1,6 @@
 ---
 import CalculatorLayout from '../layouts/CalculatorLayout.astro';
 import { ModeWizard } from '../components/react/calculators/ModeWizard';
-import RelatedTools from '../components/astro/RelatedTools.astro';
 
 const title = 'Подобрать налоговый режим — самозанятость или ИП 2026';
 const description = 'Не знаете, что выбрать — самозанятость или ИП? Ответьте на 4 вопроса, и мастер подберёт оптимальный налоговый режим: НПД, УСН «Доходы» или УСН «Доходы минус расходы».';
@@ -39,11 +38,6 @@ const structuredData = [{
   },
 }];
 
-const relatedTools = [
-  { title: 'ИП или самозанятый', description: 'Сравнение налоговой нагрузки', url: '/ip-ili-samozanyatyy' },
-  { title: 'Лимит дохода 2,4 млн', description: 'Сколько ещё можно заработать', url: '/limit-dohoda' },
-  { title: 'Ставка в час', description: 'Часовая ставка с учётом налога', url: '/stavka-v-chas' },
-];
 ---
 
 <CalculatorLayout
@@ -74,6 +68,4 @@ const relatedTools = [
       </div>
     </details>
   </section>
-
-  <RelatedTools tools={relatedTools} currentUrl={url} />
 </CalculatorLayout>

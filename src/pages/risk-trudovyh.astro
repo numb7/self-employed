@@ -1,7 +1,6 @@
 ---
 import CalculatorLayout from '../layouts/CalculatorLayout.astro';
 import { RiskTrudovyhCalculator } from '../components/react/calculators/RiskTrudovyhCalculator';
-import RelatedTools from '../components/astro/RelatedTools.astro';
 
 const title = 'Риск переквалификации ГПХ в трудовые — чек-лист';
 const description = 'Оцените риск переквалификации договора ГПХ в трудовой по 13 признакам ФНС и судов. Чек-лист и индикатор риска для самозанятых.';
@@ -48,11 +47,6 @@ const structuredData = [
   },
 ];
 
-const relatedTools = [
-  { title: 'Концентрация дохода', description: 'Проверьте зависимость от одного заказчика', url: '/koncentracia-dohoda' },
-  { title: 'ИП или самозанятость', description: 'Сравните налоговую нагрузку НПД и ИП', url: '/ip-ili-samozanyatyy' },
-  { title: 'Договор и акт', description: 'Шаблон договора оказания услуг и акта', url: '/dogovor-akt' },
-];
 ---
 
 <CalculatorLayout
@@ -82,6 +76,4 @@ const relatedTools = [
       </div>
     </details>
   </section>
-
-  <RelatedTools tools={relatedTools} currentUrl={url} />
 </CalculatorLayout>

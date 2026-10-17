@@ -1,7 +1,6 @@
 ---
 import CalculatorLayout from '../layouts/CalculatorLayout.astro';
 import { ContributionCalculator } from '../components/react/calculators/ContributionCalculator';
-import RelatedTools from '../components/astro/RelatedTools.astro';
 
 const title = 'Взносы на больничный для самозанятых — калькулятор 2026';
 const description = 'Рассчитайте добровольные взносы на больничный для самозанятых: страховая сумма 35 000 ₽ или 50 000 ₽, тариф 3,84%.';
@@ -39,11 +38,6 @@ const structuredData = [{
   },
 }];
 
-const relatedTools = [
-  { title: 'Пенсионный стаж', description: 'Стоимость 1 года стажа', url: '/pensiya' },
-  { title: 'Сколько налога заплатить', description: 'Отложить с каждой оплаты', url: '/otlozhit-na-nalog' },
-  { title: 'ИП или самозанятый', description: 'Сравнение нагрузки', url: '/ip-ili-samozanyatyy' },
-];
 ---
 
 <CalculatorLayout
@@ -62,8 +56,4 @@ const relatedTools = [
   <section class="mt-8">
     <fieldset class="calculator-ready" data-calculator-loading disabled aria-busy="true" aria-label="Инструмент расчёта"><ContributionCalculator client:load /></fieldset><noscript><p>Чтобы пользоваться инструментом, включите JavaScript в браузере.</p></noscript>
   </section>
-
-
-
-  <RelatedTools tools={relatedTools} currentUrl={url} />
 </CalculatorLayout>
