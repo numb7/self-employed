@@ -5,7 +5,6 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 const title = 'Помощник самозанятого — налоги, цена работы и документы';
 const description = 'Рассчитайте налог с оплаты, проверьте лимит дохода и подготовьте договор. Понятные инструменты для самозанятых.';
 const tasks = [
- {title:'Рассчитать налог',desc:'Сколько отложить с оплаты и сколько останется вам.',href:'#home-tax',kind:'tax'},
  {title:'Проверить лимит дохода',desc:'Проверьте, сколько осталось до годового лимита 2,4 млн ₽.',href:'/limit-dohoda',kind:'limit'},
  {title:'Рассчитать цену часа',desc:'Рассчитайте ставку за час с учётом налога.',href:'/stavka-v-chas',kind:'price'},
  {title:'Подготовить договор',desc:'Заполните шаблон договора или акта и скачайте документ.',href:'/dogovor-akt',kind:'document'},
@@ -17,14 +16,23 @@ const extra = [
 ];
 ---
 <BaseLayout title={title} description={description} url="/" navVariant="home" structuredData={[{type:'WebSite',data:{'@context':'https://schema.org','@type':'WebSite',name:'НПД.помощник',url:'https://samozanyatye.vercel.app',inLanguage:'ru'}}]}>
-  <header class="directory-intro container">
-    <div><h1>Деньги и документы<br/>самозанятого.</h1></div>
-    <div class="directory-intro-aside"><p>Посчитайте налог, определите цену работы <br/>или подготовьте договор с заказчиком.</p></div>
-  </header>
-  <section class="clear-tasks container" id="tools" aria-labelledby="tasks-title"><span id="tasks-anchor"></span><div class="directory-heading"><h2 id="tasks-title">С чего начнём?</h2><span>4 основные задачи</span></div><div class="clear-task-grid">{tasks.map(task => <a class={`clear-task task-${task.kind}`} href={task.href}><div class="task-art" aria-hidden="true">{task.kind==='tax'?<svg viewBox="0 0 96 70" fill="none"><path d="M20 8h56v54l-7-4-7 4-7-4-7 4-7-4-7 4-7-4-7 4V8Z"/><path class="art-accent" d="M32 26h31M32 37h20M60 34v12M54 40h12"/></svg>:task.kind==='limit'?<svg viewBox="0 0 96 70" fill="none"><path d="M8 55h80M12 55V43m18 12V33m18 22V23m18 32V13m18 42V3"/><path class="art-accent" d="M8 55h45M53 49v12"/></svg>:task.kind==='price'?<svg viewBox="0 0 96 70" fill="none"><circle cx="48" cy="35" r="28"/><path d="M48 14v21l14 8M48 3v6m0 52v6M16 35h6m52 0h6"/><path class="art-accent" d="M48 7a28 28 0 0 1 28 28"/></svg>:<svg viewBox="0 0 96 70" fill="none"><path d="M27 6h34l12 12v46H27zM61 6v14h12M35 31h29M35 40h29M35 49h17"/><path class="art-accent" d="m52 56 4 4 13-14"/></svg>}</div><h3>{task.title}</h3><p>{task.desc}</p><span class="task-arrow" aria-hidden="true">↗</span></a>)}</div>
-    <details class="clear-more"><summary>Все остальные инструменты <span aria-hidden="true">+</span></summary><div class="clear-extra-grid">{extra.map(group=><section><h3>{group.name}</h3>{group.tools.map(tool=><a href={tool.href}>{tool.title}<span aria-hidden="true">↗</span></a>)}</section>)}</div></details>
+  <section class="desk container" id="tools" aria-labelledby="desk-title">
+    <header class="desk-intro">
+      <h1 id="desk-title">Деньги <br/>вашего дела.</h1>
+      <p>Помощник самозанятого: посчитайте налог, проверьте лимит и оформите работу с заказчиком.</p>
+    </header>
+    <section class="desk-calculator" id="home-tax" aria-labelledby="tax-title">
+      <div class="desk-calculator-heading"><h2 id="tax-title">Налог с оплаты</h2></div>
+      <fieldset class="calculator-ready" data-calculator-loading disabled aria-busy="true" aria-label="Расчёт налога с оплаты"><HomeTaxCalculator client:load /></fieldset>
+      <noscript><p>Чтобы пользоваться инструментом, включите JavaScript в браузере.</p></noscript>
+    </section>
+    <nav class="desk-tools" aria-label="Другие основные задачи">
+      {tasks.map(task=><a href={task.href}><div><h2>{task.title}</h2><p>{task.desc}</p></div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6"/></svg></a>)}
+    </nav>
   </section>
-  <section class="directory-calculator container" aria-labelledby="tax-title"><div class="directory-calculator-intro"><span class="clear-eyebrow">Получили оплату</span><h2 id="tax-title">Сколько оставить <br/><em>на налог?</em></h2><p>Укажите сумму и заказчика. <br/>Ответ появится сразу.</p><a href="/otlozhit-na-nalog">Открыть отдельно <span aria-hidden="true">↗</span></a></div><div class="clear-workbench" id="home-tax"><fieldset class="calculator-ready" data-calculator-loading disabled aria-busy="true" aria-label="Инструмент расчёта"><HomeTaxCalculator client:load /></fieldset><noscript><p>Чтобы пользоваться инструментом, включите JavaScript в браузере.</p></noscript></div></section>
+  <section class="desk-library container" aria-label="Все инструменты">
+    <details class="clear-more"><summary>Другие инструменты <span aria-hidden="true">+</span></summary><div class="clear-extra-grid">{extra.map(group=><section><h2>{group.name}</h2>{group.tools.map(tool=><a href={tool.href}>{tool.title}</a>)}</section>)}</div></details>
+  </section>
   <section class="clear-next container" aria-labelledby="next-title">
     <h2 id="next-title">Оплату получили. Что дальше?</h2>
     <p>Если чек уже сформировал банк или платформа, повторно создавать его не нужно.</p>

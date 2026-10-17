@@ -30,9 +30,9 @@ export function HomeTaxCalculator() {
       </div>
       <span className="sr-only" id={`${id}-edit-hint`}>Введите сумму в рублях. Для сумм до 200 000 рублей также можно использовать ползунок.</span>
       {value <= 200000 && <input className="payment-range simple-tax-slider" type="range" min="0" max="200000" step="500" value={value} aria-label="Изменить сумму оплаты ползунком" aria-valuetext={`${formatMoney(value)} рублей`} style={{ '--range-fill': `${value / 2000}%` } as CSSProperties} onChange={e => { setAmount(Number(e.target.value)); setExample(false); }} />}
-      <fieldset className="simple-payers"><legend>Кто заказчик?</legend><div>
-        <button type="button" aria-pressed={client === 'individual'} onClick={() => setClient('individual')}><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true"><circle cx="16" cy="10" r="5"/><path d="M5 29v-3a11 11 0 0 1 22 0v3"/></svg><span>Человек</span><span className="payer-check" aria-hidden="true">{client === 'individual' ? '✓' : ''}</span></button>
-        <button type="button" aria-pressed={client === 'business'} onClick={() => setClient('business')}><svg viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true"><path d="M5 29V8h16v21M21 15h6v14M2 29h28M10 13h2m3 0h2m-7 6h2m3 0h2m-7 6h2m3 0h2"/></svg><span>Компания / ИП</span><span className="payer-check" aria-hidden="true">{client === 'business' ? '✓' : ''}</span></button>
+      <fieldset className="simple-payers"><legend>Кто заплатил?</legend><div>
+        <label className="desk-payer"><input type="radio" name={`${id}-payer`} value="individual" checked={client === 'individual'} onChange={() => setClient('individual')}/><span>Человек</span></label>
+        <label className="desk-payer"><input type="radio" name={`${id}-payer`} value="business" checked={client === 'business'} onChange={() => setClient('business')}/><span>Компания или ИП</span></label>
       </div></fieldset>
     </div>
     <div className="simple-tax-answer" role="status" aria-live="polite" aria-atomic="true">
@@ -40,6 +40,7 @@ export function HomeTaxCalculator() {
         <span className="simple-answer-label">{value === 0 ? 'Нет оплаты — нет налога' : 'Отложите на налог'}</span>
         <strong className="simple-answer-number"><AnimatedMoney value={result.setAside}/></strong>
         <span className="simple-answer-basis">{useDeduction ? 'С учётом налогового бонуса' : `${rate}% с этой оплаты · без налогового бонуса`}</span>
+        <div className="desk-money-share" aria-hidden="true"><span style={{width: `${value > 0 ? result.setAside / value * 100 : 0}%`}} /></div>
         <div className="simple-keep"><span>Вам останется</span><strong><AnimatedMoney value={result.toKeep}/></strong></div>
       </>}
     </div>

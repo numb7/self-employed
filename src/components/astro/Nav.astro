@@ -10,7 +10,7 @@ const { variant = 'inner', showSharePrint = false } = Astro.props;
 <nav class:list={["page-nav", variant === "home" ? "navigation-home" : "navigation-tool"]} aria-label="Основная навигация">
   <div class="container page-nav-inner">
     {variant === 'home' ? (
-      <a href="/" class="nav-back nav-brand font-head font-medium text-ink"><span class="brand-mark" aria-hidden="true">н.</span><span>нпд<span class="brand-suffix">/помощник</span></span></a>
+      <a href="/" class="nav-back nav-brand font-head font-medium text-ink"><span>нпд<span class="brand-suffix">/помощник</span></span></a>
     ) : (
       <a href="/#tools" class="nav-back tool-return text-muted hover:text-ink transition-colors flex items-center gap-1">
         <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -21,7 +21,7 @@ const { variant = 'inner', showSharePrint = false } = Astro.props;
     )}
 
     <div class="page-nav-actions flex items-center gap-2">
-      {variant === 'home' ? <div class="nav-capsule"><a href="#tools" aria-current="location">Инструменты</a><a href="#home-tax">Налог</a><a href="/poleznoe">Помощь</a></div> : <span class="nav-quiet-brand" aria-hidden="true">нпд<span>/помощник</span></span>}
+      {variant === 'home' ? <div class="nav-capsule"><a href="#tools" aria-current="location">Инструменты</a><a href="/poleznoe">Помощь</a></div> : <span class="nav-quiet-brand" aria-hidden="true">нпд<span>/помощник</span></span>}
       {showSharePrint && (
         <>
           <button class="btn-icon" type="button" data-action="share" aria-label="Поделиться">
@@ -135,6 +135,7 @@ const { variant = 'inner', showSharePrint = false } = Astro.props;
     var html = document.documentElement;
     var isDark = html.classList.toggle('dark');
     btn.setAttribute('aria-pressed', isDark ? 'true' : 'false');
+    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', isDark ? '#18251f' : '#f2f4ef');
     try {
       localStorage.setItem('npd-theme', isDark ? 'dark' : 'light');
     } catch(e) {}

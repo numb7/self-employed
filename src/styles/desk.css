@@ -1,0 +1,85 @@
+/* A working page for an independent practice: one open calculation, quiet tools. */
+:root{--color-paper:#f2f4ef;--color-paper-2:#e9eee7;--color-ink:#213d33;--color-ink-2:#385448;--color-muted:#5a6d63;--color-faint:#64766c;--color-line:#ccd5ca;--color-line-2:#7c9182;--color-accent:#2b614e;--color-accent-2:#214c3d;--color-accent-soft:#e0e9d9;--color-lavender:#e9eee7;--color-lavender-2:#e0e9d9;--color-footer-bg:#213d33;--receipt-violet:#2b614e;--receipt-ink:#fff;--receipt-lime:#e9efb2;--desk-answer:#e9efb2;--desk-answer-ink:#213d33}
+.dark{--color-paper:#18251f;--color-paper-2:#22332a;--color-surface:#203128;--color-ink:#edf2e6;--color-ink-2:#d6e2d0;--color-muted:#b2c4b4;--color-faint:#a3b6a5;--color-line:#4d6554;--color-line-2:#7f9c84;--color-accent:#bdd7a5;--color-accent-2:#d3e6bf;--color-accent-soft:#354d3c;--color-lavender:#22332a;--color-lavender-2:#354d3c;--color-footer-bg:#112018}
+.page-nav.navigation-home,.page-nav.navigation-tool{padding-block:14px;background:var(--color-paper);border-bottom:0}
+.navigation-home .nav-brand{font-size:19px;letter-spacing:-.065em;gap:0}
+.navigation-home .brand-suffix{font-weight:400}
+.navigation-home .nav-capsule{position:static;transform:none;margin:0;padding:0;border:0;background:transparent;gap:28px}
+.nav-capsule a,.nav-capsule a:first-child,.nav-capsule a[aria-current]{padding:0;min-height:44px;border-radius:0;background:transparent;color:var(--color-muted);font-size:13px}
+.nav-capsule a[aria-current]{color:var(--color-ink);box-shadow:inset 0 -2px var(--color-accent)}
+.nav-capsule a:hover{background:transparent;color:var(--color-accent)}
+.navigation-home .page-nav-actions{gap:30px}
+.page-nav .btn-icon{border:0;border-radius:0;width:40px;height:44px}
+.navigation-tool .tool-return{border:0;border-radius:0;padding:0;min-height:44px;font-size:14px;gap:10px!important}
+.tool-return svg{background:transparent;border-radius:0;padding:3px;width:24px;height:24px}
+.tool-return:hover{text-decoration:underline;text-underline-offset:5px}
+.nav-quiet-brand{font-size:16px;letter-spacing:-.05em}
+.desk{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);grid-template-rows:auto 1fr;column-gap:9%;padding-block:42px 36px;align-items:start;scroll-margin-top:80px}
+.desk-intro{grid-column:1;grid-row:1;padding-top:14px}
+.desk-intro h1{font-size:clamp(48px,5.6vw,76px);font-weight:600;line-height:1.02;letter-spacing:-.065em;margin:0;max-width:550px}
+.desk-intro>p{font-size:16px;line-height:1.8;max-width:355px;margin:25px 0 30px;color:var(--color-muted)}
+.desk-tools{grid-column:1;grid-row:2;max-width:430px;padding-top:2px}
+.desk-tools>a{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:20px 0;border-top:1px solid var(--color-line);color:var(--color-ink)}
+.desk-tools h2{font-size:19px;font-weight:500;line-height:1.4;letter-spacing:-.025em;margin:0 0 6px}
+.desk-tools p{font-size:13px;color:var(--color-muted);line-height:1.7;margin:0;max-width:310px}
+.desk-tools svg{width:24px;height:24px;flex-shrink:0;transition:transform .15s}
+.desk-tools>a:hover h2{text-decoration:underline;text-underline-offset:5px}
+.desk-tools>a:hover svg{transform:translateX(4px)}
+.desk-calculator{grid-column:2;grid-row:1 / 3;min-width:0;background:var(--color-surface);padding:26px 30px 22px;border-radius:4px 4px 22px 4px;border-top:5px solid var(--color-accent);scroll-margin-top:90px}
+.desk-calculator-heading{display:flex;align-items:center;justify-content:space-between;gap:15px;padding-bottom:22px;margin-bottom:20px;border-bottom:1px solid var(--color-line)}
+.desk-calculator-heading h2{font-size:21px;font-weight:600;letter-spacing:-.035em;margin:0}
+.desk-calculator-heading>a{font-size:11px;line-height:1.5;color:var(--color-muted);text-decoration:underline;text-underline-offset:4px;min-height:44px;display:flex;align-items:center}
+.desk-calculator-heading>a:hover{color:var(--color-accent)}
+.simple-tax .payment-label{font-size:14px}
+.simple-tax .payment-label>span{background:transparent;padding:0;font-size:11px}
+.simple-tax .payment-amount{margin-top:10px;border-bottom:0;gap:5px;min-height:65px}
+.simple-tax .payment-amount input{font-size:clamp(42px,4.5vw,60px);font-weight:500;letter-spacing:-.055em}
+.simple-tax .payment-amount>span{font:400 28px var(--font-body);color:var(--color-muted)}
+.simple-tax .payment-amount>svg{display:none}
+.simple-tax .simple-tax-slider{margin:0 0 12px;min-height:32px}
+.simple-tax .simple-payers{margin:0 0 22px}
+.simple-tax .simple-payers legend{font-size:12px;color:var(--color-muted);margin-bottom:4px}
+.simple-tax .simple-payers>div{display:flex;gap:22px;flex-wrap:wrap}
+.desk-payer{display:flex;align-items:center;gap:8px;min-height:44px;cursor:pointer;font-size:13px}
+.desk-payer input{width:18px;height:18px;margin:0;accent-color:var(--color-accent);cursor:pointer}
+.desk-payer:has(input:checked){color:var(--color-accent);font-weight:600}
+.desk-payer:hover span{text-decoration:underline;text-underline-offset:4px}
+.simple-tax .simple-tax-answer{background:var(--desk-answer);color:var(--desk-answer-ink);padding:20px 22px 16px;border-radius:2px 2px 14px 2px;min-height:190px}
+.simple-tax .simple-answer-label{font-size:13px}
+.simple-tax .simple-answer-number{font-size:clamp(43px,4.5vw,60px);line-height:1.1;margin:10px 0 8px;font-weight:500}
+.simple-tax .simple-answer-basis{font-size:12px;color:#4c604b}
+.desk-money-share{height:5px;display:flex;background:#b7c995;margin-top:18px;border-radius:2px;overflow:hidden}
+.desk-money-share>span{display:block;background:#2b614e;height:100%;transition:width .18s}
+.simple-tax .simple-keep{border:0;padding-top:0;margin-top:10px;font-size:13px;color:#3b5545}
+.simple-tax .simple-keep strong{font-size:22px;color:#213d33}
+.simple-tax .simple-tax-details{margin-top:8px}
+.simple-tax .simple-tax-details summary{font-size:12px}
+.simple-tax .simple-tax-note{font-size:12px;line-height:1.7;max-width:360px}
+.simple-tax .simple-tax-unavailable strong{font-size:22px}
+.simple-tax .simple-tax-unavailable a{color:#213d33}
+.desk-library .clear-more{margin:0 0 32px;border-block:1px solid var(--color-line)}
+.desk-library .clear-more>summary{font-size:16px;color:var(--color-ink);padding-block:12px;min-height:64px}
+.desk-library .clear-extra-grid{padding-block:8px 28px}
+.desk-library .clear-extra-grid h2{font-size:15px;font-weight:600;margin:0 0 10px}
+.desk-library .clear-extra-grid a{justify-content:flex-start}
+.clear-next{border-top:0;padding-top:8px}
+.clear-next>h2{font-size:25px;font-weight:500;letter-spacing:-.04em}
+.clear-next ol{gap:40px}
+.clear-next li>span{border:0;border-radius:0;background:var(--color-accent-soft);color:var(--color-accent);width:28px;height:28px;font-size:13px}
+/* Shared hierarchy inside each tool, without changing its calculation or warnings. */
+.page-hero .page-hero__title{font-size:clamp(32px,4vw,49px);font-weight:600;line-height:1.15;letter-spacing:-.05em;max-width:850px}
+.page-hero .page-hero__title em{font:inherit;color:inherit}
+.page-hero .page-hero__subtitle{max-width:620px;font-size:15px;line-height:1.8}
+.instrument-workspace{gap:0;background:var(--color-surface);border-top:3px solid var(--color-accent);padding-top:0;border-radius:4px;overflow:hidden}
+.instrument-controls{border:0;border-radius:0;padding:28px;background:transparent}
+.instrument-output{border-radius:0;padding:28px;align-self:stretch}
+.full-tax-stage .simple-tax{border:0;border-top:4px solid var(--color-accent);border-radius:4px 4px 20px 4px;padding:28px;max-width:620px}
+.clear-workbench{box-shadow:none;border-radius:4px}
+.instrument-eyebrow{font-family:var(--font-body);letter-spacing:0;text-transform:none}
+@media(max-width:1000px){.desk{column-gap:5%;padding-top:28px}.desk-intro h1{font-size:56px}.desk-calculator{padding:22px}.desk-tools h2{font-size:17px}.desk-tools p{font-size:12px}.desk-intro>p{font-size:15px}.desk-calculator-heading{display:block;padding-bottom:12px;margin-bottom:16px}.desk-calculator-heading>a{min-height:30px;margin-top:3px}.simple-tax .simple-payers>div{gap:12px}.desk-payer{font-size:12px}}
+@media(max-width:700px){.page-nav.navigation-home,.page-nav.navigation-tool{padding-block:10px}.navigation-home .nav-brand{font-size:18px}.navigation-home .brand-suffix{display:none}.navigation-home .nav-capsule{gap:18px}.navigation-home .page-nav-actions{gap:14px}.nav-capsule a{font-size:12px;min-height:44px}.desk{grid-template-columns:minmax(0,1fr);gap:0;padding-block:20px 12px}.desk-intro{grid-column:1;grid-row:1;padding:0}.desk-intro h1{font-size:clamp(44px,11.5vw,68px);line-height:1.04;letter-spacing:-.06em}.desk-intro h1 br{display:block}.desk-intro>p{font-size:14px;line-height:1.75;max-width:400px;margin:18px 0 24px}.desk-calculator{grid-column:1;grid-row:2;padding:20px;border-radius:3px 3px 18px 3px;scroll-margin-top:80px}.desk-calculator-heading{display:flex;gap:12px;padding-bottom:14px;margin-bottom:18px}.desk-calculator-heading h2{font-size:19px}.desk-calculator-heading>a{font-size:10px;margin:0;min-height:44px;max-width:90px;text-align:right}.simple-tax .payment-amount input{font-size:52px}.simple-tax .simple-tax-slider{min-height:40px;margin-bottom:10px}.simple-tax .simple-payers>div{gap:20px}.desk-payer{font-size:13px}.simple-tax .simple-payers{margin-bottom:16px}.simple-tax .simple-tax-answer{padding:18px 20px 15px;min-height:185px}.simple-tax .simple-answer-number{font-size:52px}.desk-tools{grid-column:1;grid-row:3;max-width:none;margin-top:26px}.desk-tools>a{padding-block:17px}.desk-tools h2{font-size:18px}.desk-tools p{font-size:12px;max-width:270px}.desk-library .clear-more{margin-bottom:25px}.desk-library .clear-more>summary{font-size:15px}.clear-next>h2{font-size:23px}.clear-next ol{gap:18px}.instrument-controls,.instrument-output{padding:22px}.page-hero .page-hero__title{font-size:33px}.full-tax-stage .simple-tax{padding:22px}.nav-quiet-brand{font-size:13px}}
+@media(max-width:370px){.navigation-home .nav-capsule{gap:12px}.navigation-home .page-nav-actions{gap:8px}.desk-calculator{padding:18px 16px}.simple-tax .simple-payers>div{gap:14px}.desk-payer{font-size:12px}.simple-tax .simple-answer-number{font-size:48px}}
+@media(prefers-reduced-motion:reduce){.desk-tools svg,.desk-money-share>span{transition:none}}
+@media(min-width:1001px){.desk{padding-top:24px;column-gap:8%}.desk-calculator{padding:20px 28px 18px}.desk-calculator-heading{padding-bottom:12px;margin-bottom:16px}.desk-calculator .simple-tax .payment-amount{min-height:58px}.desk-calculator .simple-tax .payment-amount input{font-size:54px}.desk-calculator .simple-tax .simple-payers{margin-bottom:14px}.desk-calculator .simple-tax .simple-tax-answer{min-height:172px;padding:17px 22px 14px}.desk-calculator .simple-tax .simple-answer-number{font-size:52px}.desk-intro>p{margin-bottom:22px}}
+
+.output-number small,.output-number>span{font-family:var(--font-body);font-style:normal}
