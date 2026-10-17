@@ -338,7 +338,7 @@ export function ModeWizard() {
       {/* Intro */}
       {step === 0 && (
         <div className={cn('flex flex-col items-center gap-5 text-center', getSlideClass(direction, true))}>
-          <div className="wizard-intro-art" aria-hidden="true"><span>01</span><i>→</i><span>02</span><i>→</i><span>03</span><i>→</i><span>04</span></div><h2 className="wizard-intro-title">Четыре ответа.<br/><em>Понятная отправная точка.</em></h2><p className="instrument-hint">Деятельность, сотрудники, доход и расходы. Соберём предварительный вариант и подскажем, что проверить дальше.</p>
+          <ol className="wizard-route">{["Деятельность","Сотрудники","Доход","Расходы"].map((item,i)=><li key={item}><span>{i+1}</span>{item}</li>)}</ol><h2 className="wizard-intro-title">Подберём режим<br/>под вашу работу.</h2><p className="instrument-hint">Деятельность, сотрудники, доход и расходы. Соберём предварительный вариант и подскажем, что проверить дальше.</p>
           {previousResult && (
             <div className="w-full max-w-md rounded-[var(--radius-card)] border border-line bg-surface p-4 text-sm">
               <p className="text-muted">
@@ -440,12 +440,6 @@ export function ModeWizard() {
                   <li key={i}>{s}</li>
                 ))}
               </ol>
-              <a
-                href={resultData.relatedUrl}
-                className="mt-3 inline-flex min-h-11 items-center rounded-[var(--radius-card)] border border-line bg-surface px-4 py-2.5 text-sm font-medium text-accent hover:bg-lavender transition-colors duration-[var(--duration-fast)]"
-              >
-                {resultData.relatedText}
-              </a>
             </div>
 
             {/* Disclaimer */}

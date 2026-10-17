@@ -16,8 +16,6 @@ export interface ResultCardProps {
   whyItems?: string[];
   /** Индикатор риска — показывается в шапке рядом с label */
   risk?: { level: 'green' | 'amber' | 'red'; label?: string };
-  /** Ссылка на связанный инструмент */
-  next?: { to: string; label: string };
   /** Trust strip тексты */
   trust?: string[];
   /** Дополнительный контент в нижней части */
@@ -33,7 +31,6 @@ export function ResultCard({
   detail,
   whyItems,
   risk,
-  next,
   children,
   className,
 }: ResultCardProps) {
@@ -87,19 +84,6 @@ export function ResultCard({
       {/* Extra content */}
       {children}
 
-      {/* Next action */}
-      {next && (
-        <a
-          href={next.to}
-          className="result-card__next mt-2 inline-flex min-h-11 items-center gap-1.5 text-sm font-medium text-accent hover:text-accent-2 transition-colors"
-        >
-          <span>{next.label}</span>
-          <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-            <path d="M5 12h14" />
-            <path d="m12 5 7 7-7 7" />
-          </svg>
-        </a>
-      )}
 
     </div>
   );

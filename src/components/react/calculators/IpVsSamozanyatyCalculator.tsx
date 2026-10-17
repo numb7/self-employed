@@ -1,3 +1,4 @@
+import { ValueTrack } from '../ui/FinanceVisuals';
 import { useState } from 'react';
 import { RangeControl } from '../ui/RangeControl';
 import { PayerCards } from '../ui/PayerCards';
@@ -16,9 +17,9 @@ export function IpVsSamozanyatyCalculator() {
     <div className="comparison-pair" role="status" aria-live="polite">
       <article className={`compare-card ${!result.overLimit && result.npd <= result.ip ? 'compare-preferred' : ''}`}>
         <h3>Самозанятость</h3>
-        {result.overLimit ? <><strong className="compare-unavailable">Лимит превышен</strong><p className="comparison-warning">При таком годовом доходе нельзя применять НПД ко всей сумме.</p></> : <><span className="compare-caption">Налог за год</span><div className="compare-number"><AnimatedMoney value={result.npd}/></div><span className="compare-foot">{client === 'individual' ? 4 : 6}% · без налогового бонуса</span></>}
+        {result.overLimit ? <><strong className="compare-unavailable">Лимит превышен</strong><p className="comparison-warning">При таком годовом доходе нельзя применять НПД ко всей сумме.</p></> : <><span className="compare-caption">Налог за год</span><div className="compare-number"><AnimatedMoney value={result.npd}/></div><span className="compare-foot">{client === 'individual' ? 4 : 6}% · без налогового бонуса</span><ValueTrack value={result.npd} max={Math.max(result.npd,result.ip,1)} label=""/></>}
       </article>
-      <article className={`compare-card ${!result.overLimit && result.ip < result.npd ? 'compare-preferred' : ''}`}><h3>ИП на УСН 6%</h3><span className="compare-caption">Налог и взносы за год</span><div className="compare-number"><AnimatedMoney value={result.ip}/></div><span className="compare-foot">Обязательные взносы включены</span></article>
+      <article className={`compare-card ${!result.overLimit && result.ip < result.npd ? 'compare-preferred' : ''}`}><h3>ИП на УСН 6%</h3><span className="compare-caption">Налог и взносы за год</span><div className="compare-number"><AnimatedMoney value={result.ip}/></div><span className="compare-foot">Обязательные взносы включены</span>{!result.overLimit&&<ValueTrack value={result.ip} max={Math.max(result.npd,result.ip,1)} label="" tone="warm"/>}</article>
     </div>
     <div className="comparison-conclusion">{result.overLimit ? <p>Для дохода за пределами НПД понадобится другой режим. <a href="/master-vybora-rezhima">Проверить варианты ↗</a></p> : <p>{saving === 0 ? 'Расчётная нагрузка одинаковая.' : <>Разница — <strong>{formatMoney(saving)} ₽ в год</strong> в пользу {result.npd < result.ip ? 'самозанятости' : 'ИП'}.</>} Учитывайте также условия работы и отчётность.</p>}</div>
     <details className="stage-method"><summary>Что вошло в расчёт <span aria-hidden="true">+</span></summary><p>ИП на УСН «Доходы» 6%, без сотрудников и дополнительных льгот. Налог уменьшается на обязательные взносы. Налоговый бонус самозанятого здесь не учитывается.</p><dl className="compare-breakdown"><div><dt>Взносы ИП</dt><dd>{formatMoney(result.ipContributions)} ₽</dd></div><div><dt>Налог ИП после уменьшения</dt><dd>{formatMoney(Math.max(0, result.ip - result.ipContributions))} ₽</dd></div></dl><a href="/metodika">Методика и источники ↗</a></details>

@@ -208,10 +208,9 @@ export function ConcentrationTracker() {
                   ? 'Заметная зависимость'
                   : 'Доход распределён',
             }}
-            next={{ to: '/risk-trudovyh', label: 'Оценить риск переквалификации' }}
             trust={['По признакам ФНС', 'Учитывает срок работы', 'Без отправки данных']}
-          ><div className="client-distribution"><h3>Как распределён ваш доход</h3><div className="distribution-strip" aria-hidden="true">{result.sources.map((source,index)=><span key={index} style={{flex:source.monthlyIncome,background:`hsl(${258-index*27} 35% ${43+index%3*12}%)`}}/>)}</div><div className="distribution-legend">{result.sources.map((source,index)=><p key={index}><span>{source.name||`Заказчик ${index+1}`}</span><strong>{source.share}%</strong></p>)}</div></div></ResultCard>
-        ) : null}
+          ><div className="client-distribution"><h3>Как распределён ваш доход</h3><div className="distribution-strip" aria-hidden="true">{result.sources.map((source,index)=><span key={index} style={{flex:source.monthlyIncome,background:`hsl(${155-index*18} 24% ${30+index%4*12}%)`}}/>)}</div><div className="distribution-legend">{result.sources.map((source,index)=><p key={index}><span>{source.name||`Заказчик ${index+1}`}</span><strong>{source.share}%</strong></p>)}</div></div></ResultCard>
+        ) : <aside className="result-empty"><h2>Как распределён доход?</h2><p>Добавьте суммы по заказчикам. Здесь появятся их доли и общий доход.</p></aside>}
       </div>
     </div>
   );

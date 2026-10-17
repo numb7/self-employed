@@ -29,8 +29,8 @@ export function ProgressIndicator({
     <div className={cn('flex flex-col gap-1', className)}>
       <div className="h-1.5 rounded-full bg-lavender overflow-hidden">
         <div
-          className={cn('h-full rounded-full transition-all duration-[var(--duration-base)] ease-[var(--ease-out)]', colorMap[color])}
-          style={{ width: `${clamped}%` }}
+          className={cn('h-full rounded-full transition-transform duration-[var(--duration-base)] ease-[var(--ease-out)]', colorMap[color])}
+          style={{ width: '100%', transform: `scaleX(${clamped/100})`, transformOrigin: 'left' }}
           role="progressbar"
           aria-valuenow={clamped}
           aria-valuemin={0}

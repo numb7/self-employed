@@ -4,6 +4,7 @@ import '../styles/authored.css';
 import '../styles/clarity.css';
 import '../styles/desk.css';
 import '../styles/motion.css';
+import '../styles/instruments.css';
 import Motion from '../components/astro/Motion.astro';
 import Nav from '../components/astro/Nav.astro';
 import Footer from '../components/astro/Footer.astro';
@@ -77,7 +78,7 @@ const canonicalUrl = `https://samozanyatye.vercel.app${url}`;
     <JsonLd type={item.type} data={item.data} />
   ))}
 </head>
-<body class="bg-paper text-ink font-body min-h-dvh flex flex-col antialiased">
+<body data-page={url} class="bg-paper text-ink font-body min-h-dvh flex flex-col antialiased">
 
   <a href="#main" class="skip-link">Перейти к содержанию</a>
 

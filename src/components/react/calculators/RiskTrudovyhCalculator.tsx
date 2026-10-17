@@ -1,3 +1,4 @@
+import { ChecklistMeter } from '../ui/FinanceVisuals';
 import { useState, useMemo } from 'react';
 import { cn } from '@/lib/cn';
 import { ControlGroup } from '../ui/ControlGroup';
@@ -66,7 +67,7 @@ export function RiskTrudovyhCalculator() {
   return (
     <div className="flex flex-col gap-6" id="calculator-risk-trudovyh">
       <ControlGroup label="Признаки трудовых отношений" description="Отметьте знакомые ситуации. Это ориентировочный чек-лист, не юридическое заключение.">
-        <div className="risk-check-counter"><strong>{count}<span> / 13</span></strong><p>признаков отмечено</p></div>
+        <ChecklistMeter count={count} total={13} label="Отмечено признаков"/><p className="instrument-hint">Это число признаков, а не вероятность нарушения.</p>
         <fieldset className="flex flex-col gap-5">
           <legend className="sr-only">Отметьте признаки, которые есть в вашей работе</legend>
           {RISK_GROUPS.map((group) => (
@@ -164,7 +165,6 @@ export function RiskTrudovyhCalculator() {
                   ? 'Есть признаки'
                   : 'Мало признаков',
             }}
-            next={{ to: '/dogovor-akt', label: 'Создать договор и акт' }}
             trust={['ФНС · ст. 15 ТК РФ', '13 признаков', 'Без отправки данных']}
           >
             <div className="mt-3 flex flex-col gap-2">
@@ -182,7 +182,7 @@ export function RiskTrudovyhCalculator() {
               )}
             </div>
           </ResultCard>
-        ) : null}
+        ) : <aside className="result-empty"><h2>Проверим вашу ситуацию</h2><p>Отмечайте признаки в форме. Здесь появится предварительная оценка и пояснения.</p></aside>}
       </div>
     </div>
   );

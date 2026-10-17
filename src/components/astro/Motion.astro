@@ -8,7 +8,7 @@
     if (!workspace || workspace.querySelector('.simple-tax')) return;
     cancelAnimationFrame(pendingFrame);
     pendingFrame = requestAnimationFrame(() => {
-      workspace.querySelectorAll('.instrument-output,.compare-card,.criterion-verdict').forEach(output => {
+      workspace.querySelectorAll('.instrument-output,.compare-card,.result-card,.document-paper').forEach(output => {
         running.get(output)?.cancel();
         running.set(output, output.animate([{transform:'translateY(3px)',opacity:.8},{transform:'translateY(0)',opacity:1}], {duration:240,easing:'ease-out'}));
       });

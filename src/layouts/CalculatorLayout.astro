@@ -61,7 +61,7 @@ const jsonLd = [
   </header>
 
   <div class="container mt-6 mb-16">
-    <div class="calculator-content">
+    <div class="calculator-content" style={['/metodika','/poleznoe'].includes(url)?undefined:'max-width:none'}>
       <slot />
     </div>
   </div>

@@ -1,3 +1,4 @@
+import { ChecklistMeter } from '../ui/FinanceVisuals';
 import { useState, useMemo, useEffect } from 'react';
 import { SegmentedToggle } from '../ui/SegmentedToggle';
 import { ControlGroup } from '../ui/ControlGroup';
@@ -145,6 +146,7 @@ export function ContractGenerator() {
     !clientInnValid && 'корректный ИНН заказчика',
   ].filter(Boolean) as string[];
   const isReady = requiredMissing.length === 0;
+  const filledRequired = [!!formData.executorName.trim(),executorInnValid,!!formData.clientName.trim(),!!formData.service.trim(),!!formData.amount&&formData.amount>0].filter(Boolean).length;
 
   const generatedDocument = useMemo(() => {
     if (!showPreview) return '';
@@ -181,6 +183,7 @@ export function ContractGenerator() {
         label="Документ"
         description="Укажите данные — сервис соберёт редактируемый шаблон договора или акта."
       >
+        <div className="contract-progress-mobile"><ChecklistMeter count={filledRequired} total={5} label="Обязательные данные"/></div>
         <div className="flex flex-col gap-1.5">
           <span className="text-sm font-medium text-ink">Тип документа</span>
           <SegmentedToggle
@@ -346,7 +349,7 @@ export function ContractGenerator() {
         </button>
       </ControlGroup>
 
-      {!showPreview && <aside className="contract-empty"><div className="document-paper"><span className="instrument-eyebrow">Черновик / {formData.docType==='agreement'?'договор':'акт'}</span><h2>Договорённости<br/><em>на бумаге.</em></h2><div className="document-lines" aria-hidden="true"><i/><i/><i/><i/><i/></div><p>Заполните данные слева. Здесь появится текст для проверки, копирования и скачивания.</p><span className="document-signature">Ваше дело ↗</span></div></aside>}
+      {!showPreview && <aside className="contract-empty"><div className="document-paper"><h2>{formData.docType==='agreement'?'Договор':'Акт'}<br/>оказания услуг</h2><p>Данные будущего документа</p><ChecklistMeter count={filledRequired} total={5} label="Обязательные данные"/><dl className="document-data"><div><dt>Исполнитель</dt><dd>{formData.executorName||'Пока не указан'}</dd></div><div><dt>Заказчик</dt><dd>{formData.clientName||'Пока не указан'}</dd></div><div><dt>Услуга</dt><dd>{formData.service||'Добавьте описание'}</dd></div><div><dt>Сумма</dt><dd>{formData.amount?`${formatMoney(formData.amount)} ₽`:'Пока не указана'}</dd></div></dl><p>После заполнения обязательных данных можно собрать текст для проверки и скачивания.</p></div></aside>}
       {showPreview && (
         <div className="animate-[resultAppear_300ms_ease-out_both]">
           <div className="rounded-[var(--radius-card)] border border-line bg-surface shadow-[var(--shadow-card-rest)] p-6">

@@ -14,7 +14,7 @@ const faqs = [
 ];
 const structuredData = [{type:'FAQPage',data:{'@context':'https://schema.org','@type':'FAQPage',mainEntity:faqs.map(f=>({'@type':'Question',name:f.q,acceptedAnswer:{'@type':'Answer',text:f.a}}))}}];
 ---
-<CalculatorLayout title={title} description={description} url="/poleznoe" heading="Без сложных слов" structuredData={structuredData}>
+<CalculatorLayout title={title} description={description} url="/poleznoe" heading="Вопросы о самозанятости" structuredData={structuredData}>
   <p slot="subtitle">Налог, чеки и лимит дохода — ответы на повседневные вопросы.</p>
   <section class="plain-faq" aria-label="Вопросы о самозанятости">{faqs.map(f=><details><summary>{f.q}<span aria-hidden="true">+</span></summary><p>{f.a}</p></details>)}</section>
   <p class="plain-faq-sources">Основные правила: <a href="https://npd.nalog.ru/" target="_blank" rel="noopener noreferrer">сайт ФНС</a>. О дате утраты права на НПД: <a href="https://www.nalog.gov.ru/rn91/news/tax_doc_news/8485686/" target="_blank" rel="noopener noreferrer">разъяснение ФНС</a>. <a href="/metodika">Как устроены наши расчёты ↗</a></p>
