@@ -1,338 +1,39 @@
 ---
+import { HomeTaxCalculator } from '../components/react/calculators/HomeTaxCalculator';
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-const title = 'Финансовый помощник для самозанятых — налог, лимит, риски и документы';
-const description = 'Калькуляторы для самозанятых: налог 4% и 6%, лимит дохода 2,4 млн ₽, ставка в час, риск переквалификации, договор и акт. Расчёты выполняются на устройстве.';
-const url = '/';
-
-/* ── Сценарные карточки ── */
-const scenarios = [
-  {
-    title: 'Мне пришла оплата',
-    hint: 'Узнайте, сколько отложить на налог.',
-    href: '/otlozhit-na-nalog',
-  },
-  {
-    title: 'Боюсь превысить лимит',
-    hint: 'Проверьте, сколько осталось до 2,4 млн ₽.',
-    href: '/limit-dohoda',
-  },
-  {
-    title: 'Не знаю, ИП или самозанятость',
-    hint: 'Интерактивный помощник под ваши условия.',
-    href: '/master-vybora-rezhima',
-  },
-  {
-    title: 'Работаю с одним заказчиком',
-    hint: 'Оцените риск переквалификации.',
-    href: '/risk-trudovyh',
-  },
-  {
-    title: 'Нужно оформить документы',
-    hint: 'Готовый шаблон договора и акта.',
-    href: '/dogovor-akt',
-  },
-  {
-    title: 'Хочу рассчитать ставку',
-    hint: 'Узнайте ставку до и после налога.',
-    href: '/stavka-v-chas',
-  },
+const title = 'Помощник самозанятого — сколько отложить на налог и что делать дальше';
+const description = 'Рассчитайте налог с оплаты, проверьте лимит дохода и подготовьте договор. Понятные инструменты для самозанятых, бесплатно и без регистрации.';
+const tasks = [
+ {title:'Сколько ещё можно заработать?',desc:'Проверьте, сколько осталось до годового лимита 2,4 млн ₽.',href:'/limit-dohoda',kind:'limit'},
+ {title:'Какую цену назвать клиенту?',desc:'Рассчитайте ставку за час с учётом налога.',href:'/stavka-v-chas',kind:'price'},
+ {title:'Заказчик просит договор?',desc:'Заполните шаблон договора или акта и скачайте документ.',href:'/dogovor-akt',kind:'document'},
 ];
-
-/* ── Категории инструментов ── */
-const categories = [
-  {
-    name: 'Деньги',
-    tools: [
-      { title: 'Отложить на налог', desc: '4% с физлиц или 6% с юрлиц', href: '/otlozhit-na-nalog' },
-      { title: 'Лимит дохода', desc: 'До 2,4 млн ₽ в год', href: '/limit-dohoda' },
-      { title: 'Вычет 10 000 ₽', desc: 'Снижает ставку на 1–2 п.п.', href: '/vychet-10000' },
-      { title: 'Ставка в час', desc: 'Сколько просить и сколько получать', href: '/stavka-v-chas' },
-    ],
-  },
-  {
-    name: 'Риски',
-    tools: [
-      { title: 'Риск переквалификации', desc: 'Чек-лист признаков трудовых отношений', href: '/risk-trudovyh' },
-      { title: 'Зависимость от заказчика', desc: 'Доля дохода от крупнейшего клиента', href: '/koncentracia-dohoda' },
-      { title: 'Работа через платформу', desc: 'Критерий 60 часов и 6 месяцев', href: '/chasy-289-fz' },
-    ],
-  },
-  {
-    name: 'Документы и режим',
-    tools: [
-      { title: 'Договор и акт', desc: 'Готовый шаблон для банка', href: '/dogovor-akt' },
-      { title: 'Сравнить налоги НПД и ИП', desc: 'Расчёт нагрузки по двум режимам', href: '/ip-ili-samozanyatyy' },
-      { title: 'Подобрать налоговый режим', desc: 'Выбор по четырём условиям', href: '/master-vybora-rezhima' },
-    ],
-  },
-  {
-    name: 'Соцзащита',
-    tools: [
-      { title: 'Пенсионный стаж', desc: 'Стоимость 1 года стажа', href: '/pensiya' },
-      { title: 'Взносы на больничный', desc: 'Добровольные взносы в СФР', href: '/bolnichny' },
-    ],
-  },
-];
-
-/* ── FAQ ── */
-const faqItems = [
-  {
-    q: 'Можно ли использовать сервис вместо бухгалтера?',
-    a: 'Сервис помогает с предварительными расчётами — налог, лимит, ставки, риски. Он не заменяет бухгалтера или юриста, но даёт быструю ориентировочную цифру для повседневных решений.',
-  },
-  {
-    q: 'Сколько налога платит самозанятый?',
-    a: 'Ставка НПД: 4% с доходов от физлиц и 6% от юрлиц и ИП. Налог не удерживается автоматически — вы получаете всю сумму и сами откладываете часть. Срок уплаты — до 28-го числа следующего месяца.',
-    link: { text: 'Калькулятор «Отложить на налог» →', href: '/otlozhit-na-nalog' },
-  },
-  {
-    q: 'Какой лимит дохода у самозанятых?',
-    a: '2 400 000 ₽ в год. При превышении лимита статус самозанятого теряется с начала месяца превышения — нужно переходить на ИП или другой налоговый режим.',
-    link: { text: 'Калькулятор лимита дохода →', href: '/limit-dohoda' },
-  },
-  {
-    q: 'Что будет, если превысить лимит?',
-    a: 'Статус НПД аннулируется с первого дня месяца, в котором превышен лимит. Нужно перейти на другой режим налогообложения (например, ИП на УСН). Доходы после превышения облагаются по правилам нового режима.',
-  },
-  {
-    q: 'Чем самозанятый отличается от ИП?',
-    a: 'Самозанятый платит 4–6% НПД без обязательных взносов. ИП на УСН платит 6% с доходов или 15% с разницы между доходами и расходами, плюс обязательные страховые взносы — 57 390 ₽ в 2026 году. ИП нужен при доходе выше 2,4 млн ₽, найме сотрудников и для видов деятельности, недоступных на НПД.',
-    link: { text: 'Сравнить режимы →', href: '/ip-ili-samozanyatyy' },
-  },
-  {
-    q: 'Безопасно ли вводить данные на сайте?',
-    a: 'Да. Все расчёты выполняются прямо в вашем браузере — данные не отправляются на сервер. Сервис не хранит, не передаёт и не обрабатывает вашу финансовую информацию где-либо, кроме вашего устройства.',
-  },
-];
-
-/* ── JSON-LD ── */
-const structuredData = [
-  {
-    type: 'WebSite',
-    data: {
-      '@context': 'https://schema.org',
-      '@type': 'WebSite',
-      name: 'Финансовый помощник для самозанятых',
-      description: 'Калькуляторы и инструменты для самозанятых в России 2026',
-      url: 'https://samozanyatye.vercel.app',
-      inLanguage: 'ru',
-      dateModified: '2026-08-06',
-    },
-  },
-  {
-    type: 'Organization',
-    data: {
-      '@context': 'https://schema.org',
-      '@type': 'Organization',
-      name: 'NPD помощник',
-      url: 'https://samozanyatye.vercel.app',
-      description: 'Бесплатные калькуляторы для самозанятых в России',
-    },
-  },
-  {
-    type: 'FAQPage',
-    data: {
-      '@context': 'https://schema.org',
-      '@type': 'FAQPage',
-      mainEntity: faqItems.map(item => ({
-        '@type': 'Question',
-        name: item.q,
-        acceptedAnswer: {
-          '@type': 'Answer',
-          text: item.a,
-        },
-      })),
-    },
-  },
+const extra = [
+ {name:'Налоги и выбор режима',tools:[{title:'Как работает налоговый бонус',href:'/vychet-10000'},{title:'Сравнить налоги самозанятого и ИП',href:'/ip-ili-samozanyatyy'},{title:'Мне подходит самозанятость?',href:'/master-vybora-rezhima'}]},
+ {name:'Работа с заказчиками',tools:[{title:'Похоже ли сотрудничество на работу по найму?',href:'/risk-trudovyh'},{title:'Слишком много дохода от одного клиента?',href:'/koncentracia-dohoda'},{title:'Работаю через платформу — что проверить?',href:'/chasy-289-fz'}]},
+ {name:'Пенсия и больничный',tools:[{title:'Сколько стоит пенсионный стаж',href:'/pensiya'},{title:'Сколько платить за страхование больничного',href:'/bolnichny'}]},
 ];
 ---
-
-<BaseLayout
-  title={title}
-  description={description}
-  url={url}
-  navVariant="home"
-  structuredData={structuredData}
->
-
-  <!-- ═══════════════════════════════════════════
-       1. Hero
-       ═══════════════════════════════════════════ -->
-  <section class="hero">
-    <div class="container">
-      <span class="hero__eyebrow">Помощник самозанятого</span>
-      <h1 class="hero__title font-head">
-        Финансовый помощник для самозанятых
-      </h1>
-      <p class="hero__subtitle text-muted">
-        Посчитайте налог, лимит дохода, ставку, риски и взносы для быстрой самопроверки.
-      </p>
-
-      <div class="hero__cta mt-6 flex flex-wrap gap-3">
-        <a
-          href="/otlozhit-na-nalog"
-          class="hero__cta-primary inline-flex items-center gap-2 rounded-[var(--radius-card)] bg-accent px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-accent-2"
-        >
-          Рассчитать налог
-          <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-        </a>
-        <a
-          href="#tools"
-          class="hero__cta-secondary inline-flex items-center gap-2 rounded-[var(--radius-card)] border border-line bg-surface px-5 py-3 text-sm font-medium text-ink transition-colors hover:bg-lavender"
-        >
-          Выбрать инструмент
-        </a>
-      </div>
-
-      <div class="hero__trust mt-6 flex flex-wrap items-center gap-x-5 gap-y-1 text-xs text-muted">
-        <span>Ставки: <strong class="text-ink">ФНС · 4% / 6%</strong></span>
-        <span class="text-faint hidden sm:inline" aria-hidden="true">·</span>
-        <span>Лимит: <strong class="text-ink">2,4 млн ₽</strong></span>
-        <span class="text-faint hidden sm:inline" aria-hidden="true">·</span>
-        <span>Данные: <strong class="text-ink">только на устройстве</strong></span>
-      </div>
+<BaseLayout title={title} description={description} url="/" navVariant="home" structuredData={[{type:'WebSite',data:{'@context':'https://schema.org','@type':'WebSite',name:'НПД.помощник',url:'https://samozanyatye.vercel.app',inLanguage:'ru'}}]}>
+  <section class="clear-hero container">
+    <div class="clear-intro">
+      <span class="clear-eyebrow">Помощник самозанятого</span>
+      <h1>Работайте на себя.<br/><em>С цифрами поможем.</em></h1>
+      <p>Получили оплату? Узнайте, сколько оставить на налог, а сколько останется вам.</p>
+      <a href="#home-tax" class="clear-start">Посчитать с моей суммы <span aria-hidden="true">↗</span></a>
+      <span class="clear-free">Бесплатно · Без регистрации</span>
+      <div class="clear-intro-foot"><span class="identity-split" aria-hidden="true"></span><span>Меньше считать.<br/>Больше заниматься своим делом.</span></div>
     </div>
+    <section class="clear-workbench" id="home-tax" aria-labelledby="tax-title"><h2 id="tax-title">Сколько оставить на налог?</h2><fieldset class="calculator-ready" data-calculator-loading disabled aria-busy="true" aria-label="Инструмент расчёта"><HomeTaxCalculator client:load /></fieldset><noscript><p>Чтобы пользоваться инструментом, включите JavaScript в браузере.</p></noscript></section>
   </section>
-
-  <!-- ═══════════════════════════════════════════
-       2. Что у вас сейчас?
-       ═══════════════════════════════════════════ -->
-  <section class="container mt-12" id="scenarios">
-    <h2 class="font-head text-[var(--fs-h2)] font-medium text-ink">Что у вас сейчас?</h2>
-    <p class="mt-2 text-sm text-muted max-w-xl">
-      Выберите свою ситуацию — сервис подскажет нужный инструмент.
-    </p>
-
-    <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-      {scenarios.map(s => (
-        <a
-          href={s.href}
-          class="scenario-card group flex items-start gap-3 rounded-[var(--radius-card)] border border-line bg-surface p-5 transition-colors hover:bg-lavender"
-        >
-          <div class="flex-1 min-w-0">
-            <span class="scenario-card__title font-head text-sm font-medium text-ink group-hover:text-accent transition-colors">
-              {s.title}
-            </span>
-            <span class="mt-1 block text-xs text-muted leading-relaxed">{s.hint}</span>
-          </div>
-          <svg class="scenario-card__arrow w-4 h-4 text-faint group-hover:text-accent transition-colors flex-shrink-0 mt-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="m9 18 6-6-6-6" />
-          </svg>
-        </a>
-      ))}
-    </div>
+  <section class="clear-next container" aria-labelledby="next-title">
+    <h2 id="next-title">Оплату получили. Что дальше?</h2>
+    <p>Если чек уже сформировал банк или платформа, повторно создавать его не нужно.</p>
+    <ol><li><span aria-hidden="true">1</span><div><strong>Оформите чек</strong><p>В «Мой налог» или сервисе, через который ведёте самозанятость. Отправьте его заказчику.</p></div></li><li><span aria-hidden="true">2</span><div><strong>Оставьте деньги на налог</strong><p>Калькулятор выше поможет оценить сумму с этой оплаты.</p></div></li><li><span aria-hidden="true">3</span><div><strong>Проверьте начисление</strong><p>Итог за месяц появится в «Мой налог». Обычный срок уплаты — до 28-го числа следующего месяца.</p></div></li></ol>
+    <a href="https://npd.nalog.ru/" target="_blank" rel="noopener noreferrer">Как это работает — на сайте ФНС ↗</a>
   </section>
-
-  <!-- ═══════════════════════════════════════════
-       4. Все инструменты по категориям
-       ═══════════════════════════════════════════ -->
-  <section class="container mt-12" id="tools">
-    <h2 class="font-head text-[var(--fs-h2)] font-medium text-ink">Все инструменты</h2>
-    <p class="mt-2 text-sm text-muted max-w-xl">
-      Сгруппированы по задачам — деньги, риски, документы и соцзащита.
-    </p>
-
-    <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
-      {categories.map(cat => (
-        <div class="category">
-          <h3 class="category__name font-head text-sm font-semibold text-ink tracking-wider mb-3">
-            {cat.name}
-          </h3>
-          <div class="flex flex-col gap-2">
-            {cat.tools.map(tool => (
-              <a
-                href={tool.href}
-                class="category__tool group flex items-center gap-3 rounded-[var(--radius-card)] border border-line bg-surface px-4 py-3 transition-colors hover:bg-lavender"
-              >
-                <span class="flex-1 min-w-0">
-                  <span class="category__tool-title text-sm font-medium text-ink group-hover:text-accent transition-colors">
-                    {tool.title}
-                  </span>
-                  <span class="ml-2 text-xs text-muted">{tool.desc}</span>
-                </span>
-                <svg class="category__tool-arrow w-3.5 h-3.5 text-faint group-hover:text-accent transition-colors flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                  <path d="m9 18 6-6-6-6" />
-                </svg>
-              </a>
-            ))}
-          </div>
-        </div>
-      ))}
-    </div>
+  <section class="clear-tasks container" id="tools" aria-labelledby="tasks-title"><span id="tasks-anchor"></span><h2 id="tasks-title">С чем ещё помочь?</h2><div class="clear-task-grid">{tasks.map(task => <a class={`clear-task task-${task.kind}`} href={task.href}><div class="task-art" aria-hidden="true">{task.kind==='limit'?<svg viewBox="0 0 96 70" fill="none"><path d="M8 55h80M12 55V43m18 12V33m18 22V23m18 32V13m18 42V3"/><path class="art-accent" d="M8 55h45M53 49v12"/></svg>:task.kind==='price'?<svg viewBox="0 0 96 70" fill="none"><circle cx="48" cy="35" r="28"/><path d="M48 14v21l14 8M48 3v6m0 52v6M16 35h6m52 0h6"/><path class="art-accent" d="M48 7a28 28 0 0 1 28 28"/></svg>:<svg viewBox="0 0 96 70" fill="none"><path d="M27 6h34l12 12v46H27zM61 6v14h12M35 31h29M35 40h29M35 49h17"/><path class="art-accent" d="m52 56 4 4 13-14"/></svg>}</div><h3>{task.title}</h3><p>{task.desc}</p><span class="task-arrow" aria-hidden="true">↗</span></a>)}</div>
+    <details class="clear-more"><summary>Другие вопросы: налоги, заказчики, пенсия <span aria-hidden="true">+</span></summary><div class="clear-extra-grid">{extra.map(group=><section><h3>{group.name}</h3>{group.tools.map(tool=><a href={tool.href}>{tool.title}<span aria-hidden="true">↗</span></a>)}</section>)}</div><a class="clear-tax-link" href="/poleznoe">Самозанятость простыми словами ↗</a><br/><a class="clear-tax-link" href="/otlozhit-na-nalog">Открыть налоговый калькулятор отдельной страницей ↗</a></details>
   </section>
-
-  <!-- ═══════════════════════════════════════════
-       7. FAQ
-       ═══════════════════════════════════════════ -->
-  <section class="container mt-16 mb-16">
-    <h2 class="font-head text-[var(--fs-h2)] font-medium text-ink">Частые вопросы</h2>
-
-    <div class="mt-4 flex flex-col gap-3">
-      {faqItems.map(item => (
-        <details class="faq-item group rounded-[var(--radius-card)] border border-line bg-surface">
-          <summary class="cursor-pointer px-5 py-4 font-head text-sm font-medium text-ink hover:text-accent transition-colors select-none">
-            {item.q}
-          </summary>
-          <div class="accordion-content px-5 pb-4 text-sm text-muted leading-relaxed">
-            <p>{item.a}</p>
-            {item.link && (
-              <a href={item.link.href} class="mt-2 inline-block text-accent hover:underline">{item.link.text}</a>
-            )}
-          </div>
-        </details>
-      ))}
-    </div>
-
-    <div class="mt-4">
-      <a href="/poleznoe" class="text-sm text-accent hover:underline">Все вопросы и гайды →</a>
-    </div>
-  </section>
-
 </BaseLayout>
-
-<style>
-  /* ── Hero ── */
-  .hero {
-    padding-top: clamp(2.5rem, 8vw, 5rem);
-    padding-bottom: clamp(1.5rem, 4vw, 3rem);
-  }
-  .hero__eyebrow {
-    font-size: var(--fs-caption);
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--color-accent);
-    font-weight: 600;
-    display: block;
-    margin-bottom: 0.75rem;
-  }
-  .hero__title {
-    font-size: var(--fs-hero);
-    line-height: 1.15;
-    color: var(--color-ink);
-    max-width: 32rem;
-  }
-  .hero__subtitle {
-    font-size: var(--fs-body);
-    line-height: 1.6;
-    max-width: 36rem;
-    margin-top: 1.25rem;
-  }
-  .hero__cta-primary,
-  .hero__cta-primary:hover {
-    color: #fff;
-  }
-
-  /* ── Scenario cards ── */
-  .scenario-card {
-    text-decoration: none;
-  }
-
-  /* ── Category tools ── */
-  .category__name {
-    margin-bottom: 0.75rem;
-  }
-  .category__tool {
-    text-decoration: none;
-  }
-</style>

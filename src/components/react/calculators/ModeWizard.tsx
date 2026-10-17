@@ -1,4 +1,4 @@
-import { useState, useCallback, type ReactNode } from 'react';
+import { useState, useCallback, useEffect, useRef, type ReactNode } from 'react';
 import { cn } from '@/lib/cn';
 import { ProgressIndicator } from '../ui/ProgressIndicator';
 
@@ -240,8 +240,7 @@ function TapCard({
   return (
     <button
       type="button"
-      role="radio"
-      aria-checked={selected}
+      aria-pressed={selected}
       onClick={onClick}
       className={cn(
         'flex flex-col gap-1 rounded-[var(--radius-card)] border px-4 py-3.5 text-left transition-all duration-[var(--duration-fast)]',
@@ -251,7 +250,7 @@ function TapCard({
           : 'border-line bg-surface text-ink',
       )}
     >
-      <span className="text-sm font-medium">{label}</span>
+      <span className="wizard-choice-arrow" aria-hidden="true">↗</span><span className="text-sm font-medium">{label}</span>
       {caption && <span className="text-xs text-muted">{caption}</span>}
     </button>
   );
@@ -283,8 +282,13 @@ export function ModeWizard() {
     expenseShare: null,
   });
   const [direction, setDirection] = useState<Direction>('forward');
-  const [previousResult, setPreviousResult] = useState<Regime | null>(loadPreviousResult);
+  const [previousResult, setPreviousResult] = useState<Regime | null>(null);
 
+  const wizardRoot = useRef<HTMLDivElement>(null);
+  useEffect(() => setPreviousResult(loadPreviousResult()), []);
+  useEffect(() => {
+    if (step > 0) wizardRoot.current?.querySelector<HTMLElement>('[data-wizard-heading]')?.focus();
+  }, [step]);
   const currentQuestion = step >= 1 && step <= 4 ? QUESTIONS[step - 1] : null;
 
   const handleStart = useCallback(() => {
@@ -293,19 +297,17 @@ export function ModeWizard() {
   }, []);
 
   const handleAnswer = useCallback((key: keyof Answers, value: string) => {
-    setAnswers((prev) => {
-      const updated = { ...prev, [key]: value };
-      const nextStep = Math.min(step + 1, 5);
-      setDirection('forward');
-      setStep(nextStep);
-      if (nextStep === 5) {
-        const result = recommendRegime(updated);
-        saveResult(result.regime);
-        setPreviousResult(result.regime);
-      }
-      return updated;
-    });
-  }, [step]);
+    const updated = { ...answers, [key]: value };
+    const nextStep = Math.min(step + 1, 5);
+    setAnswers(updated);
+    setDirection('forward');
+    setStep(nextStep);
+    if (nextStep === 5) {
+      const result = recommendRegime(updated);
+      saveResult(result.regime);
+      setPreviousResult(result.regime);
+    }
+  }, [step, answers]);
 
   const handleBack = useCallback(() => {
     if (step <= 1) {
@@ -332,10 +334,11 @@ export function ModeWizard() {
   const resultData = result ? RESULT_DATA[result.regime] : null;
 
   return (
-    <div className="flex flex-col gap-5" id="calculator-wizard">
+    <div className="flex flex-col gap-5" id="calculator-wizard" ref={wizardRoot}>
       {/* Intro */}
       {step === 0 && (
         <div className={cn('flex flex-col items-center gap-5 text-center', getSlideClass(direction, true))}>
+          <div className="wizard-intro-art" aria-hidden="true"><span>01</span><i>→</i><span>02</span><i>→</i><span>03</span><i>→</i><span>04</span></div><h2 className="wizard-intro-title">Четыре ответа.<br/><em>Понятная отправная точка.</em></h2><p className="instrument-hint">Деятельность, сотрудники, доход и расходы. Соберём предварительный вариант и подскажем, что проверить дальше.</p>
           {previousResult && (
             <div className="w-full max-w-md rounded-[var(--radius-card)] border border-line bg-surface p-4 text-sm">
               <p className="text-muted">
@@ -370,9 +373,9 @@ export function ModeWizard() {
             <ProgressIndicator percent={Math.round((step / 4) * 100)} label={`Шаг ${step} из 4`} />
           </div>
 
-          <h2 className="font-head text-lg font-semibold text-ink">{currentQuestion.title}</h2>
+          <h2 data-wizard-heading tabIndex={-1} className="font-head text-lg font-semibold text-ink">{currentQuestion.title}</h2>
 
-          <fieldset className="grid grid-cols-1 sm:grid-cols-2 gap-3" role="radiogroup" aria-label={currentQuestion.title}>
+          <fieldset className="grid grid-cols-1 sm:grid-cols-2 gap-3" aria-label={currentQuestion.title}>
             <legend className="sr-only">{currentQuestion.title}</legend>
             {currentQuestion.options.map((option) => (
               <TapCard
@@ -402,19 +405,19 @@ export function ModeWizard() {
           <section className="animate-[resultAppear_300ms_ease-out_both]" aria-live="polite">
             {/* Stamp */}
             <div className="mb-4 inline-flex items-center gap-1.5 rounded-[var(--radius-card)] border-2 border-green/40 bg-green/5 px-3 py-1.5 text-sm font-medium text-green -rotate-[3deg]">
-              <svg className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+              <svg aria-hidden="true" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                 <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
               </svg>
               Предварительный вариант готов
             </div>
 
-            <h2 className="font-head text-xl font-semibold text-ink">{resultData.title}</h2>
+            <h2 data-wizard-heading tabIndex={-1} className="font-head text-xl font-semibold text-ink">{resultData.title}</h2>
 
             {/* Reasons */}
             <ul className="mt-4 flex flex-col gap-2">
               {result?.reasons.map((reason, i) => (
                 <li key={i} className="flex items-start gap-2 text-sm text-ink">
-                  <svg className="mt-0.5 h-4 w-4 shrink-0 text-green" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                  <svg aria-hidden="true" className="mt-0.5 h-4 w-4 shrink-0 text-green" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
                     <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                   </svg>
                   {reason}

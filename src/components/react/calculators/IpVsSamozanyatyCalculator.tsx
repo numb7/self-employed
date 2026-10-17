@@ -1,153 +1,26 @@
-import { useState, useMemo } from 'react';
-import { CurrencyInput } from '../ui/CurrencyInput';
-import { SegmentedToggle } from '../ui/SegmentedToggle';
-import { ControlGroup } from '../ui/ControlGroup';
-import { ResultCard } from '../ui/ResultCard';
-import { cn } from '@/lib/cn';
+import { useState } from 'react';
+import { RangeControl } from '../ui/RangeControl';
+import { PayerCards } from '../ui/PayerCards';
+import { AnimatedMoney } from '../ui/AnimatedMoney';
 import { compareIpVsNpd } from '@/lib/calculations';
 import { formatMoney } from '@/lib/format';
 import type { ClientType } from '@/lib/rules-2026';
 
 export function IpVsSamozanyatyCalculator() {
-  const [revenue, setRevenue] = useState<number | null>(null);
-  const [clientType, setClientType] = useState<ClientType>('individual');
-
-  const isReady = revenue !== null && revenue > 0;
-
-  const result = useMemo(() => {
-    if (!isReady) return null;
-    return compareIpVsNpd(revenue!, clientType);
-  }, [isReady, revenue, clientType]);
-
-  const npdRate = clientType === 'business' ? 6 : 4;
-  const npdNet = result ? revenue! - result.npd : 0;
-  const ipNet = result ? revenue! - result.ip : 0;
-  const ipTaxAfterContributions = result
-    ? Math.max(0, result.ip - result.ipContributions)
-    : 0;
-  const winner = result ? (result.npd <= result.ip ? 'npd' : 'ip') : null;
-
-  return (
-    <div className="flex flex-col gap-6" id="calculator-ip-vs-npd">
-      <ControlGroup label="ИП или самозанятый">
-        <div className="flex flex-col gap-1.5">
-          <span className="text-sm font-medium text-ink">Кто ваш клиент?</span>
-          <SegmentedToggle
-            name="ipClientType"
-            value={clientType}
-            onChange={(v) => setClientType(v as ClientType)}
-            options={[
-              { value: 'individual', label: 'Физлица (4% НПД)' },
-              { value: 'business', label: 'Юрлица / ИП (6% НПД)' },
-            ]}
-          />
-        </div>
-
-        <div className="flex flex-col gap-1.5">
-          <label htmlFor="ip-revenue" className="text-sm font-medium text-ink">
-            Доход за год
-          </label>
-          <CurrencyInput
-            id="ip-revenue"
-            value={revenue}
-            onValueChange={setRevenue}
-            required
-            placeholder="1 200 000"
-            hint="Ожидаемый доход за год"
-          />
-        </div>
-      </ControlGroup>
-
-      <div aria-live="polite" role="status">
-        {isReady && result ? (
-          <ResultCard
-            label={winner === 'npd' ? 'Предварительно меньше нагрузка на НПД' : winner === 'ip' ? 'Предварительно меньше нагрузка у ИП' : 'Нагрузка примерно одинаковая'}
-            figure={winner === 'npd'
-              ? `+${formatMoney(result.ip - result.npd)} ₽/год`
-              : winner === 'ip'
-                ? `+${formatMoney(result.npd - result.ip)} ₽/год`
-                : `${formatMoney(result.npd)} ₽/год`}
-            subtitle={`Останется на руки: ${formatMoney(npdNet)} ₽ (самозанятый) vs ${formatMoney(ipNet)} ₽ (ИП)`}
-            detail={result.overLimit ? `⚠️ При доходе ${formatMoney(revenue!)} ₽ превышен лимит 2,4 млн ₽` : undefined}
-            whyItems={[
-              `НПД: ${npdRate}% от ${formatMoney(revenue!)} ₽ = ${formatMoney(result.npd)} ₽`,
-              `ИП УСН 6%: налог после уменьшения на взносы = ${formatMoney(ipTaxAfterContributions)} ₽`,
-              `ИП фиксированные взносы: ${formatMoney(result.ipContributions)} ₽`,
-            ]}
-            trust={['ФНС 2026', 'УСН 6%', 'Без отправки данных']}
-          >
-            <div className="mt-3 overflow-x-auto rounded-[var(--radius-control)] border border-line" tabIndex={0} aria-label="Сравнение налоговой нагрузки">
-              <table className="w-full min-w-[28rem] text-sm">
-                <thead>
-                  <tr className="border-b border-line bg-lavender/50">
-                    <th className="px-3 py-2.5 text-left font-medium text-muted">Параметр</th>
-                    <th className={cn(
-                      'px-3 py-2.5 text-right font-medium',
-                      winner === 'npd' ? 'text-green' : 'text-ink',
-                    )}>
-                      Самозанятый
-                    </th>
-                    <th className={cn(
-                      'px-3 py-2.5 text-right font-medium',
-                      winner === 'ip' ? 'text-green' : 'text-ink',
-                    )}>
-                      ИП УСН 6%
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr className="border-b border-line-2">
-                    <td className="px-3 py-2 text-muted">Налог</td>
-                    <td className="px-3 py-2 text-right font-mono text-ink">{formatMoney(result.npd)} ₽</td>
-                    <td className="px-3 py-2 text-right font-mono text-ink">{formatMoney(ipTaxAfterContributions)} ₽</td>
-                  </tr>
-                  <tr className="border-b border-line-2">
-                    <td className="px-3 py-2 text-muted">Взносы</td>
-                    <td className="px-3 py-2 text-right font-mono text-muted">нет</td>
-                    <td className="px-3 py-2 text-right font-mono text-ink">{formatMoney(result.ipContributions)} ₽</td>
-                  </tr>
-                  <tr className={cn(
-                    'font-medium',
-                    winner === 'npd' ? 'bg-green/5' : winner === 'ip' ? 'bg-amber/5' : '',
-                  )}>
-                    <td className="px-3 py-2.5 text-ink">Итого нагрузка</td>
-                    <td className={cn(
-                      'px-3 py-2.5 text-right font-mono',
-                      winner === 'npd' ? 'text-green' : 'text-ink',
-                    )}>
-                      {formatMoney(result.npd)} ₽
-                    </td>
-                    <td className={cn(
-                      'px-3 py-2.5 text-right font-mono',
-                      winner === 'ip' ? 'text-green' : 'text-ink',
-                    )}>
-                      {formatMoney(result.ip)} ₽
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="px-3 py-2 text-muted">На руки</td>
-                    <td className={cn(
-                      'px-3 py-2 text-right font-mono font-medium',
-                      winner === 'npd' ? 'text-green' : 'text-ink',
-                    )}>
-                      {formatMoney(npdNet)} ₽
-                    </td>
-                    <td className={cn(
-                      'px-3 py-2 text-right font-mono font-medium',
-                      winner === 'ip' ? 'text-green' : 'text-ink',
-                    )}>
-                      {formatMoney(ipNet)} ₽
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <p className="mt-3 text-xs leading-relaxed text-muted">
-              В сравнении: НПД 4% или 6%, ИП на УСН «Доходы» 6% без сотрудников, фиксированные и дополнительные взносы. Не учтены банковские тарифы, бухгалтерия, региональные льготы и НДС.
-            </p>
-          </ResultCard>
-        ) : null}
-      </div>
+  const [revenue, setRevenue] = useState(1200000);
+  const [client, setClient] = useState<ClientType>('individual');
+  const result = compareIpVsNpd(revenue, client);
+  const saving = Math.abs(result.ip - result.npd);
+  return <div className="comparison-workspace" id="calculator-ip-vs-npd">
+    <div className="comparison-input"><RangeControl label="Доход за год" value={revenue} onChange={setRevenue} max={4000000} step={10000}/><div><h2 className="stage-question">Кто ваши заказчики?</h2><PayerCards value={client} onChange={setClient}/><p className="instrument-hint">Сравниваем самозанятость и ИП на УСН 6% без сотрудников.</p></div></div>
+    <div className="comparison-pair" role="status" aria-live="polite">
+      <article className={`compare-card ${!result.overLimit && result.npd <= result.ip ? 'compare-preferred' : ''}`}>
+        <h3>Самозанятость</h3>
+        {result.overLimit ? <><strong className="compare-unavailable">Лимит превышен</strong><p className="comparison-warning">При таком годовом доходе нельзя применять НПД ко всей сумме.</p></> : <><span className="compare-caption">Налог за год</span><div className="compare-number"><AnimatedMoney value={result.npd}/></div><span className="compare-foot">{client === 'individual' ? 4 : 6}% · без налогового бонуса</span></>}
+      </article>
+      <article className={`compare-card ${!result.overLimit && result.ip < result.npd ? 'compare-preferred' : ''}`}><h3>ИП на УСН 6%</h3><span className="compare-caption">Налог и взносы за год</span><div className="compare-number"><AnimatedMoney value={result.ip}/></div><span className="compare-foot">Обязательные взносы включены</span></article>
     </div>
-  );
+    <div className="comparison-conclusion">{result.overLimit ? <p>Для дохода за пределами НПД понадобится другой режим. <a href="/master-vybora-rezhima">Проверить варианты ↗</a></p> : <p>{saving === 0 ? 'Расчётная нагрузка одинаковая.' : <>Разница — <strong>{formatMoney(saving)} ₽ в год</strong> в пользу {result.npd < result.ip ? 'самозанятости' : 'ИП'}.</>} Учитывайте также условия работы и отчётность.</p>}</div>
+    <details className="stage-method"><summary>Что вошло в расчёт <span aria-hidden="true">+</span></summary><p>ИП на УСН «Доходы» 6%, без сотрудников и дополнительных льгот. Налог уменьшается на обязательные взносы. Налоговый бонус самозанятого здесь не учитывается.</p><dl className="compare-breakdown"><div><dt>Взносы ИП</dt><dd>{formatMoney(result.ipContributions)} ₽</dd></div><div><dt>Налог ИП после уменьшения</dt><dd>{formatMoney(Math.max(0, result.ip - result.ipContributions))} ₽</dd></div></dl><a href="/metodika">Методика и источники ↗</a></details>
+  </div>;
 }

@@ -1,4 +1,4 @@
-import { type ReactNode } from 'react';
+import { type ReactNode, useId } from 'react';
 import { cn } from '@/lib/cn';
 
 export interface SegmentedOption {
@@ -24,6 +24,7 @@ export function SegmentedToggle({
   className,
   variant = 'default',
 }: SegmentedToggleProps) {
+  const generatedName = useId();
   return (
     <div
       role="radiogroup"
@@ -37,28 +38,14 @@ export function SegmentedToggle({
       {options.map((opt) => {
         const isActive = opt.value === value;
         return (
-          <button
-            key={opt.value}
-            type="button"
-            role="radio"
-            aria-checked={isActive}
-            name={name}
-            value={opt.value}
-            onClick={() => onChange(opt.value)}
-            className={cn(
-              'relative z-10 flex min-h-11 min-w-0 flex-1 items-center justify-center rounded-[calc(var(--radius-card)-2px)] px-2.5 py-2',
-              'text-sm font-medium transition-all duration-[var(--duration-fast)] ease-[var(--ease-out)]',
-              'text-center leading-snug whitespace-normal',
-              'outline-none focus-visible:ring-2 focus-visible:ring-accent/50',
-              // Inactive
-              !isActive && 'text-muted hover:text-ink',
-              // Active
-              isActive && variant === 'default' && 'bg-surface text-ink shadow-[var(--shadow-card-rest)]',
-              isActive && variant === 'ghost' && 'bg-accent text-white',
-            )}
-          >
-            {opt.label}
-          </button>
+          <label key={opt.value} className="relative min-w-0 flex-1 cursor-pointer">
+            <input type="radio" name={name || generatedName} value={opt.value} checked={isActive} onChange={() => onChange(opt.value)} className="peer sr-only" />
+            <span className={cn(
+              'flex min-h-11 items-center justify-center rounded-[calc(var(--radius-card)-2px)] px-2.5 py-2 text-sm font-medium text-center leading-snug',
+              'transition-colors peer-focus-visible:outline-2 peer-focus-visible:outline-accent peer-focus-visible:outline-offset-2',
+              isActive ? (variant === 'ghost' ? 'bg-accent text-white' : 'bg-surface text-accent ring-1 ring-accent/30 shadow-[var(--shadow-card-rest)]') : 'text-muted hover:text-ink',
+            )}>{opt.label}</span>
+          </label>
         );
       })}
     </div>

@@ -47,16 +47,16 @@
   --font-mono: "JetBrains Mono", monospace;
 
   /* Colors — светлая тема (лавандовая B-first палитра) */
-  --color-paper: #FAF9FD;
+  --color-paper: #FAF9F6;
   --color-paper-2: #F3F1F9;
-  --color-ink: #1C1A28;
+  --color-ink: #25232F;
   --color-ink-2: #3A3650;
-  --color-muted: #6B6680;
+  --color-muted: #68636F;
   --color-faint: #716C84;
-  --color-line: #8C879C;
-  --color-line-2: #716C84;
+  --color-line: #DAD5E2;
+  --color-line-2: #91869F;
   --color-surface: #FFFFFF;
-  --color-accent: #6F5DC9;
+  --color-accent: #6550C8;
   --color-accent-2: #6350BF;
   --color-accent-soft: #ECE8FB;
   --color-lavender: #F3F1F9;
@@ -67,8 +67,8 @@
   --color-footer-bg: #1C1A28;
 
   /* Radii */
-  --radius-card: 6px;
-  --radius-control: 4px;
+  --radius-card: 16px;
+  --radius-control: 10px;
   --radius-badge: 2px;
   --radius-modal: 20px;
 

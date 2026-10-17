@@ -3,7 +3,7 @@
  * Unit-тесты localStorage профиля (Vitest + TypeScript).
  */
 
-import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import {
   addClient,
   addIncome,
@@ -28,9 +28,13 @@ function createStorage() {
 
 describe('Профиль', () => {
   beforeEach(() => {
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date(2026, 6, 15, 12));
     const storage = createStorage();
     vi.stubGlobal('localStorage', storage);
   });
+
+  afterEach(() => { vi.useRealTimers(); vi.unstubAllGlobals(); });
 
   it('пустой профиль', () => {
     expect(isEmpty()).toBe(true);
@@ -74,12 +78,13 @@ describe('Профиль', () => {
   });
 
   it('концентрация: красный (>80%)', () => {
-    addClient('Клиент А');
-    addClient('Клиент Б');
-    addIncome('2026-01', 85_000, 'phys', 'client_1');
-    addIncome('2026-01', 15_000, 'phys', 'client_2');
-    // Примечание: addClient генерирует id с Date.now, нужно реальный ID
-    // Пересоздаём профиль через прямые вызовы
+    const first = addClient('Клиент А');
+    const second = addClient('Клиент Б');
+    addIncome('2026-01', 85_000, 'phys', first);
+    addIncome('2026-01', 15_000, 'phys', second);
+    const concentration = getConcentration();
+    expect(concentration.topShare).toBe(85);
+    expect(concentration.risk).toBe('red');
   });
 
   it('концентрация: amber (60%)', () => {

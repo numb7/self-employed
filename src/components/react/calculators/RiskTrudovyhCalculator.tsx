@@ -65,7 +65,8 @@ export function RiskTrudovyhCalculator() {
 
   return (
     <div className="flex flex-col gap-6" id="calculator-risk-trudovyh">
-      <ControlGroup label="Признаки трудовых отношений">
+      <ControlGroup label="Признаки трудовых отношений" description="Отметьте знакомые ситуации. Это ориентировочный чек-лист, не юридическое заключение.">
+        <div className="risk-check-counter"><strong>{count}<span> / 13</span></strong><p>признаков отмечено</p></div>
         <fieldset className="flex flex-col gap-5">
           <legend className="sr-only">Отметьте признаки, которые есть в вашей работе</legend>
           {RISK_GROUPS.map((group) => (
@@ -151,7 +152,7 @@ export function RiskTrudovyhCalculator() {
             }
             whyItems={[
               'При переквалификации заказчику доначисляют:',
-              'НДФЛ 13% + страховые взносы 30% + пени и штрафы',
+              'НДФЛ, страховые взносы, пени и штрафы; конкретный размер зависит от обстоятельств',
               count >= 3 ? 'Отмечено 3 или больше признаков — ситуацию лучше проверить подробнее' : null,
               share !== null && share > 80 ? 'Больше 80% дохода приходится на одного заказчика' : null,
             ].filter(Boolean) as string[]}

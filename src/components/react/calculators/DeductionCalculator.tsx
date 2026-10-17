@@ -1,97 +1,11 @@
-import { useState, useMemo } from 'react';
-import { CurrencyInput } from '../ui/CurrencyInput';
-import { ControlGroup } from '../ui/ControlGroup';
-import { ResultCard } from '../ui/ResultCard';
-import { ProgressIndicator } from '../ui/ProgressIndicator';
+import { useState } from 'react';
+import { RangeControl } from '../ui/RangeControl';
+import { AnimatedMoney } from '../ui/AnimatedMoney';
 import { calculateDeduction } from '@/lib/calculations';
 import { formatMoney } from '@/lib/format';
-
-export function DeductionCalculator() {
-  const [incomeIndividual, setIncomeIndividual] = useState<number | null>(null);
-  const [incomeBusiness, setIncomeBusiness] = useState<number | null>(null);
-
-  // Оба обязательных поля: доходим хотя бы к одному из них
-  const hasAnyIncome = (incomeIndividual !== null && incomeIndividual > 0)
-    || (incomeBusiness !== null && incomeBusiness > 0);
-
-  const result = useMemo(() => {
-    if (!hasAnyIncome) return null;
-    return calculateDeduction(
-      incomeIndividual && incomeIndividual > 0 ? incomeIndividual : 0,
-      incomeBusiness && incomeBusiness > 0 ? incomeBusiness : 0,
-    );
-  }, [hasAnyIncome, incomeIndividual, incomeBusiness]);
-
-  const whyItems = useMemo(() => {
-    if (!result) return [];
-    const items = [
-      `Лимит вычета: 10 000 ₽`,
-      `Ставка с физлиц: 4% → 3% (экономия 1 п.п.)`,
-      `Ставка с юрлиц: 6% → 4% (экономия 2 п.п.)`,
-      `Использовано: ${formatMoney(result.used)} ₽ (${result.pct}%)`,
-    ];
-    if (result.exhausted) {
-      items.push('Вычет полностью исчерпан');
-    } else {
-      items.push(`Остаток: ${formatMoney(result.remaining)} ₽`);
-    }
-    return items;
-  }, [result]);
-
-  return (
-    <div className="flex flex-col gap-6" id="calculator-deduction">
-      <ControlGroup label="Доход">
-        <div className="flex flex-col gap-1.5">
-          <label htmlFor="deduction-individual" className="text-sm font-medium text-ink">
-            От физлиц
-          </label>
-          <CurrencyInput
-            id="deduction-individual"
-            value={incomeIndividual}
-            onValueChange={setIncomeIndividual}
-            required
-            placeholder="100 000"
-            hint="Суммарный доход от физлиц за период использования вычета"
-          />
-        </div>
-
-        <div className="flex flex-col gap-1.5">
-          <label htmlFor="deduction-business" className="text-sm font-medium text-ink">
-            От юрлиц
-          </label>
-          <CurrencyInput
-            id="deduction-business"
-            value={incomeBusiness}
-            onValueChange={setIncomeBusiness}
-            placeholder="0"
-            hint="Суммарный доход от юрлиц и ИП; если его не было, оставьте поле пустым"
-          />
-        </div>
-      </ControlGroup>
-
-      <div aria-live="polite" role="status">
-        {hasAnyIncome && result ? (
-          <ResultCard
-            label="Экономия от вычета"
-            figure={`${formatMoney(result.used)} ₽`}
-            subtitle={`Использовано ${result.pct}% из 10 000 ₽`}
-            detail={result.exhausted
-              ? 'Вычет полностью исчерпан — дальше ставки стандартные'
-              : `Остаток: ${formatMoney(result.remaining)} ₽`
-            }
-            whyItems={whyItems}
-            next={{ to: '/otlozhit-na-nalog', label: 'Сколько отложить на налог' }}
-            trust={['ФЗ № 422-ФЗ', 'Вычет 10 000 ₽', 'Без отправки данных']}
-          >
-            <ProgressIndicator
-              percent={result.pct}
-              label={`${formatMoney(result.used)} ₽ из 10 000 ₽`}
-              color="accent"
-              className="mt-3"
-            />
-          </ResultCard>
-        ) : null}
-      </div>
-    </div>
-  );
+export function DeductionCalculator(){
+ const [individual,setIndividual]=useState(100000);
+ const [business,setBusiness]=useState(0);
+ const result=calculateDeduction(individual,business);
+ return <div className="instrument-workspace" id="calculator-deduction"><div className="instrument-controls"><p className="instrument-hint">Укажите все доходы с начала самозанятости. Покажем, сколько скидки на налог ещё осталось.</p><RangeControl label="От людей" value={individual} onChange={setIndividual} max={1000000} step={10000}/><RangeControl label="От компаний и ИП" value={business} onChange={setBusiness} max={500000} step={5000}/><p className="instrument-hint">Точный остаток смотрите в «Мой налог». Бонус не выплачивается на карту.</p></div><div className="instrument-output deduction-output"><span className="instrument-eyebrow">Налоговый бонус · 10 000 ₽</span><div className="bonus-wallet"><span>Остаток налогового бонуса</span><div className="output-number" role="status" aria-live="polite"><AnimatedMoney value={result.remaining}/></div><p>{result.exhausted?'Бонус израсходован. Дальше действуют обычные ставки.':'Этот остаток продолжит уменьшать налог с будущего дохода.'}</p></div><div className="pace-summary"><span>Уже сэкономлено</span><strong><AnimatedMoney value={result.used}/></strong></div><details className="stage-method"><summary>Почему бонус расходуется постепенно? <span aria-hidden="true">+</span></summary><p>Он уменьшает ставку с 4% до 3% для дохода от людей и с 6% до 4% для дохода от компаний. Расход на указанный доход: {formatMoney(individual*.01+business*.02)} ₽, но не больше 10 000 ₽. Вычет рассчитывается налоговой автоматически.</p><a href="/otlozhit-na-nalog">Рассчитать следующую оплату ↗</a></details></div></div>;
 }

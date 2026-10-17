@@ -1,0 +1,7 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout title="Страница не найдена — НПД.помощник" description="Вернитесь к инструментам для самозанятых." url="/404">
+<section class="container missing-page"><span class="instrument-eyebrow">404 / Такой страницы нет</span><h1>Здесь пока<br/><em>не сходится.</em></h1><p>Возможно, ссылка изменилась. Расчёты и документы найдутся на главной.</p><a class="action-primary" href="/#tools">К инструментам <span aria-hidden="true">↗</span></a></section>
+</BaseLayout>
+<style>.missing-page{padding-block:70px;max-width:900px}.missing-page h1{font-size:clamp(42px,6vw,72px);letter-spacing:-.05em;line-height:1.05;margin:25px 0}.missing-page em{font-family:Lora,serif;font-weight:400;color:var(--color-accent)}.missing-page p{max-width:400px;font-size:15px;color:var(--color-muted);line-height:1.8}</style>

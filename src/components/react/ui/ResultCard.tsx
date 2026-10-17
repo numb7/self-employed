@@ -40,7 +40,7 @@ export function ResultCard({
   return (
     <div
       className={cn(
-        'result-card rounded-[var(--radius-card)] bg-surface border border-line p-5',
+        'result-card rounded-[var(--radius-card)] bg-accent-soft border border-accent/15 p-5',
         'shadow-[var(--shadow-card-rest)]',
         'animate-[resultAppear_300ms_var(--ease-out)]',
         className,
@@ -55,7 +55,7 @@ export function ResultCard({
       </div>
 
       {/* Big number */}
-      <p className="mt-1 break-words font-mono text-2xl sm:text-3xl leading-tight tabular-nums text-ink">{figure}</p>
+      <p className="mt-1 break-words font-head font-semibold text-3xl sm:text-4xl leading-tight tabular-nums text-ink">{figure}</p>
 
       {subtitle && (
         <p className="text-muted text-sm mt-1">{subtitle}</p>

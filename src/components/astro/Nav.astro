@@ -10,7 +10,7 @@ const { variant = 'inner', showSharePrint = false } = Astro.props;
 <nav class="page-nav">
   <div class="container page-nav-inner">
     {variant === 'home' ? (
-      <a href="/" class="nav-back nav-brand font-head font-medium text-ink">НПД.помощник</a>
+      <a href="/" class="nav-back nav-brand font-head font-medium text-ink"><span class="brand-mark" aria-hidden="true">н.</span><span>нпд<span class="brand-suffix">/помощник</span></span></a>
     ) : (
       <a href="/" class="nav-back text-muted hover:text-ink transition-colors flex items-center gap-1">
         <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -21,6 +21,8 @@ const { variant = 'inner', showSharePrint = false } = Astro.props;
     )}
 
     <div class="page-nav-actions flex items-center gap-2">
+      <a class="nav-tools-link" href="/#tools">Инструменты</a>
+      <a class="nav-method-link" href="/metodika">Как считаем</a>
       {showSharePrint && (
         <>
           <button class="btn-icon" type="button" data-action="share" aria-label="Поделиться">
@@ -82,7 +84,8 @@ const { variant = 'inner', showSharePrint = false } = Astro.props;
     text-decoration: none;
   }
   .nav-brand {
-    font-size: var(--fs-body);
+    font-size: 18px;
+    display:flex;align-items:center;gap:9px;letter-spacing:-0.04em;
   }
   .btn-icon {
     display: inline-flex;
@@ -117,12 +120,18 @@ const { variant = 'inner', showSharePrint = false } = Astro.props;
     font-size: var(--fs-caption);
     font-weight: 600;
   }
+
+  .brand-mark{display:grid;place-items:center;width:34px;height:34px;border-radius:11px;background:var(--color-accent);color:white;font-weight:700}
+  .brand-suffix{font-weight:400}.nav-tools-link,.nav-method-link{font-size:12px;display:flex;align-items:center;min-height:44px;padding-inline:12px;color:var(--color-ink)}
+  .btn-icon{border-radius:50%;border-color:var(--color-line)}
+  @media(max-width:650px){.nav-method-link{display:none}.nav-tools-link{font-size:11px;padding-inline:5px}.nav-brand{font-size:15px}.page-nav-actions{gap:5px}}
 </style>
 
 <script is:inline>
 (function() {
   var btn = document.getElementById('theme-toggle');
   if (!btn) return;
+  btn.setAttribute('aria-pressed', document.documentElement.classList.contains('dark') ? 'true' : 'false');
   btn.addEventListener('click', function() {
     var html = document.documentElement;
     var isDark = html.classList.toggle('dark');

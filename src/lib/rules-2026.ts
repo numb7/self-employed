@@ -11,11 +11,11 @@ export const RULES_2026 = {
   sources: {
     npd: {
       title: 'ФНС: налог на профессиональный доход',
-      url: 'https://www.nalog.gov.ru/',
+      url: 'https://npd.nalog.ru/',
     },
     sfr: {
       title: 'Социальный фонд России',
-      url: 'https://sfr.gov.ru/',
+      url: 'https://sfr.gov.ru/employers/selfemployed/',
     },
   },
 

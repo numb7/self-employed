@@ -24,7 +24,7 @@ const structuredData = [
           name: 'Какой лимит дохода у самозанятого в 2026 году?',
           acceptedAnswer: {
             '@type': 'Answer',
-            text: '2 400 000 рублей в год. При превышении — утрата статуса самозанятого и переход на НДФЛ 13% со всего дохода свыше лимита.',
+            text: '2 400 000 рублей за календарный год. После превышения применять НПД нельзя; дальнейшие налоги зависят от статуса и выбранного режима.',
           },
         },
         {
@@ -32,7 +32,7 @@ const structuredData = [
           name: 'Что будет при превышении лимита 2,4 млн ₽?',
           acceptedAnswer: {
             '@type': 'Answer',
-            text: 'Статус самозанятого прекращается с 1-го числа месяца, в котором превышен лимит. Налог пересчитывается по ставке НДФЛ 13% на весь доход сверх лимита. Необходимо зарегистрироваться как ИП.',
+            text: 'Право на НПД утрачивается со дня превышения лимита. Дальнейшие действия зависят от того, зарегистрированы ли вы как ИП. Уточните порядок перехода в ФНС.',
           },
         },
         {
@@ -40,7 +40,7 @@ const structuredData = [
           name: 'Как безопасно рассчитать темп дохода?',
           acceptedAnswer: {
             '@type': 'Answer',
-            text: 'Разделите оставшийся до лимита доход на количество месяцев до конца года. Это ваш безопасный среднемесячный доход, который не приведёт к превышению.',
+            text: 'Разделите оставшийся до лимита доход на количество месяцев до конца года. Это ориентир при равномерном доходе, а не отдельный месячный лимит.',
           },
         },
       ],
@@ -61,30 +61,19 @@ const relatedTools = [
   description={description}
   url={url}
   eyebrow="НПД · Лимит 2026"
-  h1="До какой суммы можно работать `спокойно`"
+  heading="Сколько ещё можно заработать?"
   breadcrumbs={breadcrumbs}
   structuredData={structuredData}
 >
   <p slot="subtitle">
-    Пока доход за год не перевалит за 2,4 млн ₽ — статус самозанятого работает без ограничений.
-    Посчитайте, сколько у вас в запасе и безопасный темп до конца года.
+    Укажите доход от самозанятости с 1 января. Покажем, сколько осталось до годового лимита 2,4 млн ₽.
   </p>
 
   <section class="mt-8">
-    <IncomeLimitCalculator client:load />
+    <fieldset class="calculator-ready" data-calculator-loading disabled aria-busy="true" aria-label="Инструмент расчёта"><IncomeLimitCalculator client:load /></fieldset><noscript><p>Чтобы пользоваться инструментом, включите JavaScript в браузере.</p></noscript>
   </section>
 
-  <section class="mt-10">
-    <details class="group rounded-[var(--radius-card)] border border-line bg-surface">
-      <summary class="cursor-pointer px-4 py-3 text-sm font-medium text-ink select-none">
-        Как это считается?
-      </summary>
-      <div class="px-4 pb-4 text-sm text-muted leading-relaxed">
-        Лимит 2 400 000 ₽ в год установлен Федеральным законом о НПД и действует без изменений в 2026 году.
-        При превышении лимита статус самозанятого утрачивается с 1-го числа месяца, в котором доход превысил 2,4 млн ₽.
-      </div>
-    </details>
-  </section>
+
 
   <RelatedTools tools={relatedTools} currentUrl={url} />
 </CalculatorLayout>

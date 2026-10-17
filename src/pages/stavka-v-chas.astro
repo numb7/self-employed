@@ -60,28 +60,19 @@ const relatedTools = [
   description={description}
   url={url}
   eyebrow="Ставка · 2026"
-  h1="Сколько вы получаете на самом деле в час"
+  heading="Какую цену назвать клиенту?"
   breadcrumbs={breadcrumbs}
   structuredData={structuredData}
 >
   <p slot="subtitle">
-    Учтите налог и скрытые часы — на созвоны, правки и переписку — прежде чем в следующий раз называть цену за проект.
+    Укажите желаемый доход и рабочие часы. Если проект уже завершён, можно проверить, сколько принёс каждый час.
   </p>
 
   <section class="mt-8">
-    <HourlyRateCalculator client:load />
+    <fieldset class="calculator-ready" data-calculator-loading disabled aria-busy="true" aria-label="Инструмент расчёта"><HourlyRateCalculator client:load /></fieldset><noscript><p>Чтобы пользоваться инструментом, включите JavaScript в браузере.</p></noscript>
   </section>
 
-  <section class="mt-10">
-    <details class="group rounded-[var(--radius-card)] border border-line bg-surface">
-      <summary class="cursor-pointer px-4 py-3 text-sm font-medium text-ink select-none">
-        Как это считается?
-      </summary>
-      <div class="px-4 pb-4 text-sm text-muted leading-relaxed">
-        Расчёт учитывает налог НПД — 4% с физлиц, 6% с юрлиц и ИП, установленные Федеральным законом о НПД.
-      </div>
-    </details>
-  </section>
+
 
   <RelatedTools tools={relatedTools} currentUrl={url} />
 </CalculatorLayout>

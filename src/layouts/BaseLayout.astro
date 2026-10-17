@@ -1,5 +1,7 @@
 ---
 import '../styles/global.css';
+import '../styles/authored.css';
+import '../styles/clarity.css';
 import Nav from '../components/astro/Nav.astro';
 import Footer from '../components/astro/Footer.astro';
 import JsonLd from '../components/astro/JsonLd.astro';
@@ -34,8 +36,8 @@ const canonicalUrl = `https://samozanyatye.vercel.app${url}`;
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#6F5DC9" />
-  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#6550C8" />
+  <meta name="robots" content={url === "/404" ? "noindex, follow" : "index, follow"} />
 
   <!-- Раннее применение темы ДО первой отрисовки — предотвращает FOUC -->
   <script is:inline>
@@ -52,7 +54,7 @@ const canonicalUrl = `https://samozanyatye.vercel.app${url}`;
   <meta property="og:url" content={canonicalUrl} />
   <meta property="og:locale" content="ru_RU" />
   <meta property="og:image" content={ogImage} />
-  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:card" content="summary_large_image" />
 
   <!-- Canonical -->
   <link rel="canonical" href={canonicalUrl} />
@@ -63,33 +65,9 @@ const canonicalUrl = `https://samozanyatye.vercel.app${url}`;
   <link rel="manifest" href="/manifest.webmanifest" />
 
   <!-- Font preloads -->
+  <link rel="preload" href="/fonts/lora-cyrillic-400-italic.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin />
   <link rel="preload" href="/fonts/manrope-cyrillic.woff2" as="font" type="font/woff2" crossorigin />
-
-  <!-- Preconnect -->
-  <link rel="preconnect" href="https://mc.yandex.ru" />
-
-  <!-- Yandex.Metrika counter -->
-  <script is:inline>
-    (function(m,e,t,r,i,k,a){
-      m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-      m[i].l=1*new Date();
-      for (var j = 0; j < document.scripts.length; j++) {
-        if (document.scripts[j].src === r) return;
-      }
-      k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a);
-    })(window,document,'script','https://mc.yandex.ru/metrika/tag.js?id=111416126','ym');
-
-    ym(111416126,'init',{
-      ssr:true,
-      webvisor:true,
-      clickmap:true,
-      referrer:document.referrer,
-      url:location.href,
-      accurateTrackBounce:true,
-      trackLinks:true
-    });
-  </script>
 
   <!-- JSON-LD structured data -->
   {structuredData.map(item => (
@@ -97,7 +75,7 @@ const canonicalUrl = `https://samozanyatye.vercel.app${url}`;
   ))}
 </head>
 <body class="bg-paper text-ink font-body min-h-dvh flex flex-col antialiased">
-  <noscript><div><img src="https://mc.yandex.ru/watch/111416126" style="position:absolute;left:-9999px" alt="" /></div></noscript>
+
   <a href="#main" class="skip-link">Перейти к содержанию</a>
 
   <Nav variant={navVariant} showSharePrint={showSharePrint} />
@@ -107,5 +85,19 @@ const canonicalUrl = `https://samozanyatye.vercel.app${url}`;
   </main>
 
   <Footer />
+  <script is:inline>
+    document.querySelectorAll('[data-calculator-loading]').forEach(function (group) {
+      var pending = Array.from(group.querySelectorAll('astro-island[ssr]'));
+      function checkReady() {
+        if (!pending.some(function (island) { return island.hasAttribute('ssr'); })) {
+          group.disabled = false;
+          group.removeAttribute('aria-busy');
+          group.removeAttribute('data-calculator-loading');
+        }
+      }
+      pending.forEach(function (island) { island.addEventListener('astro:hydrate', checkReady, {once:true}); });
+      checkReady();
+    });
+  </script>
 </body>
 </html>

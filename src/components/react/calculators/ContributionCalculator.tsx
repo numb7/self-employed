@@ -1,71 +1,9 @@
-import { useState, useMemo } from 'react';
-import { SegmentedToggle } from '../ui/SegmentedToggle';
-import { ControlGroup } from '../ui/ControlGroup';
-import { ResultCard } from '../ui/ResultCard';
+import { useState } from 'react';
+import { AnimatedMoney } from '../ui/AnimatedMoney';
 import { calculateContribution } from '@/lib/calculations';
 import { formatMoney } from '@/lib/format';
-
-const PRESETS = [
-  { value: '35000', label: '35 000 ₽' },
-  { value: '50000', label: '50 000 ₽' },
-];
-
-export function ContributionCalculator() {
-  const [preset, setPreset] = useState('35000');
-  const insuranceAmount = parseInt(preset, 10);
-
-  const isReady = insuranceAmount !== null && insuranceAmount > 0;
-
-  const result = useMemo(() => {
-    if (!isReady || !insuranceAmount) return null;
-    return calculateContribution(insuranceAmount);
-  }, [isReady, insuranceAmount]);
-
-  const whyItems = useMemo(() => {
-    if (!result) return [];
-    return result.whyItems;
-  }, [result]);
-
-  return (
-    <div className="flex flex-col gap-6" id="calculator-contribution">
-      <ControlGroup label="Добровольное страхование">
-        <div className="flex flex-col gap-1.5">
-          <span className="text-sm font-medium text-ink">Страховая сумма</span>
-          <SegmentedToggle
-            name="insurancePreset"
-            value={preset}
-            onChange={setPreset}
-            options={PRESETS}
-          />
-        </div>
-
-        <p className="text-xs text-muted">Это два варианта страховой суммы, предусмотренные экспериментом СФР.</p>
-      </ControlGroup>
-
-      <div aria-live="polite" role="status">
-        {isReady && result ? (
-          <ResultCard
-            label="Ежемесячный взнос"
-            figure={`${formatMoney(result.monthlyContribution)} ₽`}
-            subtitle={`Тариф 3,84% от ${formatMoney(result.insuranceAmount)} ₽`}
-            detail={`Расчётная база пособия: ${formatMoney(result.payoutAfter6)} ₽ после 6 мес., ${formatMoney(result.payoutAfter12)} ₽ после 12 мес.`}
-            whyItems={whyItems}
-            risk={{
-              level: 'green',
-              label: 'Вариант СФР',
-            }}
-            next={{ to: '/pensiya', label: 'Пенсионный стаж' }}
-            trust={['По 456-ФЗ', 'СФР 2026', 'Без отправки данных']}
-          >
-            <div className="mt-3 rounded-[var(--radius-card)] bg-lavender p-3">
-              <p className="text-sm font-medium text-ink">Взносы за год</p>
-              <p className="font-mono text-lg text-ink mt-0.5">{formatMoney(result.yearCost)} ₽</p>
-              <p className="text-xs text-muted mt-1">Без будущих скидок за непрерывную уплату</p>
-              <p className="mt-2 text-xs text-muted">Фактическая выплата зависит от страхового стажа и количества дней больничного.</p>
-            </div>
-          </ResultCard>
-        ) : null}
-      </div>
-    </div>
-  );
+export function ContributionCalculator(){
+ const [coverage,setCoverage]=useState(35000);
+ const result=calculateContribution(coverage);
+ return <div className="instrument-workspace" id="calculator-contribution"><div className="instrument-controls"><h2 className="stage-question">Выберите страховую сумму</h2><p className="instrument-hint">Это расчётная база пособия. Фактическая выплата зависит от стажа, периода участия и дней больничного.</p><div className="coverage-options" role="group" aria-label="Страховая сумма">{[35000,50000].map(v=><button key={v} aria-pressed={coverage===v} onClick={()=>setCoverage(v)}><span>Вариант СФР</span><strong>{formatMoney(v)} ₽</strong></button>)}</div><p className="instrument-hint">Взносы добровольные. Право на пособие появляется после необходимого периода участия.</p></div><div className="instrument-output time-output"><span className="instrument-eyebrow">Ежемесячный взнос</span><div className="output-number" role="status" aria-live="polite"><AnimatedMoney value={result.monthlyContribution}/></div><p>3,84% от {formatMoney(coverage)} ₽</p><details className="instrument-expand"><summary>Когда можно получить больничный? <span aria-hidden="true">+</span></summary><p>Право на пособие возникает после 6 месяцев уплаты взносов. После 6 месяцев расчётная база — 70% страховой суммы, после 12 — 100%. Размер выплаты зависит также от стажа и дней болезни.</p><p>Взносы за 12 месяцев без скидок: {formatMoney(result.yearCost)} ₽.</p></details><details className="stage-method"><summary>Что учитывает расчёт <span aria-hidden="true">+</span></summary><ul>{result.whyItems.map(item=><li key={item}>{item}</li>)}</ul><p>Это не обещание размера конкретного больничного. Выплату определяет СФР.</p><a href="/metodika">Методика и источники ↗</a></details></div></div>;
 }

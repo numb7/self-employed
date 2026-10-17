@@ -1,173 +1,20 @@
-import { useState, useMemo } from 'react';
-import { CurrencyInput } from '../ui/CurrencyInput';
-import { SegmentedToggle } from '../ui/SegmentedToggle';
-import { MonthPicker } from '../ui/MonthPicker';
-import { ControlGroup } from '../ui/ControlGroup';
-import { ResultCard } from '../ui/ResultCard';
-import { ProgressIndicator } from '../ui/ProgressIndicator';
+import { useEffect, useState } from 'react';
+import { RangeControl } from '../ui/RangeControl';
+import { LimitRuler } from '../ui/LimitRuler';
+import { AnimatedMoney } from '../ui/AnimatedMoney';
 import { calculateIncomeRemaining, calculateIncomeWhenLimit } from '@/lib/calculations';
-import { formatMoney } from '@/lib/format';
+import { formatMoney, MONTHS } from '@/lib/format';
+import { RULES_2026 } from '@/lib/rules-2026';
 
-export function IncomeLimitCalculator() {
-  const [mode, setMode] = useState<'remaining' | 'forecast'>('remaining');
-  const [earned, setEarned] = useState<number | null>(null);
-  const [currentMonth, setCurrentMonth] = useState(1);
-  const [avgMonthly, setAvgMonthly] = useState<number | null>(null);
-
-  // remaining mode: earned + month
-  const isReadyRemaining = earned !== null && earned > 0;
-  // forecast mode: earned + month + avg monthly
-  const isReadyForecast = earned !== null && earned > 0 && avgMonthly !== null && avgMonthly > 0;
-  const isReady = mode === 'remaining' ? isReadyRemaining : isReadyForecast;
-
-  const remainingResult = useMemo(() => {
-    if (mode !== 'remaining' || !isReadyRemaining) return null;
-    return calculateIncomeRemaining(earned!, currentMonth);
-  }, [mode, isReadyRemaining, earned, currentMonth]);
-
-  const forecastResult = useMemo(() => {
-    if (mode !== 'forecast' || !isReadyForecast) return null;
-    return calculateIncomeWhenLimit(earned!, currentMonth, avgMonthly!);
-  }, [mode, isReadyForecast, earned, currentMonth, avgMonthly]);
-
-  const result = remainingResult ?? forecastResult;
-
-  const resultRisk = useMemo(() => {
-    if (!result) return 'green' as const;
-    if (result.mode === 'remaining') return result.risk;
-    if (result.earned >= 2_400_000) return 'red' as const;
-    return result.willReach ? 'amber' as const : 'green' as const;
-  }, [result]);
-
-  const whyItems = useMemo(() => {
-    if (!result) return [];
-    if (result.mode === 'remaining') {
-      return [
-        `Лимит дохода: 2 400 000 ₽`,
-        `Заработано: ${formatMoney(result.earned)} ₽ (${result.earnedPercent}%)`,
-        `Месяцев осталось: ${result.monthsLeft}`,
-        `Безопасный темп: ${formatMoney(result.safePace)} ₽/мес.`,
-      ];
-    }
-    return [
-      `Лимит дохода: 2 400 000 ₽`,
-      `Заработано: ${formatMoney(result.earned)} ₽`,
-      `Осталось: ${formatMoney(result.remaining)} ₽`,
-      result.willReach
-        ? `Лимит достигнут в: ${result.limitMonthName ?? '—'} (мес. ${result.limitMonth})`
-        : 'Лимит не будет достигнут в этом году',
-    ];
-  }, [result]);
-
-  return (
-    <div className="flex flex-col gap-6" id="calculator-income-limit">
-      <ControlGroup label="Доход">
-        <div className="flex flex-col gap-1.5">
-          <span className="text-sm font-medium text-ink">Что хотите узнать?</span>
-          <SegmentedToggle
-            name="limitMode"
-            value={mode}
-            onChange={(v) => setMode(v as 'remaining' | 'forecast')}
-            options={[
-              { value: 'remaining', label: 'Сколько осталось' },
-              { value: 'forecast', label: 'Когда достигну лимит' },
-            ]}
-          />
-        </div>
-
-        <div className="flex flex-col gap-1.5">
-          <label htmlFor="limit-earned" className="text-sm font-medium text-ink">
-            Доход с начала года
-          </label>
-          <CurrencyInput
-            id="limit-earned"
-            value={earned}
-            onValueChange={setEarned}
-            required
-            placeholder="1 200 000"
-            hint="Весь доход с 1 января"
-          />
-        </div>
-
-        <div className="flex flex-col gap-1.5">
-          <span className="text-sm font-medium text-ink">Текущий месяц</span>
-          <MonthPicker
-            value={currentMonth}
-            onChange={setCurrentMonth}
-          />
-        </div>
-
-        {mode === 'forecast' && (
-          <div className="flex flex-col gap-1.5">
-            <label htmlFor="limit-avg" className="text-sm font-medium text-ink">
-              Средний доход в месяц
-            </label>
-            <CurrencyInput
-              id="limit-avg"
-              value={avgMonthly}
-              onValueChange={setAvgMonthly}
-              required={mode === 'forecast'}
-              placeholder="200 000"
-              hint="Средняя сумма дохода за месяц"
-            />
-          </div>
-        )}
-      </ControlGroup>
-
-      <div aria-live="polite" role="status">
-        {isReady && result ? (
-          <ResultCard
-            label={
-              result.mode === 'remaining'
-                ? (result.remaining >= 0 ? 'Осталось до лимита' : 'Лимит превышен')
-                : (forecastResult?.willReach ? 'Лимит будет достигнут' : 'Лимит не будет достигнут')
-            }
-            figure={
-              result.mode === 'remaining'
-                ? `${formatMoney(result.remaining)} ₽`
-                : (forecastResult?.limitMonthName
-                    ? `${forecastResult.limitMonthName} (мес. ${forecastResult.limitMonth})`
-                    : 'Есть запас')
-            }
-            subtitle={
-              result.mode === 'remaining'
-                ? `Из 2 400 000 ₽ использовано ${result.earnedPercent}%`
-                : undefined
-            }
-            detail={
-              result.mode === 'remaining'
-                ? `Безопасный темп: ${formatMoney(result.safePace)} ₽/мес. (осталось ${result.monthsLeft} мес.)`
-                : forecastResult
-                  ? forecastResult.willReach
-                    ? `Прогноз дохода: ${formatMoney(forecastResult.projectedIncome)} ₽`
-                    : `Запас до лимита: ${formatMoney(forecastResult.safetyMargin)} ₽`
-                  : undefined
-            }
-            whyItems={whyItems}
-            risk={{
-              level: resultRisk,
-              label: resultRisk === 'red'
-                ? 'Лимит уже превышен'
-                : result.mode === 'whenLimit' && result.willReach
-                  ? 'Лимит будет достигнут'
-                  : resultRisk === 'amber'
-                    ? 'Близко к лимиту'
-                    : 'Есть запас',
-            }}
-            next={{ to: '/otlozhit-na-nalog', label: 'Сколько отложить на налог' }}
-            trust={['ФНС 2026', 'Лимит 2,4 млн ₽', 'Без отправки данных']}
-          >
-            {result.mode === 'remaining' && (
-              <ProgressIndicator
-                percent={result.earnedPercent}
-                label={`${formatMoney(result.earned)} ₽ из 2 400 000 ₽`}
-                color={resultRisk === 'red' ? 'red' : resultRisk === 'amber' ? 'amber' : 'accent'}
-                className="mt-3"
-              />
-            )}
-          </ResultCard>
-        ) : null}
-      </div>
-    </div>
-  );
+export function IncomeLimitCalculator(){
+ const [earned,setEarned]=useState(1200000);
+ const [month,setMonth]=useState(1);
+ const [monthly,setMonthly]=useState(150000);
+ useEffect(()=>setMonth(new Date().getMonth()+1),[]);
+ const result=calculateIncomeRemaining(earned,month);
+ const forecast=calculateIncomeWhenLimit(earned,month,monthly);
+ const exceeded=earned>RULES_2026.npd.incomeLimit;
+ return <div id="calculator-income-limit" className="instrument-workspace">
+ <div className="instrument-controls"><div className="instrument-eyebrow">Пример расчёта · измените под себя</div><RangeControl label="Доход с начала года" value={earned} onChange={setEarned} max={3000000} step={10000}/><p className="instrument-hint">Учитывайте доход от самозанятости с 1 января. Зарплату по трудовому договору сюда не добавляйте.</p></div>
+ <div className="instrument-output limit-output"><div className="output-overline"><span>Ваш запас на год</span><span className={`status-pill ${exceeded?'status-danger':''}`}>{exceeded?'Выше лимита':earned===2400000?'Лимит достигнут':result.earnedPercent>=80?'Близко к лимиту':'Есть запас'}</span></div><div className="output-number" role="status" aria-live="polite"><AnimatedMoney value={Math.abs(result.remaining)}/></div><p>{exceeded?'Сумма превышения лимита':'Ещё можно получить в пределах лимита'}</p><LimitRuler earned={earned}/><details className="instrument-expand"><summary>Хватит ли лимита до конца года? <span aria-hidden="true">+</span></summary><label className="month-select-label">За какой месяц уже учтён весь доход?<select value={month} onChange={e=>setMonth(Number(e.target.value))}>{MONTHS.map((m,i)=><option value={i+1} key={m}>{m}</option>)}</select></label><p className="instrument-hint">Выберите последний полностью учтённый месяц. Прогноз предполагает одинаковый доход в следующих месяцах.</p><RangeControl label="Ожидаемый доход за месяц" value={monthly} onChange={setMonthly} max={500000} step={5000}/><p className="forecast-answer" role="status" aria-live="polite">{earned>=2400000?'Лимит уже достигнут.':forecast.willReach?`При таком темпе лимит будет достигнут: ${forecast.limitMonthName}.`:`К концу года останется запас ${formatMoney(forecast.safetyMargin)} ₽.`}</p></details><details className="stage-method"><summary>Как устроен расчёт <span aria-hidden="true">+</span></summary><p>Лимит {formatMoney(RULES_2026.npd.incomeLimit)} ₽ минус доход {formatMoney(earned)} ₽. Отдельного месячного лимита нет. Прогноз — ориентир при равномерном доходе.</p><a href="/metodika">Методика и источники ↗</a></details></div></div>;
 }

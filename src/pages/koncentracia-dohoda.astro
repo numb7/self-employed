@@ -4,7 +4,7 @@ import { ConcentrationTracker } from '../components/react/calculators/Concentrat
 import RelatedTools from '../components/astro/RelatedTools.astro';
 
 const title = 'Зависимость от одного заказчика — проверка для самозанятого';
-const description = 'Проверьте, не слишком ли вы зависите от одного заказчика. >=70% дохода от одного источника дольше 6 месяцев — признак риска переквалификации в трудовые.';
+const description = 'Проверьте, не слишком ли вы зависите от одного заказчика. Доля дохода и срок работы помогают оценить зависимость. Это ориентир, а не юридическое заключение.';
 const url = '/koncentracia-dohoda';
 const breadcrumbs = [
   { name: 'Главная', url: '/' },
@@ -46,7 +46,7 @@ const relatedTools = [
   </p>
 
   <section class="mt-8">
-    <ConcentrationTracker client:load />
+    <fieldset class="calculator-ready" data-calculator-loading disabled aria-busy="true" aria-label="Инструмент расчёта"><ConcentrationTracker client:load /></fieldset><noscript><p>Чтобы пользоваться инструментом, включите JavaScript в браузере.</p></noscript>
   </section>
 
   <section class="mt-10">

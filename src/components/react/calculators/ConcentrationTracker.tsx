@@ -20,7 +20,7 @@ function createRow(name = '', income: number | null = null, months: number | nul
 }
 
 export function ConcentrationTracker() {
-  const [sources, setSources] = useState<SourceRow[]>([createRow('Заказчик 1'), createRow('Заказчик 2')]);
+  const [sources, setSources] = useState<SourceRow[]>(() => [{id:'src-initial-1',name:'Заказчик 1',monthlyIncome:null,monthsWorking:null},{id:'src-initial-2',name:'Заказчик 2',monthlyIncome:null,monthsWorking:null}]);
 
   const updateSource = useCallback((id: string, field: keyof SourceRow, value: string | number | null) => {
     setSources((prev) =>
@@ -115,6 +115,7 @@ export function ConcentrationTracker() {
                   <td className="py-2 pr-2">
                     <input
                       type="text"
+                      aria-label={`Название: ${source.name || 'клиент'}`}
                       value={source.name}
                       onChange={(e) => updateSource(source.id, 'name', e.target.value)}
                       placeholder="Название"
@@ -123,6 +124,8 @@ export function ConcentrationTracker() {
                   </td>
                   <td className="py-2 px-2">
                     <CurrencyInput
+                      id={`${source.id}-income-desktop`}
+                      aria-label={`Доход в месяц: ${source.name || 'клиент'}`}
                       value={source.monthlyIncome}
                       onValueChange={(v) => updateSource(source.id, 'monthlyIncome', v)}
                       required={false}
@@ -131,6 +134,8 @@ export function ConcentrationTracker() {
                   </td>
                   <td className="py-2 px-2">
                     <NumberInput
+                      id={`${source.id}-months-desktop`}
+                      aria-label={`Срок работы: ${source.name || 'клиент'}`}
                       value={source.monthsWorking}
                       onValueChange={(v) => updateSource(source.id, 'monthsWorking', v)}
                       integer
@@ -205,7 +210,7 @@ export function ConcentrationTracker() {
             }}
             next={{ to: '/risk-trudovyh', label: 'Оценить риск переквалификации' }}
             trust={['По признакам ФНС', 'Учитывает срок работы', 'Без отправки данных']}
-          />
+          ><div className="client-distribution"><h3>Как распределён ваш доход</h3><div className="distribution-strip" aria-hidden="true">{result.sources.map((source,index)=><span key={index} style={{flex:source.monthlyIncome,background:`hsl(${258-index*27} 35% ${43+index%3*12}%)`}}/>)}</div><div className="distribution-legend">{result.sources.map((source,index)=><p key={index}><span>{source.name||`Заказчик ${index+1}`}</span><strong>{source.share}%</strong></p>)}</div></div></ResultCard>
         ) : null}
       </div>
     </div>

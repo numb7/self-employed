@@ -1,0 +1,15 @@
+.git/
+.zcode/
+node_modules/
+dist/
+.astro/
+.env*
+*.log
+/tests/
+/design-system/
+/*.html
+/assets/
+/css/
+/js/
+/robots.txt
+/sitemap.xml

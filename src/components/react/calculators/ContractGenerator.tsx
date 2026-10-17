@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { SegmentedToggle } from '../ui/SegmentedToggle';
 import { ControlGroup } from '../ui/ControlGroup';
 import { CurrencyInput } from '../ui/CurrencyInput';
@@ -19,8 +19,9 @@ interface FormData {
   city: string;
 }
 
-function generateDocument(data: FormData): string {
-  const today = data.date || new Date().toISOString().slice(0, 10);
+export function generateDocument(data: FormData): string {
+  const now = new Date();
+  const today = data.date || [now.getFullYear(), String(now.getMonth()+1).padStart(2,'0'), String(now.getDate()).padStart(2,'0')].join('-');
   const city = data.city || 'Москва';
   const amountStr = data.amount ? `${formatMoney(data.amount)} рублей` : '________ рублей';
 
@@ -40,7 +41,7 @@ ${data.service || '________________________________________'}
 1.2. Заказчик обязуется принять и оплатить оказанные услуги.
 
 2. СТОИМОСТЬ УСЛУГ И ПОРЯДОК ОПЛАТЫ
-2.1. Стоимость услуг по настоящему Договору составляет ${amountStr} 00 коп., включая НДС — не облагается (Исполнитель применяет налог на профессиональный доход).
+2.1. Стоимость услуг по настоящему Договору составляет ${amountStr} 00 коп., НДС не облагается (Исполнитель применяет налог на профессиональный доход).
 2.2. Оплата производится в течение 5 (пяти) рабочих дней с момента подписания Акта об оказанных услугах.
 
 3. ПОРЯДОК СДАЧИ-ПРИЁМКИ УСЛУГ
@@ -87,7 +88,7 @@ ${data.executorName || 'Исполнитель'}, ИНН ${data.executorInn || '
 1. Исполнитель оказал, а Заказчик принял следующие услуги:
 ${data.service || '________________________________________'}
 
-2. Стоимость оказанных услуг составляет ${amountStr} 00 коп., включая НДС — не облагается (Исполнитель применяет налог на профессиональный доход).
+2. Стоимость оказанных услуг составляет ${amountStr} 00 коп., НДС не облагается (Исполнитель применяет налог на профессиональный доход).
 
 3. Претензий к качеству и объёму оказанных услуг не имеется.
 
@@ -117,10 +118,16 @@ export function ContractGenerator() {
     clientInn: '',
     service: '',
     amount: null,
-    date: new Date().toISOString().slice(0, 10),
+    date: '',
     city: 'Москва',
   });
   const [showPreview, setShowPreview] = useState(false);
+  useEffect(() => {
+    const today = new Date();
+    const localDate = [today.getFullYear(), String(today.getMonth()+1).padStart(2,'0'), String(today.getDate()).padStart(2,'0')].join('-');
+    setFormData(prev=>({...prev,date:localDate}));
+  }, []);
+  const [copyError, setCopyError] = useState(false);
   const [copied, setCopied] = useState(false);
 
   const update = <K extends keyof FormData>(key: K, value: FormData[K]) => {
@@ -146,11 +153,12 @@ export function ContractGenerator() {
 
   const handleCopy = async () => {
     try {
+      setCopyError(false);
       await navigator.clipboard.writeText(generatedDocument);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch {
-      // fallback
+      setCopyError(true);
     }
   };
 
@@ -160,8 +168,11 @@ export function ContractGenerator() {
     const a = document.createElement('a');
     a.href = url;
     a.download = formData.docType === 'agreement' ? 'dogovor.txt' : 'akt.txt';
+    a.style.display = 'none';
+    document.body.appendChild(a);
     a.click();
-    URL.revokeObjectURL(url);
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
   };
 
   return (
@@ -335,6 +346,7 @@ export function ContractGenerator() {
         </button>
       </ControlGroup>
 
+      {!showPreview && <aside className="contract-empty"><div className="document-paper"><span className="instrument-eyebrow">Черновик / {formData.docType==='agreement'?'договор':'акт'}</span><h2>Договорённости<br/><em>на бумаге.</em></h2><div className="document-lines" aria-hidden="true"><i/><i/><i/><i/><i/></div><p>Заполните данные слева. Здесь появится текст для проверки, копирования и скачивания.</p><span className="document-signature">Ваше дело ↗</span></div></aside>}
       {showPreview && (
         <div className="animate-[resultAppear_300ms_ease-out_both]">
           <div className="rounded-[var(--radius-card)] border border-line bg-surface shadow-[var(--shadow-card-rest)] p-6">
@@ -366,6 +378,7 @@ export function ContractGenerator() {
             </button>
           </div>
 
+          {copyError && <p className="text-sm text-red" role="alert">Не удалось скопировать. Выделите текст вручную или скачайте файл.</p>}
           <p className="mt-3 text-xs text-faint">
             Проверьте условия перед подписанием: шаблон не учитывает особенности конкретной сделки и не заменяет консультацию юриста.
           </p>

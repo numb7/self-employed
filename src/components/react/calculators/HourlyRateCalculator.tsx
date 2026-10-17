@@ -1,181 +1,22 @@
-import { useState, useMemo } from 'react';
-import { CurrencyInput } from '../ui/CurrencyInput';
-import { NumberInput } from '../ui/NumberInput';
-import { SegmentedToggle } from '../ui/SegmentedToggle';
-import { ControlGroup } from '../ui/ControlGroup';
-import { ResultCard } from '../ui/ResultCard';
-import {
-  calculateTargetHourlyRate,
-  calculateActualHourlyRate,
-  type HourlyRateResult,
-} from '@/lib/calculations';
+import { useState } from 'react';
+import { RangeControl } from '../ui/RangeControl';
+import { PayerCards } from '../ui/PayerCards';
+import { AnimatedMoney } from '../ui/AnimatedMoney';
+import { calculateTargetHourlyRate,calculateActualHourlyRate } from '@/lib/calculations';
 import { formatMoney } from '@/lib/format';
 import type { ClientType } from '@/lib/rules-2026';
 
-export function HourlyRateCalculator() {
-  const [mode, setMode] = useState<'target' | 'actual'>('target');
-  const [clientType, setClientType] = useState<ClientType>('individual');
-  // Target mode fields
-  const [desiredNet, setDesiredNet] = useState<number | null>(null);
-  const [hoursPerMonth, setHoursPerMonth] = useState<number | null>(null);
-  // Actual mode fields
-  const [projectPayment, setProjectPayment] = useState<number | null>(null);
-  const [actualHours, setActualHours] = useState<number | null>(null);
-
-  const rate = clientType === 'business' ? 6 : 4;
-
-  // Target: desired net + hours
-  const isReadyTarget = desiredNet !== null && desiredNet > 0 && hoursPerMonth !== null && hoursPerMonth > 0;
-  // Actual: payment + hours
-  const isReadyActual = projectPayment !== null && projectPayment > 0 && actualHours !== null && actualHours > 0;
-  const isReady = mode === 'target' ? isReadyTarget : isReadyActual;
-
-  const result = useMemo((): HourlyRateResult | null => {
-    if (mode === 'target' && isReadyTarget) {
-      return calculateTargetHourlyRate(desiredNet!, hoursPerMonth!, clientType);
-    }
-    if (mode === 'actual' && isReadyActual) {
-      return calculateActualHourlyRate(projectPayment!, actualHours!, clientType);
-    }
-    return null;
-  }, [mode, isReadyTarget, isReadyActual, desiredNet, hoursPerMonth, projectPayment, actualHours, clientType]);
-
-  const whyItems = useMemo(() => {
-    if (!result) return [];
-    if (result.mode === 'target') {
-      return [
-        `Желаемый чистый доход: ${formatMoney(desiredNet!)} ₽/мес.`,
-        `Ставка НПД: ${rate}% (${clientType === 'business' ? 'юрлица / ИП' : 'физлица'})`,
-        `Необходимо выставить: ${formatMoney(result.grossNeeded)} ₽/мес.`,
-      ];
-    }
-    return [
-      `Оплата за проект: ${formatMoney(projectPayment!)} ₽`,
-      `Ставка НПД: ${rate}% (${clientType === 'business' ? 'юрлица / ИП' : 'физлица'})`,
-      `Чистыми: ${formatMoney(result.netTotal)} ₽`,
-    ];
-  }, [result, rate, clientType, projectPayment]);
-
-  return (
-    <div className="flex flex-col gap-6" id="calculator-hourly-rate">
-      <ControlGroup label="Ставка в час">
-        <div className="flex flex-col gap-1.5">
-          <span className="text-sm font-medium text-ink">Кто ваш клиент?</span>
-          <SegmentedToggle
-            name="hourlyClientType"
-            value={clientType}
-            onChange={(v) => setClientType(v as ClientType)}
-            options={[
-              { value: 'individual', label: 'Физлица (4% НПД)' },
-              { value: 'business', label: 'Юрлица (6% НПД)' },
-            ]}
-          />
-        </div>
-
-        <div className="flex flex-col gap-1.5">
-          <span className="text-sm font-medium text-ink">Какой расчёт нужен?</span>
-          <SegmentedToggle
-            name="hourlyMode"
-            value={mode}
-            onChange={(v) => setMode(v as 'target' | 'actual')}
-            options={[
-              { value: 'target', label: 'Сколько просить' },
-              { value: 'actual', label: 'Сколько реально получаю' },
-            ]}
-          />
-        </div>
-
-        {mode === 'target' ? (
-          <>
-            <div className="flex flex-col gap-1.5">
-              <label htmlFor="hourly-desired" className="text-sm font-medium text-ink">
-                Желаемый доход после налога
-              </label>
-              <CurrencyInput
-                id="hourly-desired"
-                value={desiredNet}
-                onValueChange={setDesiredNet}
-                required
-                placeholder="150 000"
-                hint="Доход после уплаты налога"
-              />
-            </div>
-            <div className="flex flex-col gap-1.5">
-              <label htmlFor="hourly-hours-target" className="text-sm font-medium text-ink">
-                Рабочих часов в месяц
-              </label>
-              <NumberInput
-                id="hourly-hours-target"
-                value={hoursPerMonth}
-                onValueChange={setHoursPerMonth}
-                integer
-                suffix="ч."
-                placeholder="160"
-                required
-              />
-            </div>
-          </>
-        ) : (
-          <>
-            <div className="flex flex-col gap-1.5">
-              <label htmlFor="hourly-payment" className="text-sm font-medium text-ink">
-                Оплата за проект
-              </label>
-              <CurrencyInput
-                id="hourly-payment"
-                value={projectPayment}
-                onValueChange={setProjectPayment}
-                required
-                placeholder="100 000"
-                hint="Сумма в договоре / счёте"
-              />
-            </div>
-            <div className="flex flex-col gap-1.5">
-              <label htmlFor="hourly-hours-actual" className="text-sm font-medium text-ink">
-                Сколько часов потратили?
-              </label>
-              <NumberInput
-                id="hourly-hours-actual"
-                value={actualHours}
-                onValueChange={setActualHours}
-                suffix="ч."
-                placeholder="40"
-                required
-              />
-            </div>
-          </>
-        )}
-      </ControlGroup>
-
-      <div aria-live="polite" role="status">
-        {isReady && result ? (
-          <ResultCard
-            label={
-              result.mode === 'target'
-                ? 'Сколько назвать клиенту'
-                : 'Реальная ставка (после налога)'
-            }
-            figure={
-              result.mode === 'target'
-                ? `${formatMoney(result.hourlyRate)} ₽/ч`
-                : `${formatMoney(result.netHourlyRate)} ₽/ч`
-            }
-            subtitle={
-              result.mode === 'target'
-                ? `Нужно выставлять ${formatMoney(result.grossMonthly)} ₽/мес. (до налога)`
-                : `Чистыми за проект: ${formatMoney(result.netTotal)} ₽`
-            }
-            detail={
-              result.mode === 'target'
-                ? `С учётом НПД ${rate}%: заказчик платит ${formatMoney(result.grossNeeded)} ₽, вы получаете ${formatMoney(desiredNet!)} ₽`
-                : `Проект: ${formatMoney(projectPayment!)} ₽ → налог ${rate}% → ${formatMoney(result.netTotal)} ₽`
-            }
-            whyItems={whyItems}
-            next={{ to: '/otlozhit-na-nalog', label: 'Сколько отложить на налог' }}
-            trust={['ФНС 2026', `НПД ${rate}%`, 'Без отправки данных']}
-          />
-        ) : null}
-      </div>
-    </div>
-  );
+export function HourlyRateCalculator(){
+ const [mode,setMode]=useState<'target'|'actual'>('target');
+ const [client,setClient]=useState<ClientType>('individual');
+ const [desired,setDesired]=useState(96000);
+ const [hours,setHours]=useState(100);
+ const [payment,setPayment]=useState(100000);
+ const [actualHours,setActualHours]=useState(40);
+ const target=calculateTargetHourlyRate(desired,hours,client);
+ const actual=calculateActualHourlyRate(payment,actualHours,client);
+ const isTarget=mode==='target';
+ const rate=isTarget?target.hourlyRate:actual.netHourlyRate;
+ const time=isTarget?hours:actualHours;
+ return <div id="calculator-hourly-rate" className="instrument-workspace"><div className="instrument-controls"><div className="mode-cards" role="group" aria-label="Задача расчёта"><button aria-pressed={isTarget} onClick={()=>setMode('target')}><span aria-hidden="true">↗</span><strong>Назвать цену</strong></button><button aria-pressed={!isTarget} onClick={()=>setMode('actual')}><span aria-hidden="true">↙</span><strong>Проверить проект</strong></button></div><RangeControl key={isTarget?'target-money':'actual-money'} label={isTarget?'Хочу получать после налога':'Оплата за проект'} value={isTarget?desired:payment} onChange={isTarget?setDesired:setPayment} min={0} max={300000} step={1000} /><RangeControl key={isTarget?'target-hours':'actual-hours'} label={isTarget?'Рабочих часов в месяц':'Часов на проект, включая правки'} value={time} onChange={isTarget?setHours:setActualHours} min={isTarget?1:0.5} max={isTarget?240:200} step={isTarget?1:0.5} suffix=" ч" limit={10000}/><details className="instrument-expand"><summary>Тип заказчика <span>{client==='individual'?'Человек · 4%':'Компания · 6%'}</span></summary><PayerCards value={client} onChange={setClient}/></details></div><div className="instrument-output time-output"><span className="instrument-eyebrow">{isTarget?'Цена вашего рабочего часа':'Реальная стоимость часа'}</span><div className="output-number" role="status" aria-live="polite"><AnimatedMoney value={rate} suffix=""/><small>₽ / ч</small></div><p>{isTarget?'Столько нужно брать за час, чтобы получить желаемый доход после налога.':'Столько остаётся после налога за каждый потраченный час.'}</p><details className="stage-method"><summary>Как получилась эта ставка <span aria-hidden="true">+</span></summary><p>{isTarget?`Чтобы получить ${formatMoney(desired)} ₽ после налога, нужно выставить ${formatMoney(target.grossMonthly)} ₽. Делим на ${formatMoney(hours)} рабочих часов.`:`Из ${formatMoney(payment)} ₽ после налога остаётся ${formatMoney(actual.netTotal)} ₽. Делим на ${actualHours.toLocaleString('ru-RU',{maximumFractionDigits:1})} часов.`}</p><a href="/metodika">Методика и источники ↗</a></details></div></div>;
 }

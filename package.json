@@ -8,10 +8,11 @@
     "build": "astro build",
     "preview": "astro preview",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "check": "tsc --noEmit"
   },
   "engines": {
-    "node": ">=20"
+    "node": ">=22.12.0"
   },
   "license": "MIT",
   "dependencies": {

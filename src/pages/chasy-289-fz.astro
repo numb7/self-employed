@@ -50,6 +50,7 @@ const relatedTools = [
   title={title}
   description={description}
   url={url}
+  heading="Работаю через платформу — что проверить?"
   breadcrumbs={breadcrumbs}
   structuredData={structuredData}
 >
@@ -59,24 +60,10 @@ const relatedTools = [
   </p>
 
   <section class="mt-8">
-    <Chasy289Calculator client:load />
+    <fieldset class="calculator-ready" data-calculator-loading disabled aria-busy="true" aria-label="Инструмент расчёта"><Chasy289Calculator client:load /></fieldset><noscript><p>Чтобы пользоваться инструментом, включите JavaScript в браузере.</p></noscript>
   </section>
 
-  <section class="mt-10">
-    <details class="group">
-      <summary class="cursor-pointer font-head text-sm font-medium text-muted hover:text-ink transition-colors select-none">
-        Как считается: откуда цифры
-      </summary>
-      <div class="prose mt-4 text-sm">
-        <p>289-ФЗ регулирует платформенную экономику. Критерий продолжительности применяется к партнёрам-исполнителям посреднических цифровых платформ: больше 60 часов в месяц у одного заказчика в течение 6 месяцев подряд.</p>
-        <p>Расчёт ориентировочный. <a href="/metodika">Подробнее о методике →</a></p>
-        <ul class="mt-2">
-          <li><a href="https://www.consultant.ru/document/cons_doc_LAW_511088/" target="_blank" rel="noopener noreferrer">ФЗ № 289-ФЗ от 31.07.2025</a> — регулирование платформенной экономики</li>
-          <li><a href="https://www.consultant.ru/law/hotdocs/94591.html" target="_blank" rel="noopener noreferrer">Постановление Правительства РФ № 760</a> — критерий 60 часов и 6 месяцев</li>
-        </ul>
-      </div>
-    </details>
-  </section>
+
 
   <RelatedTools tools={relatedTools} currentUrl={url} />
 </CalculatorLayout>

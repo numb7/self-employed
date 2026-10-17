@@ -39,7 +39,7 @@ const CurrencyInput = forwardRef<HTMLInputElement, CurrencyInputProps>(
           suffix=" ₽"
           className={cn(
             'w-full rounded-[var(--radius-control)] border bg-surface px-3 py-2.5',
-            'font-mono text-ink tabular-nums',
+            'min-h-12 font-head text-lg text-ink tabular-nums',
             'placeholder:text-faint',
             'transition-colors duration-[var(--duration-fast)] ease-[var(--ease-out)]',
             'outline-none',
@@ -52,7 +52,7 @@ const CurrencyInput = forwardRef<HTMLInputElement, CurrencyInputProps>(
               && 'border-accent/40',
             // Default
             !error && !(required && (value === null || value === 0))
-              && 'border-line hover:border-line-2',
+              && 'border-line-2 hover:border-accent',
           )}
           aria-invalid={error ? 'true' : undefined}
           aria-describedby={

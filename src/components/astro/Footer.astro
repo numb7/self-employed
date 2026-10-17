@@ -7,6 +7,7 @@
     <nav aria-label="Ссылки в подвале">
       <ul class="footer-links">
         <li><a href="/#tools">Все инструменты</a></li>
+        <li><a href="/poleznoe">Вопросы и ответы</a></li>
         <li><a href="/metodika">Методика и источники</a></li>
         <li><a href="/privacy">Конфиденциальность</a></li>
         <li><a href="/disclaimer">Ответственность</a></li>
@@ -17,24 +18,25 @@
 
 <style>
   .footer {
-    background: var(--color-footer-bg);
-    color: var(--color-faint);
-    padding: clamp(2rem, 4vw, 3.5rem) 0;
+    background: var(--color-paper);
+    color: var(--color-muted);
+    padding: 1.5rem 0;
+    border-top: 1px solid var(--color-line);
     margin-top: auto;
   }
   .footer a {
-    color: var(--color-faint);
+    color: var(--color-muted);
     text-decoration: none;
     transition: color var(--duration-fast) var(--ease-out);
   }
   .footer a:hover {
-    color: #fff;
+    color: var(--color-accent);
   }
   .footer-disclaimer {
     max-width: 48rem;
-    margin-bottom: 2rem;
-    padding-bottom: 1.5rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--color-line);
   }
   .footer-disclaimer p {
     font-size: var(--fs-caption);

@@ -62,7 +62,7 @@ const NumberInput = forwardRef<HTMLInputElement, NumberInputProps>(
           min={min}
           max={max}
           className={cn(
-            'w-full rounded-[var(--radius-control)] border bg-surface px-3 py-2.5',
+            'min-h-11 w-full rounded-[var(--radius-control)] border bg-surface px-3 py-2.5',
             'font-mono text-ink tabular-nums',
             'placeholder:text-faint',
             'transition-colors duration-[var(--duration-fast)] ease-[var(--ease-out)]',

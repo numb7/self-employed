@@ -50,6 +50,7 @@ const relatedTools = [
   title={title}
   description={description}
   url={url}
+  heading="Сколько стоит пенсионный стаж?"
   breadcrumbs={breadcrumbs}
   structuredData={structuredData}
 >
@@ -59,25 +60,10 @@ const relatedTools = [
   </p>
 
   <section class="mt-8">
-    <PensionCalculator client:load />
+    <fieldset class="calculator-ready" data-calculator-loading disabled aria-busy="true" aria-label="Инструмент расчёта"><PensionCalculator client:load /></fieldset><noscript><p>Чтобы пользоваться инструментом, включите JavaScript в браузере.</p></noscript>
   </section>
 
-  <section class="mt-10">
-    <details class="group">
-      <summary class="cursor-pointer font-head text-sm font-medium text-muted hover:text-ink transition-colors select-none">
-        Как считается: откуда цифры
-      </summary>
-      <div class="prose mt-4 text-sm">
-        <p>Добровольные взносы в СФР для самозанятых рассчитываются пропорционально количеству месяцев. За полный 2026 год — 71 525,52 ₽ по формуле 22% × 12 × МРОТ.</p>
-        <p>Взносы можно платить за любой период: 1 месяц, полгода или год.</p>
-        <p>Расчёт ориентировочный. <a href="/metodika">Подробнее о методике →</a></p>
-        <ul class="mt-2">
-          <li>Постановление Правительства РФ о размере фиксированных взносов на 2026</li>
-          <li><a href="https://sfr.gov.ru" target="_blank" rel="noopener noreferrer">sfr.gov.ru</a> — Социальный фонд России</li>
-        </ul>
-      </div>
-    </details>
-  </section>
+
 
   <RelatedTools tools={relatedTools} currentUrl={url} />
 </CalculatorLayout>

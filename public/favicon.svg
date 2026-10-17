@@ -1,4 +1,1 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect width="32" height="32" rx="4" fill="#6F5DC9"/>
-  <text x="16" y="22" text-anchor="middle" fill="#F1F3EF" font-family="monospace" font-size="18" font-weight="bold">₽</text>
-</svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><rect width="512" height="512" rx="78" fill="#6550c8"/><path d="M118 144h48v82h94v-82h48v224h-48v-98h-94v98h-48z" fill="#faf9f6"/><rect x="337" y="320" width="56" height="56" rx="5" fill="#dce6b6"/></svg>
