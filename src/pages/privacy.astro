@@ -14,7 +14,7 @@ const structuredData = [{
     url: 'https://samozanyatye.vercel.app/privacy',
     name: title,
     description,
-    dateModified: '2026-07-18',
+    dateModified: '2026-10-18',
   },
 }];
 ---
@@ -53,10 +53,10 @@ const structuredData = [{
 
       <details class="group rounded-[var(--radius-card)] border border-line bg-surface" open>
         <summary class="cursor-pointer px-5 py-4 font-head text-sm font-medium text-ink hover:text-accent transition-colors select-none">
-          localStorage
+          Что сохраняется на устройстве
         </summary>
         <div class="px-5 pb-4 text-sm text-muted leading-relaxed">
-          При использовании калькуляторов некоторые параметры (выбранная страховая сумма, введённый доход, режим расчёта) могут сохраняться в <code class="font-mono bg-paper-2 px-1 rounded">localStorage</code> браузера для удобства повторного использования. Эти данные хранятся только на устройстве пользователя.
+          В текущей версии сайт сохраняет в <code class="font-mono bg-paper-2 px-1 rounded">localStorage</code> только выбранную тему оформления. Сайт не записывает расчёты и документы в историю и не восстанавливает их для следующего посещения. По кнопке скачивания документ сохраняется в файл на вашем устройстве. Данные, оставшиеся от прежних версий, можно удалить через настройки браузера.
         </div>
       </details>
 
@@ -65,7 +65,7 @@ const structuredData = [{
           Введённые суммы не передаются на сервер
         </summary>
         <div class="px-5 pb-4 text-sm text-muted leading-relaxed">
-          Введённые пользователем суммы, ИНН, ФИО и иные данные не передаются на сервер. Вся обработка происходит локально в браузере. Параметры расчёта могут передаваться в URL-адресе страницы для возможности поделиться ссылкой на расчёт.
+          Введённые пользователем суммы, ИНН, ФИО и иные данные не передаются на сервер. Вся обработка происходит локально в браузере. В текущей версии введённые значения не добавляются в адрес страницы. Ссылка на инструмент не содержит вашего расчёта.
         </div>
       </details>
 
