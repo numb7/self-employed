@@ -1,9 +1,9 @@
 import { useId, useState, type KeyboardEvent } from 'react';
 
 const situations = [
-  {id:'tax', name:'Налоги и статус', title:'Выбрать, как работать.', description:'Разберитесь с режимом и налогом, прежде чем принимать решение.', tools:[
+  {id:'tax', name:'Налоги и режим', title:'Выбрать, как работать.', description:'Разберитесь с режимом и налогом, прежде чем принимать решение.', tools:[
     {title:'Подходит ли мне самозанятость?',description:'Пройдите короткий опрос по вашей ситуации.',href:'/master-vybora-rezhima'},
-    {title:'Самозанятость или ИП',description:'Сравните налоги при вашем доходе и расходах.',href:'/ip-ili-samozanyatyy'},
+    {title:'Сравнить НПД и УСН 6%',description:'Налог для самозанятых и УСН «Доходы» для ИП без работников.',href:'/ip-ili-samozanyatyy'},
     {title:'Налоговый бонус',description:'Посчитайте налог с учётом оставшейся скидки.',href:'/vychet-10000'},
   ]},
   {id:'clients', name:'Заказчики и платформы', title:'Работать на понятных условиях.', description:'Проверьте, на что обратить внимание в сотрудничестве.', tools:[
@@ -18,7 +18,7 @@ const situations = [
 ];
 
 function SituationArt({kind}:{kind:string}) {
-  if(kind==='tax') return <div className="situation-art situation-art-tax" aria-hidden="true"><span className="choice-start">Своё дело</span><svg viewBox="0 0 240 90"><path d="M120 0v25q0 15-15 15H60q-15 0-15 15v35M120 25q0 15 15 15h45q15 0 15 15v35" fill="none" stroke="currentColor" strokeWidth="1.5"/><circle cx="120" cy="8" r="5" fill="currentColor"/></svg><div className="choice-options"><span>НПД</span><span>ИП</span></div></div>;
+  if(kind==='tax') return <div className="situation-art situation-art-tax" aria-hidden="true"><div className="tax-note-art"><span>Доход от работы</span><div className="tax-note-income"/><div className="tax-note-divider"/><span>Налог с дохода</span><div className="tax-note-share"><i/><b/></div><small>Сначала считаем. Потом решаем.</small></div></div>;
   if(kind==='clients') return <div className="situation-art situation-art-clients" aria-hidden="true"><svg viewBox="0 0 280 220"><path d="m140 110-85-65m85 65 92-50m-92 50-88 65m88-65 88 65" fill="none" stroke="currentColor" strokeWidth="1.5"/><circle cx="55" cy="45" r="22"/><circle cx="232" cy="60" r="16"/><circle cx="52" cy="175" r="17"/><circle cx="228" cy="175" r="24"/><circle className="client-core" cx="140" cy="110" r="40"/><text x="140" y="115" textAnchor="middle">Вы</text></svg></div>;
   return <div className="situation-art situation-art-future" aria-hidden="true"><div className="future-calendar"><div className="calendar-binding"><i/><i/></div><span>Время для себя</span><div className="calendar-days">{Array.from({length:14},(_,i)=><i key={i} className={i===9?'calendar-day-selected':''}>{i===9?<svg viewBox="0 0 24 24"><path d="m5 12 4 4L19 6" fill="none" stroke="currentColor" strokeWidth="2"/></svg>:null}</i>)}</div></div></div>;
 }
