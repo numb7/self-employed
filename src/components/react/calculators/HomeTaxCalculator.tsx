@@ -4,6 +4,7 @@ import { calculateSetAside } from '@/lib/calculations';
 import { formatMoney } from '@/lib/format';
 import { RULES_2026, type ClientType } from '@/lib/rules-2026';
 import { Allocation } from '../ui/FinanceVisuals';
+import { TaxBonusInput } from '../ui/TaxBonusInput';
 import { AnimatedMoney } from '../ui/AnimatedMoney';
 
 export function HomeTaxCalculator() {
@@ -11,7 +12,7 @@ export function HomeTaxCalculator() {
   const [amount, setAmount] = useState<number | undefined>(50000);
   const [example, setExample] = useState(true);
   const [client, setClient] = useState<ClientType>('individual');
-  const [deduction, setDeduction] = useState<number | undefined>(10000);
+  const [deduction, setDeduction] = useState<number | undefined>();
   const [useDeduction, setUseDeduction] = useState(false);
   const value = amount ?? 0;
   const rate = client === 'individual' ? 4 : 6;
@@ -42,13 +43,13 @@ export function HomeTaxCalculator() {
         <strong className="simple-answer-number"><AnimatedMoney value={result.setAside}/></strong>
         <span className="simple-answer-basis">{useDeduction ? 'С учётом налогового бонуса' : `${rate}% с этой оплаты · без налогового бонуса`}</span>
         <Allocation total={value} tax={result.setAside}/>
-        <div className="simple-keep"><span>Вам останется</span><strong><AnimatedMoney value={result.toKeep}/></strong></div>
+        <div className="simple-keep"><span>Вам останется до расходов</span><strong><AnimatedMoney value={result.toKeep}/></strong></div>
       </>}
     </div>
     <details className="simple-tax-details"><summary>Учесть налоговый бонус <span aria-hidden="true">+</span></summary><div>
       <p>При регистрации самозанятому дают бонус 10 000 ₽ — в законе он называется вычетом. Это скидка на налог, а не деньги на карту. ФНС применяет её автоматически.</p>
       <label className="bonus-checkbox"><input type="checkbox" checked={useDeduction} onChange={e => setUseDeduction(e.target.checked)}/> Учесть мой остаток бонуса</label>
-      {useDeduction && <><label className="bonus-input-label" htmlFor={`${id}-bonus`}>Остаток бонуса из «Мой налог», ₽</label><NumericFormat id={`${id}-bonus`} name="tax-bonus" autoComplete="off" className="bonus-input" value={deduction ?? ''} thousandSeparator=" " decimalScale={0} allowNegative={false} inputMode="numeric" isAllowed={({ floatValue }) => floatValue === undefined || floatValue <= 10000} onValueChange={({ floatValue }, { source }) => { if (source === 'event') setDeduction(floatValue); }}/><p>Если не знаете остаток, снимите галочку: получите расчёт без скидки.</p></>}
+      {useDeduction && <><TaxBonusInput id={`${id}-bonus`} label="Остаток бонуса из «Мой налог», ₽" value={deduction} onChange={setDeduction}/><p>Если не знаете остаток, снимите галочку: получите расчёт без скидки.</p></>}
       {valid && !overLimit && <p className="simple-formula">{formatMoney(value)} ₽ × {rate}%{useDeduction ? ` − ${formatMoney(result.deductionUsed)} ₽ скидки` : ''} = {formatMoney(result.setAside)} ₽ налога.{useDeduction && ` После этой оплаты от бонуса останется ${formatMoney(result.deductionRemainingAfter)} ₽.`}</p>}
       <a href="/metodika">Как считаем ↗</a>
     </div></details>

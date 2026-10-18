@@ -183,7 +183,7 @@ export function ContractGenerator() {
         label="Документ"
         description="Укажите данные — сервис соберёт редактируемый шаблон договора или акта."
       >
-        <div className="contract-progress-mobile"><ChecklistMeter count={filledRequired} total={5} label="Обязательные данные"/></div>
+        <details className="template-terms" open><summary>Условия этого шаблона</summary><p>{formData.docType==='agreement'?'Оплата — в течение 5 рабочих дней после акта. Срок услуг нужно согласовать и добавить в текст.':'Акт подтверждает приёмку услуг без претензий к качеству и объёму. Проверьте, соответствует ли это вашей ситуации.'}</p><p>Измените шаблон под свои договорённости. Он не заменяет юридическую проверку и чек.</p></details><div className="contract-progress-mobile"><ChecklistMeter count={filledRequired} total={5} label="Обязательные данные"/></div>
         <div className="flex flex-col gap-1.5">
           <span className="text-sm font-medium text-ink">Тип документа</span>
           <SegmentedToggle

@@ -4,6 +4,8 @@ import { calculateSetAside } from '@/lib/calculations';
 import { formatMoney } from '@/lib/format';
 import { RULES_2026, type ClientType } from '@/lib/rules-2026';
 import { PaymentSculpture } from '../ui/PaymentSculpture';
+import { TaxBonusInput } from '../ui/TaxBonusInput';
+import { PaymentGuide } from '../ui/PaymentGuide';
 import { AnimatedMoney } from '../ui/AnimatedMoney';
 
 export function HomePaymentStudio() {
@@ -11,33 +13,40 @@ export function HomePaymentStudio() {
   const [replay,setReplay] = useState(0);
   const [amount, setAmount] = useState<number | undefined>(50000);
   const [example, setExample] = useState(true);
+  const [useBonus,setUseBonus] = useState(false);
+  const [bonus,setBonus] = useState<number | undefined>();
   const [client, setClient] = useState<ClientType>('individual');
   const value = amount ?? 0;
   const rate = client === 'individual' ? 4 : 6;
-  const result = calculateSetAside(value, client, 0);
+  const result = calculateSetAside(value, client, useBonus ? bonus ?? 0 : 0);
+  const visualRate = Math.round(result.effectiveRate * 10000) / 100;
   const over = value > RULES_2026.npd.incomeLimit;
-  const ready = amount !== undefined && !over;
-  return <div className="payment-studio">
+  const ready = amount !== undefined && !over && (!useBonus || bonus !== undefined);
+  return <><div className="payment-studio">
     <div className="studio-entry">
       <label className="studio-label" htmlFor={`${id}-amount`}>Вы получили оплату</label>
       <div className="studio-amount"><NumericFormat id={`${id}-amount`} value={amount ?? ''} onValueChange={({ floatValue }, { source }) => { if (source === 'event') { setAmount(floatValue); setExample(false); } }} thousandSeparator=" " decimalSeparator="," decimalScale={0} allowNegative={false} inputMode="numeric" autoComplete="off" placeholder="0" aria-describedby={`${id}-hint`} isAllowed={({floatValue})=>floatValue===undefined||floatValue<=100000000}/><span aria-hidden="true">₽</span></div>
       <p id={`${id}-hint`} className="studio-hint">{example ? 'Пример оплаты — измените сумму на свою' : 'Сумму также можно изменить ползунком'}</p>
       {value <= 200000 && <input className="studio-range" type="range" min="0" max="200000" step="500" value={value} aria-label="Сумма оплаты" aria-valuetext={`${formatMoney(value)} рублей`} style={{'--fill':`${value/2000}%`} as CSSProperties} onChange={e=>{setAmount(Number(e.target.value));setExample(false);}}/>}
       <fieldset className="studio-payers"><legend>Кто вам заплатил?</legend><div>{([{value:'individual',label:'Человек',rate:4},{value:'business',label:'Компания или ИП',rate:6}] as const).map(p=><label key={p.value}><input type="radio" name={`${id}-payer`} value={p.value} checked={client===p.value} onChange={()=>setClient(p.value)}/><span>{p.label}<small>{p.rate}%</small></span></label>)}</div></fieldset>
-      <a className="studio-bonus" href="/vychet-10000">Есть налоговый бонус? Рассчитать со скидкой <span aria-hidden="true">↗</span></a>
+      <details className="studio-bonus-details"><summary>{useBonus && bonus!==undefined?'Налоговый бонус учтён':'Учесть налоговый бонус'}</summary><div>
+        <p>Остаток скидки указан в «Мой налог». Если не знаете его, оставьте расчёт без бонуса.</p>
+        <label className="bonus-checkbox"><input type="checkbox" checked={useBonus} onChange={e=>setUseBonus(e.target.checked)}/> Учесть известный остаток</label>
+        {useBonus && <><TaxBonusInput id={`${id}-bonus`} label="Остаток бонуса, ₽" value={bonus} onChange={setBonus}/>{bonus!==undefined&&<p>Скидка с этой оплаты: {formatMoney(result.deductionUsed)} ₽. Бонуса останется: {formatMoney(result.deductionRemainingAfter)} ₽.</p>}</>}
+      </div></details>
     </div>
     <div className="studio-result">
       <div className="studio-result-live" role="status" aria-live="polite" aria-atomic="true">
       {ready ? <>
         <span className="studio-label">Вам остаётся</span>
         <strong className="studio-kept"><AnimatedMoney value={result.toKeep}/></strong>
-        <p className="studio-result-caption">После налога с этой оплаты</p>
-        {value > 0 && <PaymentSculpture rate={rate} replay={replay}/>}
-        <div className="studio-tax-total"><div><span className="studio-dot"/>Отложите на налог <small>{rate}%</small></div><strong><AnimatedMoney value={result.setAside}/></strong></div>
-      </> : <div className="studio-empty"><strong>{over?'Эта сумма больше годового лимита':'Сколько вам заплатили?'}</strong><p>{over?'Лимит самозанятости — 2,4 млн ₽ за год. Проверьте доход, прежде чем рассчитывать налог.':'Введите сумму слева — покажем налог и деньги, которые останутся вам.'}</p>{over&&<a href="/limit-dohoda">Проверить лимит</a>}</div>}
+        <p className="studio-result-caption">После налога, до ваших расходов</p>
+        {value > 0 && <PaymentSculpture rate={visualRate} replay={replay}/>}
+        <div className="studio-tax-total"><div><span className="studio-dot"/>Отложите на налог <small>{result.deductionUsed > 0 ? 'со скидкой' : `${rate}%`}</small></div><strong><AnimatedMoney value={result.setAside}/></strong></div>
+      </> : <div className="studio-empty"><strong>{over?'Эта сумма больше годового лимита':amount===undefined?'Сколько вам заплатили?':'Какой остаток бонуса?'}</strong><p>{over?'Лимит самозанятости — 2,4 млн ₽ за год. Проверьте доход, прежде чем рассчитывать налог.':amount===undefined?'Введите сумму слева — покажем налог и деньги, которые останутся вам.':'Введите известный остаток бонуса или снимите галочку — рассчитаем без скидки.'}</p>{over&&<a href="/limit-dohoda">Проверить лимит</a>}</div>}
       </div>
       {ready && value > 0 && <button className="studio-replay" type="button" onClick={()=>setReplay(n=>n+1)}><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10a8 8 0 1 1 1 7M4 4v6h6" fill="none" stroke="currentColor" strokeWidth="1.5"/></svg>Повторить движение</button>}
-      <p className="studio-note">Предварительно, без налогового бонуса. Итог за месяц — в «Мой налог».</p>
+      <p className="studio-note">Предварительный резерв{useBonus?' с учётом указанного бонуса':' без бонуса'}. Итог за месяц — в «Мой налог».</p>
     </div>
-  </div>;
+  </div><PaymentGuide/></>;
 }

@@ -5,7 +5,6 @@ import { ControlGroup } from '../ui/ControlGroup';
 import { ResultCard } from '../ui/ResultCard';
 import { ProgressIndicator } from '../ui/ProgressIndicator';
 import { calculateRiskTrudovyh } from '@/lib/calculations';
-import type { RiskLevel } from '@/lib/rules-2026';
 
 interface RiskFactor {
   id: string;
@@ -56,12 +55,6 @@ export function RiskTrudovyhCalculator() {
       else next.add(id);
       return next;
     });
-  };
-
-  const riskColor = (level: RiskLevel) => {
-    if (level === 'red') return 'red';
-    if (level === 'amber') return 'amber';
-    return 'green';
   };
 
   return (
@@ -125,7 +118,7 @@ export function RiskTrudovyhCalculator() {
             </div>
           </div>
           {share !== null && share > 80 && (
-            <p className="text-red text-xs">Больше 80% дохода от одного заказчика — признак, который требует внимания</p>
+            <p className="text-red text-xs">Это доля дохода, а не вероятность нарушения</p>
           )}
         </div>
       </ControlGroup>
@@ -133,19 +126,8 @@ export function RiskTrudovyhCalculator() {
       <div aria-live="polite" role="status">
         {isReady && result ? (
           <ResultCard
-            label="Предварительная оценка"
-            figure={
-              result.risk === 'red'
-                ? 'Много признаков'
-                : result.risk === 'amber'
-                  ? 'Есть признаки'
-                  : 'Мало признаков'
-            }
-            subtitle={
-              count > 0
-                ? `${count} из 13 признаков отмечено`
-                : undefined
-            }
+            label="Отмеченные обстоятельства"
+            figure={`${count} из 13 признаков`}
             detail={
               share !== null && share > 0
                 ? `Доля дохода от главного заказчика: ${share}%`
@@ -157,27 +139,14 @@ export function RiskTrudovyhCalculator() {
               count >= 3 ? 'Отмечено 3 или больше признаков — ситуацию лучше проверить подробнее' : null,
               share !== null && share > 80 ? 'Больше 80% дохода приходится на одного заказчика' : null,
             ].filter(Boolean) as string[]}
-            risk={{
-              level: result.risk,
-              label: result.risk === 'red'
-                ? 'Требует внимания'
-                : result.risk === 'amber'
-                  ? 'Есть признаки'
-                  : 'Мало признаков',
-            }}
             trust={['ФНС · ст. 15 ТК РФ', '13 признаков', 'Без отправки данных']}
           >
-            <div className="mt-3 flex flex-col gap-2">
-              <ProgressIndicator
-                percent={count > 0 ? Math.round((count / 13) * 100) : 0}
-                label={`${count} из 13 признаков`}
-                color={riskColor(result.risk)}
-              />
+            <div className="mt-3 flex flex-col gap-2"><p className="scope-note">Это список отмеченных обстоятельств, не вероятность нарушения. Число признаков и доля дохода сами по себе не устанавливают трудовые отношения. Пороги сервиса — эвристика, а не критерии закона. Оплата за услуги или работы от текущего либо бывшего менее двух лет работодателя требует отдельной проверки: такой доход не облагается НПД.</p>
               {share !== null && share > 0 && (
                 <ProgressIndicator
                   percent={share}
                   label={`Доля дохода: ${share}%`}
-                  color={share > 80 ? 'red' : share >= 50 ? 'amber' : 'green'}
+                  color="green"
                 />
               )}
             </div>

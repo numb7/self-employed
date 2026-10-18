@@ -90,3 +90,18 @@ body:not([data-page="/"]) .result-card:before{display:none}
 body:is([data-page="/privacy"],[data-page="/disclaimer"]) main>div.container{padding-inline:32px}
 
 body:not([data-page="/"]) button.bg-accent{color:var(--color-paper)}
+/* Explanations stay secondary; they open where the decision is made. */
+.scope-note{font:400 14px/1.8 var(--font-body);color:var(--color-muted);max-width:72ch;margin-block:18px}
+.scope-note a{color:var(--color-accent)}.scope-list{padding-left:22px;list-style:disc;color:var(--color-muted);font-size:14px;line-height:1.8;margin:14px 0 24px}
+.payment-guide{padding:18px 28px;border-top:1px solid var(--color-line);font:400 13px/1.8 var(--font-body);color:var(--color-muted)}
+.payment-guide>summary{color:var(--color-ink);cursor:pointer;min-height:36px;display:flex;align-items:center}.payment-guide>summary::after{content:'+';margin-left:auto}.payment-guide[open]>summary::after{content:'−'}.payment-guide>div{max-width:74ch;padding-block:10px}.payment-guide p{margin-block:12px}.payment-guide a{color:var(--color-accent)}.payment-guide details{border-top:1px solid var(--color-line);padding-block:8px}.payment-guide details summary{cursor:pointer}
+.studio-bonus-details{margin-top:20px;max-width:440px;font-size:12px;line-height:1.75;color:var(--color-muted)}.studio-bonus-details summary{cursor:pointer;min-height:36px;display:flex;align-items:center;gap:14px}.studio-bonus-details summary::after{content:'+'}.studio-bonus-details[open] summary::after{content:'−'}.studio-bonus-details>div{padding:12px 0}.studio-bonus-details p{margin:8px 0 12px}.studio-bonus-details label{display:block;margin:10px 0;color:var(--color-ink)}.studio-bonus-details .bonus-checkbox{display:flex;gap:9px;align-items:center}.studio-bonus-details input[type=text]{width:100%;font:400 20px var(--font-body);padding:12px 14px;background:var(--color-surface);border:1px solid var(--color-line-2);border-radius:10px;color:var(--color-ink)}
+.wizard-intro{text-align:center;padding:12px}.wizard-intro .instrument-hint{margin:22px auto;max-width:480px}.action-button{background:var(--color-accent);color:var(--color-paper);border:0;border-radius:12px;padding:14px 22px;min-height:46px;cursor:pointer;font:500 14px var(--font-body)}.plain-action{background:transparent;border:0;padding:12px 0;color:var(--color-accent);cursor:pointer;font:500 14px var(--font-body);min-height:44px}
+#calculator-wizard h2{font-size:30px;line-height:1.25;letter-spacing:-.035em;margin-block:18px}#calculator-wizard h3{font-size:16px;font-weight:600;margin-top:22px}.wizard-choices{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:24px}.wizard-choices>button{text-align:left;border:1px solid var(--color-line);color:var(--color-ink);font:500 15px/1.6 var(--font-body);cursor:pointer}.wizard-choices>button:hover{border-color:var(--color-accent)}
+.template-terms{padding:14px 18px;border-radius:12px;background:var(--color-paper-2);font:400 13px/1.75 var(--font-body);color:var(--color-muted);margin-bottom:14px}.template-terms summary{color:var(--color-ink);font-weight:500;cursor:pointer}.template-terms p{margin-top:10px}
+@media(max-width:800px){.wizard-choices{grid-template-columns:1fr}.payment-guide{padding-inline:20px}}
+
+body:not([data-page="/"]) #calculator-wizard .wizard-choice{border-radius:14px}
+body:not([data-page="/"]) .instrument-output .scope-note{margin-block:20px;font-size:13px}
+.full-tax-stage .simple-tax-details>div{max-width:74ch}
+.full-tax-stage .simple-tax-details>div>label:not(.bonus-checkbox){display:block;margin-block:14px 8px}
