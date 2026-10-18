@@ -1,14 +1,9 @@
 ---
-import { HomeTaxCalculator } from '../components/react/calculators/HomeTaxCalculator';
+import { HomePaymentStudio } from '../components/react/calculators/HomePaymentStudio';
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 const title = 'Помощник самозанятого — налоги, цена работы и документы';
 const description = 'Рассчитайте налог с оплаты, проверьте лимит дохода и подготовьте договор. Понятные инструменты для самозанятых.';
-const tasks = [
- {title:'Проверить лимит дохода',desc:'Проверьте, сколько осталось до годового лимита 2,4 млн ₽.',href:'/limit-dohoda',kind:'limit'},
- {title:'Рассчитать цену часа',desc:'Рассчитайте ставку за час с учётом налога.',href:'/stavka-v-chas',kind:'price'},
- {title:'Подготовить договор',desc:'Заполните шаблон договора или акта и скачайте документ.',href:'/dogovor-akt',kind:'document'},
-];
 const extra = [
  {name:'Налоги и выбор режима',tools:[{title:'Как работает налоговый бонус',href:'/vychet-10000'},{title:'Сравнить налоги самозанятого и ИП',href:'/ip-ili-samozanyatyy'},{title:'Мне подходит самозанятость?',href:'/master-vybora-rezhima'}]},
  {name:'Работа с заказчиками',tools:[{title:'Похоже ли сотрудничество на работу по найму?',href:'/risk-trudovyh'},{title:'Слишком много дохода от одного клиента?',href:'/koncentracia-dohoda'},{title:'Работаю через платформу — что проверить?',href:'/chasy-289-fz'}]},
@@ -16,28 +11,33 @@ const extra = [
 ];
 ---
 <BaseLayout title={title} description={description} url="/" navVariant="home" structuredData={[{type:'WebSite',data:{'@context':'https://schema.org','@type':'WebSite',name:'НПД.помощник',url:'https://samozanyatye.vercel.app',inLanguage:'ru'}}]}>
-  <section class="poster-hero container" aria-labelledby="poster-title">
-    <header class="poster-intro">
-      <h1 id="poster-title"><span class="poster-line">Работайте</span><span class="poster-line poster-last">на себя.<svg class="poster-spark" viewBox="0 0 100 100" aria-hidden="true"><path d="M44 0h12v30L77 9l9 9-21 21h30v13H65l21 21-9 9-21-21v30H44V61L23 82l-9-9 21-21H5V39h30L14 18l9-9 21 21V0Z" fill="currentColor"/></svg></span></h1>
-      <p>Помощник самозанятого.<br/>С налогом, ценой работы и документами поможем.</p>
-      <a class="poster-start" href="#home-tax">Рассчитать налог <span aria-hidden="true">↗</span></a>
-    </header>
-    <section class="poster-calculator" id="home-tax" aria-labelledby="tax-title">
-      <h2 id="tax-title">Налог с оплаты</h2>
-      <fieldset class="calculator-ready" data-calculator-loading disabled aria-busy="true" aria-label="Расчёт налога с оплаты"><HomeTaxCalculator client:load /></fieldset>
-      <noscript><p>Чтобы пользоваться инструментом, включите JavaScript в браузере.</p></noscript>
+  <section class="home-opening container" aria-labelledby="home-title">
+    <h1 id="home-title">Своё дело.<br/>Деньги под контролем.</h1>
+    <p>Помощник самозанятого: налог с оплаты, цена работы<br/>и документы для заказчика — в одном месте.</p>
+    <section id="home-tax" class="home-workspace" aria-label="Калькулятор налога с оплаты">
+      <fieldset class="calculator-ready" data-calculator-loading disabled aria-busy="true" aria-label="Расчёт налога с оплаты"><HomePaymentStudio client:load /></fieldset>
+      <noscript><p>Чтобы пользоваться калькулятором, включите JavaScript.</p></noscript>
     </section>
   </section>
-  <nav class="poster-tools container" id="tools" aria-label="Основные инструменты">
-    {tasks.map(task=><a href={task.href}><h2>{task.kind==='limit'?'Лимит дохода':task.kind==='price'?'Цена часа':'Договор и акт'}</h2><p>{task.desc}</p><span aria-hidden="true">↗</span></a>)}
-  </nav>
-  <section class="desk-library container" aria-label="Все инструменты">
-    <details class="clear-more"><summary>Другие инструменты <span aria-hidden="true">+</span></summary><div class="clear-extra-grid">{extra.map(group=><section><h2>{group.name}</h2>{group.tools.map(tool=><a href={tool.href}>{tool.title}</a>)}</section>)}</div></details>
+  <section class="home-toolbox container" id="tools" aria-labelledby="tools-title">
+    <header><h2 id="tools-title">Для дел,<br/>кроме самого дела.</h2><p>Вы занимаетесь работой.<br/>Здесь можно разобраться с цифрами и документами.</p><a href="#all-tools">Все инструменты <span aria-hidden="true">↓</span></a></header>
+    <div class="home-tool-list">
+      <a class="home-tool home-tool-limit" href="/limit-dohoda"><div><h3>Держите лимит<br/>в поле зрения</h3><p>Узнайте, сколько ещё можно заработать на самозанятости в этом году.</p><span class="home-tool-action">Проверить доход <span aria-hidden="true">↗</span></span></div><div class="tool-limit-art" aria-hidden="true"><svg viewBox="0 0 240 150"><path d="M25 130a95 95 0 0 1 190 0" fill="none" stroke="currentColor" stroke-opacity=".12" stroke-width="23"/><path d="M25 130a95 95 0 0 1 142-82" fill="none" stroke="currentColor" stroke-width="23" stroke-linecap="round"/></svg><span>2,4 млн ₽<small>годовой лимит</small></span></div></a>
+      <a class="home-tool home-tool-price" href="/stavka-v-chas"><div><h3>Назовите цену,<br/>которая вам подходит</h3><p>Посчитайте стоимость часа с учётом налога, расходов и времени на работу.</p><span class="home-tool-action">Рассчитать ставку <span aria-hidden="true">↗</span></span></div><div class="tool-price-art" aria-hidden="true"><div class="price-clock"><i/><b/></div><span>Время<br/>стоит денег.</span></div></a>
+      <a class="home-tool home-tool-document" href="/dogovor-akt"><div><h3>Договорились?<br/>Зафиксируйте.</h3><p>Подготовьте договор или акт по шаблону и скачайте готовый документ.</p><span class="home-tool-action">Подготовить документ <span aria-hidden="true">↗</span></span></div><div class="tool-document-art" aria-hidden="true"><div class="paper-back"/><div class="paper-front"><b>Договор</b><i/><i/><i/><span>Согласовано <svg viewBox="0 0 24 24"><path d="m5 12 4 4L19 6" fill="none" stroke="currentColor" stroke-width="2"/></svg></span></div></div></a>
+    </div>
   </section>
-  <section class="clear-next container" aria-labelledby="next-title">
-    <h2 id="next-title">Оплату получили. Что дальше?</h2>
-    <p>Если чек уже сформировал банк или платформа, повторно создавать его не нужно.</p>
-    <ol><li><span aria-hidden="true">1</span><div><strong>Оформите чек</strong><p>В «Мой налог» или сервисе, через который ведёте самозанятость. Отправьте его заказчику.</p></div></li><li><span aria-hidden="true">2</span><div><strong>Оставьте деньги на налог</strong><p>Калькулятор выше поможет оценить сумму с этой оплаты.</p></div></li><li><span aria-hidden="true">3</span><div><strong>Проверьте начисление</strong><p>Итог за месяц появится в «Мой налог». Обычный срок уплаты — до 28-го числа следующего месяца.</p></div></li></ol>
-    <a href="https://npd.nalog.ru/" target="_blank" rel="noopener noreferrer">Как это работает — на сайте ФНС ↗</a>
+  <section class="home-more container" id="all-tools" aria-label="Другие инструменты">
+    <details><summary>Ещё инструменты для вашей ситуации <span aria-hidden="true">+</span></summary><div class="home-extra-grid">{extra.map(group=><section><h2>{group.name}</h2>{group.tools.map(tool=><a href={tool.href}>{tool.title}<span aria-hidden="true">↗</span></a>)}</section>)}</div></details>
   </section>
+  <section class="home-after" aria-labelledby="after-title"><div class="container">
+    <header><h2 id="after-title">Оплата пришла.<br/>Дальше — три шага.</h2><p>Короткий порядок действий,<br/>чтобы спокойно вернуться к работе.</p></header>
+    <ol><li><span>1</span><h3>Отправьте чек</h3><p>Создайте его в «Мой налог» и отправьте заказчику. Если чек уже оформил банк или платформа, второй не нужен.</p></li><li><span>2</span><h3>Отложите на налог</h3><p>Ориентируйтесь на расчёт выше. Так нужная сумма будет под рукой, когда появится начисление.</p></li><li><span>3</span><h3>Проверьте начисление</h3><p>Итог за месяц появится в «Мой налог». Обычный срок уплаты — до 28-го числа следующего месяца.</p></li></ol>
+    <a href="https://npd.nalog.ru/" target="_blank" rel="noopener noreferrer">Подробнее на сайте ФНС <span aria-hidden="true">↗</span></a>
+  </div></section>
+  <section class="home-questions container" aria-labelledby="questions-title"><header><h2 id="questions-title">Без мелкого шрифта.</h2><p>Что важно знать об этом помощнике.</p></header><div>
+    <details><summary>Это приложение «Мой налог»?<span aria-hidden="true">+</span></summary><p>Нет, это независимый помощник для предварительных расчётов. Регистрировать доходы, оформлять чеки и платить налог нужно в «Мой налог» или через подключённый сервис.</p></details>
+    <details><summary>Почему налог может отличаться от расчёта?<span aria-hidden="true">+</span></summary><p>Здесь показан налог с одной оплаты без бонуса. ФНС рассчитывает итог за весь месяц с учётом бонуса и корректировок. Посмотреть правила можно в <a href="/metodika">методике расчётов</a>.</p></details>
+    <details><summary>Мои суммы где-то сохраняются?<span aria-hidden="true">+</span></summary><p>Этот расчёт выполняется в вашем браузере. Введённая здесь сумма не отправляется на сервер. Подробнее — в <a href="/privacy">политике конфиденциальности</a>.</p></details>
+  </div></section>
 </BaseLayout>
