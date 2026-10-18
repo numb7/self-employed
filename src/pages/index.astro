@@ -1,6 +1,5 @@
 ---
 import { HomeTaxCalculator } from '../components/react/calculators/HomeTaxCalculator';
-import ToolArtwork from '../components/astro/ToolArtwork.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 
 const title = 'Помощник самозанятого — налоги, цена работы и документы';
@@ -17,20 +16,21 @@ const extra = [
 ];
 ---
 <BaseLayout title={title} description={description} url="/" navVariant="home" structuredData={[{type:'WebSite',data:{'@context':'https://schema.org','@type':'WebSite',name:'НПД.помощник',url:'https://samozanyatye.vercel.app',inLanguage:'ru'}}]}>
-  <section class="desk container" id="tools" aria-labelledby="desk-title">
-    <header class="desk-intro">
-      <h1 id="desk-title"><span class="title-line"><span>Деньги</span></span><span class="title-line"><span>вашего дела.</span></span></h1>
-      <p>Помощник самозанятого: посчитайте налог, проверьте лимит и оформите работу с заказчиком.</p>
+  <section class="poster-hero container" aria-labelledby="poster-title">
+    <header class="poster-intro">
+      <h1 id="poster-title"><span class="poster-line">Работайте</span><span class="poster-line poster-last">на себя.<svg class="poster-spark" viewBox="0 0 100 100" aria-hidden="true"><path d="M44 0h12v30L77 9l9 9-21 21h30v13H65l21 21-9 9-21-21v30H44V61L23 82l-9-9 21-21H5V39h30L14 18l9-9 21 21V0Z" fill="currentColor"/></svg></span></h1>
+      <p>Помощник самозанятого.<br/>С налогом, ценой работы и документами поможем.</p>
+      <a class="poster-start" href="#home-tax">Рассчитать налог <span aria-hidden="true">↗</span></a>
     </header>
-    <section class="desk-calculator" id="home-tax" aria-labelledby="tax-title">
-      <div class="desk-calculator-heading"><h2 id="tax-title">Налог с оплаты</h2></div>
+    <section class="poster-calculator" id="home-tax" aria-labelledby="tax-title">
+      <h2 id="tax-title">Налог с оплаты</h2>
       <fieldset class="calculator-ready" data-calculator-loading disabled aria-busy="true" aria-label="Расчёт налога с оплаты"><HomeTaxCalculator client:load /></fieldset>
       <noscript><p>Чтобы пользоваться инструментом, включите JavaScript в браузере.</p></noscript>
     </section>
-    <nav class="desk-tools" aria-label="Другие основные задачи">
-      {tasks.map(task=><a href={task.href}><ToolArtwork kind={task.kind}/><div><h2>{task.title}</h2><p>{task.desc}</p></div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 12h15m-6-6 6 6-6 6"/></svg></a>)}
-    </nav>
   </section>
+  <nav class="poster-tools container" id="tools" aria-label="Основные инструменты">
+    {tasks.map(task=><a href={task.href}><h2>{task.kind==='limit'?'Лимит дохода':task.kind==='price'?'Цена часа':'Договор и акт'}</h2><p>{task.desc}</p><span aria-hidden="true">↗</span></a>)}
+  </nav>
   <section class="desk-library container" aria-label="Все инструменты">
     <details class="clear-more"><summary>Другие инструменты <span aria-hidden="true">+</span></summary><div class="clear-extra-grid">{extra.map(group=><section><h2>{group.name}</h2>{group.tools.map(tool=><a href={tool.href}>{tool.title}</a>)}</section>)}</div></details>
   </section>

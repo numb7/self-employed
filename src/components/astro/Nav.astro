@@ -135,7 +135,8 @@ const { variant = 'inner', showSharePrint = false } = Astro.props;
     var html = document.documentElement;
     var isDark = html.classList.toggle('dark');
     btn.setAttribute('aria-pressed', isDark ? 'true' : 'false');
-    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', isDark ? '#18251f' : '#f2f4ef');
+    var isHome = document.body.dataset.page === '/';
+    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', isDark ? (isHome ? '#151515' : '#18251f') : (isHome ? '#ffffff' : '#f2f4ef'));
     try {
       localStorage.setItem('npd-theme', isDark ? 'dark' : 'light');
     } catch(e) {}
