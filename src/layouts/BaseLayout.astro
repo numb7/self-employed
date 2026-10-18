@@ -6,6 +6,7 @@ import '../styles/desk.css';
 import '../styles/motion.css';
 import '../styles/instruments.css';
 import '../styles/home-poster.css';
+import '../styles/brand-internal.css';
 import Motion from '../components/astro/Motion.astro';
 import Nav from '../components/astro/Nav.astro';
 import Footer from '../components/astro/Footer.astro';
@@ -41,12 +42,12 @@ const canonicalUrl = `https://samozanyatye.vercel.app${url}`;
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content={url==='/'?'#ffffff':'#f2f4ef'} />
+  <meta name="theme-color" content="#ffffff" />
   <meta name="robots" content={url === "/404" ? "noindex, follow" : "index, follow"} />
 
   <!-- Раннее применение темы ДО первой отрисовки — предотвращает FOUC -->
   <script is:inline>
-    (function(){try{var t=localStorage.getItem('npd-theme');if(t==='dark'){document.documentElement.classList.add('dark');document.querySelector('meta[name="theme-color"]')?.setAttribute('content',window.location.pathname==='/'?'#151515':'#18251f');}}catch(e){}})();
+    (function(){try{var t=localStorage.getItem('npd-theme');if(t==='dark'){document.documentElement.classList.add('dark');document.querySelector('meta[name="theme-color"]')?.setAttribute('content','#121a30');}}catch(e){}})();
   </script>
 
   <title>{title}</title>
@@ -70,9 +71,7 @@ const canonicalUrl = `https://samozanyatye.vercel.app${url}`;
   <link rel="manifest" href="/manifest.webmanifest" />
 
   <!-- Font preloads -->
-  <link rel="preload" href="/fonts/lora-cyrillic-400-italic.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="preload" href="/fonts/manrope-latin.woff2" as="font" type="font/woff2" crossorigin />
-  <link rel="preload" href="/fonts/manrope-cyrillic.woff2" as="font" type="font/woff2" crossorigin />
+  <link rel="preload" href="/fonts/golos-text-variable.ttf" as="font" type="font/ttf" crossorigin />
 
   <!-- JSON-LD structured data -->
   {structuredData.map(item => (

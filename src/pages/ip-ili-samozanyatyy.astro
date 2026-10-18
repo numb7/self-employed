@@ -2,13 +2,13 @@
 import CalculatorLayout from '../layouts/CalculatorLayout.astro';
 import { IpVsSamozanyatyCalculator } from '../components/react/calculators/IpVsSamozanyatyCalculator';
 
-const title = 'Самозанятый или ИП на УСН — сравнение налогов 2026';
+const title = 'НПД или УСН 6% — сравнение налогов 2026';
 const description = 'Сравните ориентировочную нагрузку НПД и ИП на УСН 6% без работников';
 const url = '/ip-ili-samozanyatyy';
 const breadcrumbs = [
   { name: 'Главная', url: '/' },
   { name: 'Калькуляторы', url: '/#tasks-anchor' },
-  { name: 'ИП или НПД' },
+  { name: 'НПД или УСН 6%' },
 ];
 
 const structuredData = [
@@ -20,7 +20,7 @@ const structuredData = [
       mainEntity: [
         {
           '@type': 'Question',
-          name: 'Что выгоднее: самозанятый или ИП?',
+          name: 'Что выгоднее: НПД или УСН 6%?',
           acceptedAnswer: {
             '@type': 'Answer',
             text: 'Зависит от дохода и типа клиентов. При доходе до 2,4 млн ₽ от физлиц самозанятый обычно выгоднее (4% НПД без взносов). При работе с юрлицами и доходе свыше 2,4 млн ₽ ИП на УСН может быть выгоднее.',
@@ -45,7 +45,7 @@ const structuredData = [
   title={title}
   description={description}
   url={url}
-  heading="Самозанятый или ИП — что выгоднее"
+  heading="НПД или УСН 6% — что выгоднее"
   breadcrumbs={breadcrumbs}
   structuredData={structuredData}
 >

@@ -187,10 +187,10 @@
   letter-spacing: -.045em!important;
 }
 .control-group {
-  border-radius: 8px!important;
+  border-radius: var(--radius-card);
 }
 .result-card {
-  border-radius: 8px!important;
+  border-radius: var(--radius-card);
   position: relative;
 }
 .result-card:before {

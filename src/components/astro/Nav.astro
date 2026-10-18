@@ -21,7 +21,7 @@ const { variant = 'inner', showSharePrint = false } = Astro.props;
     )}
 
     <div class="page-nav-actions flex items-center gap-2">
-      {variant === 'home' ? <div class="nav-capsule"><a href="#tools" aria-current="location">Инструменты</a><a href="/poleznoe">Помощь</a></div> : <span class="nav-quiet-brand" aria-hidden="true">нпд<span>/помощник</span></span>}
+      {variant === 'home' ? <div class="nav-capsule"><a href="#tools" aria-current="location">Инструменты</a><a href="/poleznoe">Помощь</a></div> : <a href="/" class="nav-quiet-brand">Самозанятому<span>.</span></a>}
       {showSharePrint && (
         <>
           <button class="btn-icon" type="button" data-action="share" aria-label="Поделиться">
@@ -135,8 +135,7 @@ const { variant = 'inner', showSharePrint = false } = Astro.props;
     var html = document.documentElement;
     var isDark = html.classList.toggle('dark');
     btn.setAttribute('aria-pressed', isDark ? 'true' : 'false');
-    var isHome = document.body.dataset.page === '/';
-    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', isDark ? (isHome ? '#151515' : '#18251f') : (isHome ? '#ffffff' : '#f2f4ef'));
+    document.querySelector('meta[name="theme-color"]')?.setAttribute('content', isDark ? '#121a30' : '#ffffff');
     try {
       localStorage.setItem('npd-theme', isDark ? 'dark' : 'light');
     } catch(e) {}
