@@ -18,9 +18,9 @@ const description = 'Рассчитайте налог с оплаты, пров
   <section class="home-toolbox container" id="tools" aria-labelledby="tools-title">
     <header><h2 id="tools-title">Чтобы работа<br/>оставалась работой.</h2><p>Вы занимаетесь работой.<br/>Здесь можно разобраться с цифрами и документами.</p><a href="#all-tools">Другие ситуации <span aria-hidden="true">↓</span></a></header>
     <div class="home-tool-list">
-      <a class="home-tool home-tool-limit" href="/limit-dohoda"><div><h3>Держите лимит<br/>в поле зрения</h3><p>Узнайте, сколько ещё можно заработать на самозанятости в этом году.</p><span class="home-tool-action">Проверить доход <span aria-hidden="true">↗</span></span></div><div class="tool-limit-art" aria-hidden="true"><svg viewBox="0 0 240 150"><path d="M25 130a95 95 0 0 1 190 0" fill="none" stroke="currentColor" stroke-opacity=".12" stroke-width="23"/><path d="M25 130a95 95 0 0 1 142-82" fill="none" stroke="currentColor" stroke-width="23" stroke-linecap="round"/></svg><span>2,4 млн ₽<small>годовой лимит</small></span></div></a>
-      <a class="home-tool home-tool-price" href="/stavka-v-chas"><div><h3>Назовите цену,<br/>которая вам подходит</h3><p>Посчитайте стоимость часа с учётом налога, расходов и времени на работу.</p><span class="home-tool-action">Рассчитать ставку <span aria-hidden="true">↗</span></span></div><div class="tool-price-art" aria-hidden="true"><div class="price-clock"><i/><b/></div><span>Время<br/>стоит денег.</span></div></a>
-      <a class="home-tool home-tool-document" href="/dogovor-akt"><div><h3>Договорились?<br/>Зафиксируйте.</h3><p>Подготовьте договор или акт по шаблону и скачайте готовый документ.</p><span class="home-tool-action">Подготовить документ <span aria-hidden="true">↗</span></span></div><div class="tool-document-art" aria-hidden="true"><div class="paper-back"/><div class="paper-front"><b>Договор</b><i/><i/><i/><span>Согласовано <svg viewBox="0 0 24 24"><path d="m5 12 4 4L19 6" fill="none" stroke="currentColor" stroke-width="2"/></svg></span></div></div></a>
+      <a class="home-tool home-tool-limit" href="/limit-dohoda"><div><h3>Держите лимит<br/>в поле зрения</h3><p>Узнайте, сколько ещё можно заработать на самозанятости в этом году.</p><span class="home-tool-action">Проверить доход <span aria-hidden="true">↗</span></span></div><div class="tool-limit-art" aria-hidden="true"><div class="limit-sculpture"><i/><i/><i/><span>2,4 млн ₽<small>годовой лимит</small></span></div></div></a>
+      <a class="home-tool home-tool-price" href="/stavka-v-chas"><div><h3>Назовите цену,<br/>которая вам подходит</h3><p>Посчитайте стоимость часа с учётом налога, расходов и времени на работу.</p><span class="home-tool-action">Рассчитать ставку <span aria-hidden="true">↗</span></span></div><div class="tool-price-art" aria-hidden="true"><div class="price-orbit"><div class="price-clock"><i/><b/></div><span>₽ / час</span></div></div></a>
+      <a class="home-tool home-tool-document" href="/dogovor-akt"><div><h3>Договорились?<br/>Зафиксируйте.</h3><p>Подготовьте договор или акт по шаблону и скачайте готовый документ.</p><span class="home-tool-action">Подготовить документ <span aria-hidden="true">↗</span></span></div><div class="tool-document-art" aria-hidden="true"><div class="paper-back"/><div class="paper-front"><span class="paper-emblem">С</span><b>Договор</b><i/><i/><i/><span>Согласовано <svg viewBox="0 0 24 24"><path d="m5 12 4 4L19 6" fill="none" stroke="currentColor" stroke-width="2"/></svg></span></div></div></a>
     </div>
   </section>
   <section class="home-situations container" id="all-tools" aria-labelledby="situations-title">
@@ -38,3 +38,14 @@ const description = 'Рассчитайте налог с оплаты, пров
     <details><summary>Мои суммы где-то сохраняются?<span aria-hidden="true">+</span></summary><p>Этот расчёт выполняется в вашем браузере. Введённая здесь сумма не отправляется на сервер. Подробнее — в <a href="/privacy">политике конфиденциальности</a>.</p></details>
   </div></section>
 </BaseLayout>
+<script>
+  const motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+  if (!motionQuery.matches && 'IntersectionObserver' in window) {
+    const artObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) { entry.target.classList.add('art-arrived'); artObserver.unobserve(entry.target); }
+      });
+    }, { threshold: .3 });
+    document.querySelectorAll('.home-tool').forEach(el => artObserver.observe(el));
+  }
+</script>

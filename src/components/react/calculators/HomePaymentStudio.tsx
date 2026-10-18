@@ -3,10 +3,12 @@ import { NumericFormat } from 'react-number-format';
 import { calculateSetAside } from '@/lib/calculations';
 import { formatMoney } from '@/lib/format';
 import { RULES_2026, type ClientType } from '@/lib/rules-2026';
+import { PaymentSculpture } from '../ui/PaymentSculpture';
 import { AnimatedMoney } from '../ui/AnimatedMoney';
 
 export function HomePaymentStudio() {
   const id = useId();
+  const [replay,setReplay] = useState(0);
   const [amount, setAmount] = useState<number | undefined>(50000);
   const [example, setExample] = useState(true);
   const [client, setClient] = useState<ClientType>('individual');
@@ -24,14 +26,17 @@ export function HomePaymentStudio() {
       <fieldset className="studio-payers"><legend>Кто вам заплатил?</legend><div>{([{value:'individual',label:'Человек',rate:4},{value:'business',label:'Компания или ИП',rate:6}] as const).map(p=><label key={p.value}><input type="radio" name={`${id}-payer`} value={p.value} checked={client===p.value} onChange={()=>setClient(p.value)}/><span>{p.label}<small>{p.rate}%</small></span></label>)}</div></fieldset>
       <a className="studio-bonus" href="/vychet-10000">Есть налоговый бонус? Рассчитать со скидкой <span aria-hidden="true">↗</span></a>
     </div>
-    <div className="studio-result" role="status" aria-live="polite" aria-atomic="true">
+    <div className="studio-result">
+      <div className="studio-result-live" role="status" aria-live="polite" aria-atomic="true">
       {ready ? <>
         <span className="studio-label">Вам остаётся</span>
         <strong className="studio-kept"><AnimatedMoney value={result.toKeep}/></strong>
         <p className="studio-result-caption">После налога с этой оплаты</p>
-        <div className="studio-distribution" aria-hidden="true"><span className="studio-owned" style={{flexGrow:100-rate}}><span>{100-rate}% — ваши деньги</span></span><span className="studio-tax-slice" style={{flexGrow:rate}}/></div>
+        {value > 0 && <PaymentSculpture rate={rate} replay={replay}/>}
         <div className="studio-tax-total"><div><span className="studio-dot"/>Отложите на налог <small>{rate}%</small></div><strong><AnimatedMoney value={result.setAside}/></strong></div>
       </> : <div className="studio-empty"><strong>{over?'Эта сумма больше годового лимита':'Сколько вам заплатили?'}</strong><p>{over?'Лимит самозанятости — 2,4 млн ₽ за год. Проверьте доход, прежде чем рассчитывать налог.':'Введите сумму слева — покажем налог и деньги, которые останутся вам.'}</p>{over&&<a href="/limit-dohoda">Проверить лимит</a>}</div>}
+      </div>
+      {ready && value > 0 && <button className="studio-replay" type="button" onClick={()=>setReplay(n=>n+1)}><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10a8 8 0 1 1 1 7M4 4v6h6" fill="none" stroke="currentColor" strokeWidth="1.5"/></svg>Повторить движение</button>}
       <p className="studio-note">Предварительно, без налогового бонуса. Итог за месяц — в «Мой налог».</p>
     </div>
   </div>;
