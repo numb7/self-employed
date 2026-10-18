@@ -18,32 +18,36 @@ interface FormData {
   amount: number | null;
   date: string;
   city: string;
+  paymentTerms?: string;
+  servicePeriod?: string;
+  acceptanceNotes?: string;
 }
 
 export function generateDocument(data: FormData): string {
-  const now = new Date();
-  const today = data.date || [now.getFullYear(), String(now.getMonth()+1).padStart(2,'0'), String(now.getDate()).padStart(2,'0')].join('-');
-  const city = data.city || 'Москва';
+  const dateLabel = data.date ? formatDateRu(data.date) : '________________';
+  const city = data.city.trim() || '________________';
   const amountStr = data.amount ? `${formatMoney(data.amount)} рублей` : '________ рублей';
 
   if (data.docType === 'agreement') {
     return `ДОГОВОР ОКАЗАНИЯ УСЛУГ № ____
 
-г. ${city}                                                    «${formatDateRu(today)}»
+г. ${city}                                                    «${dateLabel}»
 
-${data.clientName || 'Заказчик'}, именуемое в дальнейшем «Заказчик», с одной стороны, и
-${data.executorName || 'Исполнитель'}, ИНН ${data.executorInn || '________'}, именуемый в дальнейшем «Исполнитель», с другой стороны,
+Заказчик: ${data.clientName || '________________________________'}.
+Исполнитель: ${data.executorName || '________________________________'}, ИНН ${data.executorInn || '________'}.
 
-совместно именуемые «Стороны», заключили настоящий Договор о нижеследующем:
+Указанные лица, далее «Стороны», заключили настоящий Договор о нижеследующем:
 
 1. ПРЕДМЕТ ДОГОВОРА
 1.1. Исполнитель обязуется оказать Заказчику следующие услуги:
 ${data.service || '________________________________________'}
 1.2. Заказчик обязуется принять и оплатить оказанные услуги.
+1.3. Срок оказания услуг: ${data.servicePeriod?.trim() || '________________________________'}.
 
 2. СТОИМОСТЬ УСЛУГ И ПОРЯДОК ОПЛАТЫ
 2.1. Стоимость услуг по настоящему Договору составляет ${amountStr} 00 коп., НДС не облагается (Исполнитель применяет налог на профессиональный доход).
-2.2. Оплата производится в течение 5 (пяти) рабочих дней с момента подписания Акта об оказанных услугах.
+2.2. Порядок и срок оплаты:
+${data.paymentTerms?.trim() || '________________________________'}
 
 3. ПОРЯДОК СДАЧИ-ПРИЁМКИ УСЛУГ
 3.1. По завершении оказания услуг Стороны подписывают Акт об оказанных услугах.
@@ -72,26 +76,26 @@ ${data.service || '________________________________________'}
 
 Исполнитель: ___________________ / ${data.executorName || '________'} /
 
-
-М.П.                                                                 М.П.`;
+`;
   }
 
   // Act
   return `АКТ ОБ ОКАЗАННЫХ УСЛУГАХ № ____
 
-г. ${city}                                                    «${formatDateRu(today)}»
+г. ${city}                                                    «${dateLabel}»
 
-${data.clientName || 'Заказчик'}, именуемое в дальнейшем «Заказчик», в лице ${data.clientName || '________'}, с одной стороны, и
-${data.executorName || 'Исполнитель'}, ИНН ${data.executorInn || '________'}, именуемое в дальнейшем «Исполнитель», с другой стороны,
+Заказчик: ${data.clientName || '________________________________'}.
+Исполнитель: ${data.executorName || '________________________________'}, ИНН ${data.executorInn || '________'}.
 
-совместно именуемые «Стороны», составили настоящий Акт о нижеследующем:
+Указанные лица, далее «Стороны», составили настоящий Акт о нижеследующем:
 
-1. Исполнитель оказал, а Заказчик принял следующие услуги:
+1. Сведения об услугах:
 ${data.service || '________________________________________'}
 
 2. Стоимость оказанных услуг составляет ${amountStr} 00 коп., НДС не облагается (Исполнитель применяет налог на профессиональный доход).
 
-3. Претензий к качеству и объёму оказанных услуг не имеется.
+3. Замечания и условия приёмки:
+${data.acceptanceNotes?.trim() || '________________________________'}
 
 4. Настоящий Акт составлен в двух экземплярах, имеющих равную юридическую силу.
 
@@ -100,8 +104,7 @@ ${data.service || '________________________________________'}
 
 Исполнитель: ___________________ / ${data.executorName || '________'} /
 
-
-М.П.                                                                 М.П.`;
+`;
 }
 
 function formatDateRu(dateStr: string): string {
@@ -121,6 +124,9 @@ export function ContractGenerator() {
     amount: null,
     date: '',
     city: 'Москва',
+    paymentTerms: '',
+    servicePeriod: '',
+    acceptanceNotes: '',
   });
   const [showPreview, setShowPreview] = useState(false);
   useEffect(() => {
@@ -132,6 +138,9 @@ export function ContractGenerator() {
   const [copied, setCopied] = useState(false);
 
   const update = <K extends keyof FormData>(key: K, value: FormData[K]) => {
+    setShowPreview(false);
+    setCopied(false);
+    setCopyError(false);
     setFormData((prev) => ({ ...prev, [key]: value }));
   };
 
@@ -144,16 +153,21 @@ export function ContractGenerator() {
     !formData.service.trim() && 'описание услуги',
     (!formData.amount || formData.amount <= 0) && 'сумму',
     !clientInnValid && 'корректный ИНН заказчика',
+    formData.docType==='agreement' && !formData.paymentTerms?.trim() && 'порядок и срок оплаты',
+    formData.docType==='agreement' && !formData.servicePeriod?.trim() && 'срок оказания услуг',
+    formData.docType==='act' && !formData.acceptanceNotes?.trim() && 'условия приёмки',
   ].filter(Boolean) as string[];
   const isReady = requiredMissing.length === 0;
-  const filledRequired = [!!formData.executorName.trim(),executorInnValid,!!formData.clientName.trim(),!!formData.service.trim(),!!formData.amount&&formData.amount>0].filter(Boolean).length;
+  const totalRequired = formData.docType==='agreement'?7:6;
+  const filledRequired = [!!formData.executorName.trim(),executorInnValid,!!formData.clientName.trim(),!!formData.service.trim(),!!formData.amount&&formData.amount>0,...(formData.docType==='agreement'?[!!formData.paymentTerms?.trim(),!!formData.servicePeriod?.trim()]:[!!formData.acceptanceNotes?.trim()])].filter(Boolean).length;
 
   const generatedDocument = useMemo(() => {
-    if (!showPreview) return '';
+    if (!showPreview || !isReady) return '';
     return generateDocument(formData);
-  }, [showPreview, formData]);
+  }, [showPreview, formData, isReady]);
 
   const handleCopy = async () => {
+    if (!isReady || !generatedDocument) return;
     try {
       setCopyError(false);
       await navigator.clipboard.writeText(generatedDocument);
@@ -165,6 +179,7 @@ export function ContractGenerator() {
   };
 
   const handleDownload = () => {
+    if (!isReady || !generatedDocument) return;
     const blob = new Blob([generatedDocument], { type: 'text/plain;charset=utf-8' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -183,7 +198,7 @@ export function ContractGenerator() {
         label="Документ"
         description="Укажите данные — сервис соберёт редактируемый шаблон договора или акта."
       >
-        <details className="template-terms" open><summary>Условия этого шаблона</summary><p>{formData.docType==='agreement'?'Оплата — в течение 5 рабочих дней после акта. Срок услуг нужно согласовать и добавить в текст.':'Акт подтверждает приёмку услуг без претензий к качеству и объёму. Проверьте, соответствует ли это вашей ситуации.'}</p><p>Измените шаблон под свои договорённости. Он не заменяет юридическую проверку и чек.</p></details><div className="contract-progress-mobile"><ChecklistMeter count={filledRequired} total={5} label="Обязательные данные"/></div>
+        <details className="template-terms" open><summary>Условия этого шаблона</summary><p>{formData.docType==='agreement'?'Срок услуг и порядок оплаты указываете вы — по договорённости с заказчиком. Генератор не выбирает их за стороны.':'Замечания и условия приёмки указываете вы. Отсутствие претензий не подставляется автоматически.'}</p><p>Измените шаблон под свои договорённости. Он не заменяет юридическую проверку и чек.</p></details><div className="contract-progress-mobile"><ChecklistMeter count={filledRequired} total={totalRequired} label="Обязательные данные"/></div>
         <div className="flex flex-col gap-1.5">
           <span className="text-sm font-medium text-ink">Тип документа</span>
           <SegmentedToggle
@@ -327,15 +342,20 @@ export function ContractGenerator() {
           </div>
         </div>
 
+        {formData.docType==='agreement' ? <div className="flex flex-col gap-3">
+          <div className="flex flex-col gap-1.5"><label htmlFor="service-period" className="text-sm font-medium text-ink">Срок оказания услуг <span aria-hidden="true">*</span></label><input id="service-period" value={formData.servicePeriod??''} onChange={e=>update('servicePeriod',e.target.value)} required aria-required="true" placeholder="Укажите согласованную дату или период" className="contract-condition-input"/></div>
+          <div className="flex flex-col gap-1.5"><label htmlFor="payment-terms" className="text-sm font-medium text-ink">Порядок и срок оплаты <span aria-hidden="true">*</span></label><textarea id="payment-terms" value={formData.paymentTerms??''} onChange={e=>update('paymentTerms',e.target.value)} required aria-required="true" rows={2} placeholder="Укажите условия, согласованные с заказчиком" className="contract-condition-input"/></div>
+        </div> : <div className="flex flex-col gap-1.5"><label htmlFor="acceptance-notes" className="text-sm font-medium text-ink">Замечания и условия приёмки <span aria-hidden="true">*</span></label><textarea id="acceptance-notes" value={formData.acceptanceNotes??''} onChange={e=>update('acceptanceNotes',e.target.value)} required aria-required="true" rows={2} placeholder="Опишите результат приёмки и замечания, если они есть" className="contract-condition-input"/><p className="instrument-hint">Если замечаний нет, укажите это явно. Генератор не проверяет факт оказания и приёмки услуг.</p></div>}
+
         {!isReady && (
           <p className="text-xs text-muted" id="contract-required-hint">
-            Для готового документа заполните: {requiredMissing.join(', ')}. ИНН заказчика необязателен.
+            Для сборки шаблона заполните: {requiredMissing.join(', ')}. ИНН заказчика необязателен.
           </p>
         )}
 
         <button
           type="button"
-          onClick={() => setShowPreview(true)}
+          onClick={() => { if(isReady)setShowPreview(true); }}
           disabled={!isReady}
           aria-describedby={!isReady ? 'contract-required-hint' : undefined}
           className={cn(
@@ -349,8 +369,8 @@ export function ContractGenerator() {
         </button>
       </ControlGroup>
 
-      {!showPreview && <aside className="contract-empty"><div className="document-paper"><h2>{formData.docType==='agreement'?'Договор':'Акт'}<br/>оказания услуг</h2><p>Данные будущего документа</p><ChecklistMeter count={filledRequired} total={5} label="Обязательные данные"/><dl className="document-data"><div><dt>Исполнитель</dt><dd>{formData.executorName||'Пока не указан'}</dd></div><div><dt>Заказчик</dt><dd>{formData.clientName||'Пока не указан'}</dd></div><div><dt>Услуга</dt><dd>{formData.service||'Добавьте описание'}</dd></div><div><dt>Сумма</dt><dd>{formData.amount?`${formatMoney(formData.amount)} ₽`:'Пока не указана'}</dd></div></dl><p>После заполнения обязательных данных можно собрать текст для проверки и скачивания.</p></div></aside>}
-      {showPreview && (
+      {!showPreview && <aside className="contract-empty"><div className="document-paper"><h2>{formData.docType==='agreement'?'Договор':'Акт'}<br/>оказания услуг</h2><p>Данные будущего документа</p><ChecklistMeter count={filledRequired} total={totalRequired} label="Обязательные данные"/><dl className="document-data"><div><dt>Исполнитель</dt><dd>{formData.executorName||'Пока не указан'}</dd></div><div><dt>Заказчик</dt><dd>{formData.clientName||'Пока не указан'}</dd></div><div><dt>Услуга</dt><dd>{formData.service||'Добавьте описание'}</dd></div><div><dt>Сумма</dt><dd>{formData.amount?`${formatMoney(formData.amount)} ₽`:'Пока не указана'}</dd></div></dl><p>После заполнения обязательных данных можно собрать текст для проверки и скачивания.</p></div></aside>}
+      {showPreview && isReady && (
         <div className="animate-[resultAppear_300ms_ease-out_both]">
           <div className="rounded-[var(--radius-card)] border border-line bg-surface shadow-[var(--shadow-card-rest)] p-6">
             <div className="flex items-center gap-2 mb-4">
