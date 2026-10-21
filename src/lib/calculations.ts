@@ -76,7 +76,7 @@ export type PensionResult = PensionCostResult | PensionMonthsResult;
 export interface ConcentrationSource {
   name: string;
   monthlyIncome: number;
-  monthsWorking: number;
+  monthsWorking: number | null;
   share: number;
   risky: boolean;
 }
@@ -357,14 +357,14 @@ export function calculatePensionMonths(amount: number): PensionMonthsResult {
 // ============================================
 
 export function calculateConcentration(
-  sources: Array<{ name: string; monthlyIncome: number; monthsWorking: number }>,
+  sources: Array<{ name: string; monthlyIncome: number; monthsWorking: number | null }>,
 ): ConcentrationResult {
   const total = sources.reduce((sum, s) => sum + Math.max(0, s.monthlyIncome), 0);
 
   const enriched: ConcentrationSource[] = sources.map(s => {
     const income = Math.max(0, s.monthlyIncome);
     const share = total > 0 ? Math.round((income / total) * 100) : 0;
-    const risky = share >= 70 && s.monthsWorking >= 6;
+    const risky = share >= 70 && s.monthsWorking !== null && s.monthsWorking >= 6;
     return { ...s, monthlyIncome: income, share, risky };
   });
 

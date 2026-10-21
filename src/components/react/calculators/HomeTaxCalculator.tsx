@@ -5,6 +5,7 @@ import { formatMoney } from '@/lib/format';
 import { RULES_2026, type ClientType } from '@/lib/rules-2026';
 import { Allocation } from '../ui/FinanceVisuals';
 import { TaxBonusInput } from '../ui/TaxBonusInput';
+import { CalculationContext } from '../ui/CalculationContext';
 import { AnimatedMoney } from '../ui/AnimatedMoney';
 
 export function HomeTaxCalculator() {
@@ -33,13 +34,13 @@ export function HomeTaxCalculator() {
       <span className="sr-only" id={`${id}-edit-hint`}>Введите сумму в рублях. Для сумм до 200 000 рублей также можно использовать ползунок.</span>
       {value <= 200000 && <input className="payment-range simple-tax-slider" type="range" min="0" max="200000" step="500" value={value} aria-label="Изменить сумму оплаты ползунком" aria-valuetext={`${formatMoney(value)} рублей`} style={{ '--range-fill': `${value / 2000}%` } as CSSProperties} onChange={e => { setAmount(Number(e.target.value)); setExample(false); }} />}
       <fieldset className="simple-payers"><legend>Кто заплатил?</legend><div>
-        <label className="desk-payer"><input type="radio" name={`${id}-payer`} value="individual" checked={client === 'individual'} onChange={() => setClient('individual')}/><span>Человек</span></label>
-        <label className="desk-payer"><input type="radio" name={`${id}-payer`} value="business" checked={client === 'business'} onChange={() => setClient('business')}/><span>Компания или ИП</span></label>
+        <label className="desk-payer"><input type="radio" name={`${id}-payer`} value="individual" checked={client === 'individual'} onChange={() => {setClient('individual');setExample(false);}}/><span>Человек</span></label>
+        <label className="desk-payer"><input type="radio" name={`${id}-payer`} value="business" checked={client === 'business'} onChange={() => {setClient('business');setExample(false);}}/><span>Компания или ИП</span></label>
       </div></fieldset>
     </div>
     <div className="simple-tax-answer" role="status" aria-live="polite" aria-atomic="true">
       {overLimit ? <div className="simple-tax-unavailable"><strong>Сначала проверьте лимит</strong><p>Оплата больше годового лимита самозанятости — 2,4 млн ₽. Считать всю сумму по ставке {rate}% нельзя.</p><a href="/limit-dohoda">Проверить лимит дохода ↗</a></div> : !valid ? <div className="simple-tax-unavailable"><strong>{amount === undefined ? 'Укажите сумму оплаты' : 'Укажите остаток бонуса'}</strong><p>Тогда здесь появятся налог и сумма после него.</p></div> : <>
-        <span className="simple-answer-label">{value === 0 ? 'Нет оплаты — нет налога' : 'Отложите на налог'}</span>
+        <CalculationContext example={example}/><span className="simple-answer-label">{value === 0 ? 'Нет оплаты — нет налога' : 'Отложите на налог'}</span>
         <strong className="simple-answer-number"><AnimatedMoney value={result.setAside}/></strong>
         <span className="simple-answer-basis">{useDeduction ? 'С учётом налогового бонуса' : `${rate}% с этой оплаты · без налогового бонуса`}</span>
         <Allocation total={value} tax={result.setAside}/>
@@ -48,8 +49,8 @@ export function HomeTaxCalculator() {
     </div>
     <details className="simple-tax-details"><summary>Учесть налоговый бонус <span aria-hidden="true">+</span></summary><div>
       <p>При регистрации самозанятому дают бонус 10 000 ₽ — в законе он называется вычетом. Это скидка на налог, а не деньги на карту. ФНС применяет её автоматически.</p>
-      <label className="bonus-checkbox"><input type="checkbox" checked={useDeduction} onChange={e => setUseDeduction(e.target.checked)}/> Учесть мой остаток бонуса</label>
-      {useDeduction && <><TaxBonusInput id={`${id}-bonus`} label="Остаток бонуса из «Мой налог», ₽" value={deduction} onChange={setDeduction}/><p>Если не знаете остаток, снимите галочку: получите расчёт без скидки.</p></>}
+      <label className="bonus-checkbox"><input type="checkbox" checked={useDeduction} onChange={e => {setUseDeduction(e.target.checked);setExample(false);}}/> Учесть мой остаток бонуса</label>
+      {useDeduction && <><TaxBonusInput id={`${id}-bonus`} label="Остаток бонуса из «Мой налог», ₽" value={deduction} onChange={value => {setDeduction(value);setExample(false);}}/><p>Если не знаете остаток, снимите галочку: получите расчёт без скидки.</p></>}
       {valid && !overLimit && <p className="simple-formula">{formatMoney(value)} ₽ × {rate}%{useDeduction ? ` − ${formatMoney(result.deductionUsed)} ₽ скидки` : ''} = {formatMoney(result.setAside)} ₽ налога.{useDeduction && ` После этой оплаты от бонуса останется ${formatMoney(result.deductionRemainingAfter)} ₽.`}</p>}
       <a href="/metodika">Как считаем ↗</a>
     </div></details>

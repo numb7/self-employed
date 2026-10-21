@@ -184,3 +184,13 @@ const { variant = 'inner', showSharePrint = false } = Astro.props;
   }
 })();
 </script>
+
+<script>
+  import { catalogReturn } from '../../lib/catalog-context';
+  function restoreCatalogReturn() {
+    const link = document.querySelector<HTMLAnchorElement>('.tool-return');
+    if (link) link.href = catalogReturn(window.location.search);
+  }
+  restoreCatalogReturn();
+  window.addEventListener('popstate', restoreCatalogReturn);
+</script>

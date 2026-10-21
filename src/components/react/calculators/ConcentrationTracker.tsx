@@ -22,6 +22,9 @@ function createRow(name = '', income: number | null = null, months: number | nul
 export function ConcentrationTracker() {
   const [sources, setSources] = useState<SourceRow[]>(() => [{id:'src-initial-1',name:'Заказчик 1',monthlyIncome:null,monthsWorking:null},{id:'src-initial-2',name:'Заказчик 2',monthlyIncome:null,monthsWorking:null}]);
 
+  const [invalidMonths, setInvalidMonths] = useState<Record<string, boolean>>({});
+  const hasInvalidMonths = sources.some(s => invalidMonths[s.id]);
+
   const updateSource = useCallback((id: string, field: keyof SourceRow, value: string | number | null) => {
     setSources((prev) =>
       prev.map((s) => (s.id === id ? { ...s, [field]: value } : s)),
@@ -36,7 +39,7 @@ export function ConcentrationTracker() {
     setSources((prev) => [...prev, createRow(`Заказчик ${prev.length + 1}`)]);
   }, []);
 
-  const isReady = sources.some((s) => s.monthlyIncome !== null && s.monthlyIncome > 0);
+  const isReady = !hasInvalidMonths && sources.some((s) => s.monthlyIncome !== null && s.monthlyIncome > 0);
 
   const result = useMemo(() => {
     if (!isReady) return null;
@@ -45,7 +48,7 @@ export function ConcentrationTracker() {
       .map((s) => ({
         name: s.name,
         monthlyIncome: s.monthlyIncome!,
-        monthsWorking: s.monthsWorking ?? 1,
+        monthsWorking: s.monthsWorking,
       }));
     if (input.length === 0) return null;
     return calculateConcentration(input);
@@ -90,7 +93,7 @@ export function ConcentrationTracker() {
                   </div>
                   <div className="flex min-w-0 flex-col gap-1.5">
                     <label htmlFor={`${source.id}-months-mobile`} className="text-xs font-medium text-muted">Срок работы, мес.</label>
-                    <NumberInput id={`${source.id}-months-mobile`} value={source.monthsWorking} onValueChange={(v) => updateSource(source.id, 'monthsWorking', v)} integer suffix="мес." placeholder="1" />
+                    <NumberInput id={`${source.id}-months-mobile`} value={source.monthsWorking} onValueChange={(v) => updateSource(source.id, 'monthsWorking', v)} onValidityChange={valid => setInvalidMonths(prev => ({...prev, [source.id]: !valid}))} integer suffix="мес." placeholder="1" />
                   </div>
                 </div>
               </div>
@@ -137,7 +140,7 @@ export function ConcentrationTracker() {
                       id={`${source.id}-months-desktop`}
                       aria-label={`Срок работы: ${source.name || 'клиент'}`}
                       value={source.monthsWorking}
-                      onValueChange={(v) => updateSource(source.id, 'monthsWorking', v)}
+                      onValueChange={(v) => updateSource(source.id, 'monthsWorking', v)} onValidityChange={valid => setInvalidMonths(prev => ({...prev, [source.id]: !valid}))}
                       integer
                       suffix="мес."
                       placeholder="1"
@@ -196,13 +199,13 @@ export function ConcentrationTracker() {
             whyItems={
               result.sources.map((s) =>
                 s.risky
-                  ? `${s.name}: ${s.share}% (${s.monthsWorking} мес.) — требует внимания`
-                  : `${s.name}: ${s.share}% (${s.monthsWorking} мес.)`
+                  ? `${s.name}: ${s.share}% (${s.monthsWorking === null ? 'срок не указан' : `${s.monthsWorking} мес.`}) — требует внимания`
+                  : `${s.name}: ${s.share}% (${s.monthsWorking === null ? 'срок не указан' : `${s.monthsWorking} мес.`})`
               )
             }
             trust={['Доли дохода', 'Учитывает срок работы', 'Без отправки данных']}
           ><p className="scope-note">Показана финансовая зависимость, не вероятность нарушения. Пороги 50% и 70% и срок 6 месяцев — эвристика сервиса, а не юридический запрет. Условия трудовых отношений оценивают в совокупности.</p><div className="client-distribution"><h3>Как распределён ваш доход</h3><div className="distribution-strip" aria-hidden="true">{result.sources.map((source,index)=><span key={index} style={{flex:source.monthlyIncome,background:`hsl(${228-index*8} 68% ${42+index%4*12}%)`}}/>)}</div><div className="distribution-legend">{result.sources.map((source,index)=><p key={index}><span>{source.name||`Заказчик ${index+1}`}</span><strong>{source.share}%</strong></p>)}</div></div></ResultCard>
-        ) : <aside className="result-empty"><h2>Как распределён доход?</h2><p>Добавьте суммы по заказчикам. Здесь появятся их доли и общий доход.</p></aside>}
+        ) : <aside className="result-empty"><h2>{hasInvalidMonths ? 'Исправьте срок работы' : 'Как распределён доход?'}</h2><p>{hasInvalidMonths ? 'Не используем ошибочное значение в расчёте. Укажите целое число месяцев или очистите поле, если срок неизвестен.' : 'Добавьте суммы по заказчикам. Здесь появятся их доли и общий доход.'}</p></aside>}
       </div>
     </div>
   );
