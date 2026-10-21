@@ -1,0 +1,257 @@
+[
+  {
+    "url": "https://samozanyatye.vercel.app/",
+    "status": "200",
+    "canonical": [
+      "https://samozanyatye.vercel.app/"
+    ],
+    "robots": [
+      "index, follow"
+    ],
+    "legacy": "https://samozanyatye.vercel.app/index.html",
+    "redirect": [
+      "HTTP/2 308 ",
+      "location: /"
+    ]
+  },
+  {
+    "url": "https://samozanyatye.vercel.app/bolnichny",
+    "status": "200",
+    "canonical": [
+      "https://samozanyatye.vercel.app/bolnichny"
+    ],
+    "robots": [
+      "index, follow"
+    ],
+    "legacy": "https://samozanyatye.vercel.app/bolnichny.html",
+    "redirect": [
+      "HTTP/2 308 ",
+      "location: /bolnichny"
+    ]
+  },
+  {
+    "url": "https://samozanyatye.vercel.app/limit-dohoda",
+    "status": "200",
+    "canonical": [
+      "https://samozanyatye.vercel.app/limit-dohoda"
+    ],
+    "robots": [
+      "index, follow"
+    ],
+    "legacy": "https://samozanyatye.vercel.app/limit-dohoda.html",
+    "redirect": [
+      "HTTP/2 308 ",
+      "location: /limit-dohoda"
+    ]
+  },
+  {
+    "url": "https://samozanyatye.vercel.app/ip-ili-samozanyatyy",
+    "status": "200",
+    "canonical": [
+      "https://samozanyatye.vercel.app/ip-ili-samozanyatyy"
+    ],
+    "robots": [
+      "index, follow"
+    ],
+    "legacy": "https://samozanyatye.vercel.app/ip-ili-samozanyatyy.html",
+    "redirect": [
+      "HTTP/2 308 ",
+      "location: /ip-ili-samozanyatyy"
+    ]
+  },
+  {
+    "url": "https://samozanyatye.vercel.app/master-vybora-rezhima",
+    "status": "200",
+    "canonical": [
+      "https://samozanyatye.vercel.app/master-vybora-rezhima"
+    ],
+    "robots": [
+      "index, follow"
+    ],
+    "legacy": "https://samozanyatye.vercel.app/master-vybora-rezhima.html",
+    "redirect": [
+      "HTTP/2 308 ",
+      "location: /master-vybora-rezhima"
+    ]
+  },
+  {
+    "url": "https://samozanyatye.vercel.app/pensiya",
+    "status": "200",
+    "canonical": [
+      "https://samozanyatye.vercel.app/pensiya"
+    ],
+    "robots": [
+      "index, follow"
+    ],
+    "legacy": "https://samozanyatye.vercel.app/pensiya.html",
+    "redirect": [
+      "HTTP/2 308 ",
+      "location: /pensiya"
+    ]
+  },
+  {
+    "url": "https://samozanyatye.vercel.app/koncentracia-dohoda",
+    "status": "200",
+    "canonical": [
+      "https://samozanyatye.vercel.app/koncentracia-dohoda"
+    ],
+    "robots": [
+      "index, follow"
+    ],
+    "legacy": "https://samozanyatye.vercel.app/koncentracia-dohoda.html",
+    "redirect": [
+      "HTTP/2 308 ",
+      "location: /koncentracia-dohoda"
+    ]
+  },
+  {
+    "url": "https://samozanyatye.vercel.app/otlozhit-na-nalog",
+    "status": "200",
+    "canonical": [
+      "https://samozanyatye.vercel.app/otlozhit-na-nalog"
+    ],
+    "robots": [
+      "index, follow"
+    ],
+    "legacy": "https://samozanyatye.vercel.app/otlozhit-na-nalog.html",
+    "redirect": [
+      "HTTP/2 308 ",
+      "location: /otlozhit-na-nalog"
+    ]
+  },
+  {
+    "url": "https://samozanyatye.vercel.app/stavka-v-chas",
+    "status": "200",
+    "canonical": [
+      "https://samozanyatye.vercel.app/stavka-v-chas"
+    ],
+    "robots": [
+      "index, follow"
+    ],
+    "legacy": "https://samozanyatye.vercel.app/stavka-v-chas.html",
+    "redirect": [
+      "HTTP/2 308 ",
+      "location: /stavka-v-chas"
+    ]
+  },
+  {
+    "url": "https://samozanyatye.vercel.app/vychet-10000",
+    "status": "200",
+    "canonical": [
+      "https://samozanyatye.vercel.app/vychet-10000"
+    ],
+    "robots": [
+      "index, follow"
+    ],
+    "legacy": "https://samozanyatye.vercel.app/vychet-10000.html",
+    "redirect": [
+      "HTTP/2 308 ",
+      "location: /vychet-10000"
+    ]
+  },
+  {
+    "url": "https://samozanyatye.vercel.app/dogovor-akt",
+    "status": "200",
+    "canonical": [
+      "https://samozanyatye.vercel.app/dogovor-akt"
+    ],
+    "robots": [
+      "index, follow"
+    ],
+    "legacy": "https://samozanyatye.vercel.app/dogovor-akt.html",
+    "redirect": [
+      "HTTP/2 308 ",
+      "location: /dogovor-akt"
+    ]
+  },
+  {
+    "url": "https://samozanyatye.vercel.app/poleznoe",
+    "status": "200",
+    "canonical": [
+      "https://samozanyatye.vercel.app/poleznoe"
+    ],
+    "robots": [
+      "index, follow"
+    ],
+    "legacy": "https://samozanyatye.vercel.app/poleznoe.html",
+    "redirect": [
+      "HTTP/2 308 ",
+      "location: /poleznoe"
+    ]
+  },
+  {
+    "url": "https://samozanyatye.vercel.app/metodika",
+    "status": "200",
+    "canonical": [
+      "https://samozanyatye.vercel.app/metodika"
+    ],
+    "robots": [
+      "index, follow"
+    ],
+    "legacy": "https://samozanyatye.vercel.app/metodika.html",
+    "redirect": [
+      "HTTP/2 308 ",
+      "location: /metodika"
+    ]
+  },
+  {
+    "url": "https://samozanyatye.vercel.app/privacy",
+    "status": "200",
+    "canonical": [
+      "https://samozanyatye.vercel.app/privacy"
+    ],
+    "robots": [
+      "index, follow"
+    ],
+    "legacy": "https://samozanyatye.vercel.app/privacy.html",
+    "redirect": [
+      "HTTP/2 308 ",
+      "location: /privacy"
+    ]
+  },
+  {
+    "url": "https://samozanyatye.vercel.app/disclaimer",
+    "status": "200",
+    "canonical": [
+      "https://samozanyatye.vercel.app/disclaimer"
+    ],
+    "robots": [
+      "index, follow"
+    ],
+    "legacy": "https://samozanyatye.vercel.app/disclaimer.html",
+    "redirect": [
+      "HTTP/2 308 ",
+      "location: /disclaimer"
+    ]
+  },
+  {
+    "url": "https://samozanyatye.vercel.app/risk-trudovyh",
+    "status": "200",
+    "canonical": [
+      "https://samozanyatye.vercel.app/risk-trudovyh"
+    ],
+    "robots": [
+      "index, follow"
+    ],
+    "legacy": "https://samozanyatye.vercel.app/risk-trudovyh.html",
+    "redirect": [
+      "HTTP/2 308 ",
+      "location: /risk-trudovyh"
+    ]
+  },
+  {
+    "url": "https://samozanyatye.vercel.app/chasy-289-fz",
+    "status": "200",
+    "canonical": [
+      "https://samozanyatye.vercel.app/chasy-289-fz"
+    ],
+    "robots": [
+      "index, follow"
+    ],
+    "legacy": "https://samozanyatye.vercel.app/chasy-289-fz.html",
+    "redirect": [
+      "HTTP/2 308 ",
+      "location: /chasy-289-fz"
+    ]
+  }
+]
