@@ -10,5 +10,5 @@ export function useCalculationExample() {
 
 /** Plain context, not a badge or a claim that the user's facts were verified. */
 export function CalculationContext({ example, children }: { example: boolean; children?: ReactNode }) {
-  return <p className="calculation-context">{example ? 'Пример расчёта' : 'Расчёт по значениям формы'}{children && <> · {children}</>}</p>;
+  return <p className="calculation-context">{example ? 'Пример расчёта' : 'По указанным данным'}{children && <> · {children}</>}</p>;
 }

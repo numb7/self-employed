@@ -36,7 +36,11 @@ export function ConcentrationTracker() {
   }, []);
 
   const addSource = useCallback(() => {
-    setSources((prev) => [...prev, createRow(`Заказчик ${prev.length + 1}`)]);
+    setSources((prev) => {
+      let number = prev.length + 1;
+      while (prev.some((source) => source.name === `Заказчик ${number}`)) number++;
+      return [...prev, createRow(`Заказчик ${number}`)];
+    });
   }, []);
 
   const isReady = !hasInvalidMonths && sources.some((s) => s.monthlyIncome !== null && s.monthlyIncome > 0);

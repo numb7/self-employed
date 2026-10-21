@@ -296,7 +296,7 @@ export function ContractGenerator() {
             onChange={(e) => update('service', e.target.value)}
             required
             aria-required="true"
-            placeholder="Разработка дизайна сайта, написание текстов..."
+            placeholder="Разработка дизайна сайта, написание текстов…"
             rows={3}
             className="w-full rounded-[var(--radius-control)] border border-line bg-surface px-3 py-2.5 text-sm text-ink placeholder:text-faint outline-none focus:border-accent focus:ring-1 focus:ring-accent/30 hover:border-line-2 transition-colors duration-[var(--duration-fast)] resize-y"
           />
@@ -349,7 +349,7 @@ export function ContractGenerator() {
 
         {!isReady && (
           <p className="text-xs text-muted" id="contract-required-hint">
-            Для сборки шаблона заполните: {requiredMissing.join(', ')}. ИНН заказчика необязателен.
+            Чтобы подготовить шаблон, укажите: {requiredMissing.join(', ')}. ИНН заказчика необязателен.
           </p>
         )}
 
@@ -369,7 +369,7 @@ export function ContractGenerator() {
         </button>
       </ControlGroup>
 
-      {!showPreview && <aside className="contract-empty"><div className="document-paper"><h2>{formData.docType==='agreement'?'Договор':'Акт'}<br/>оказания услуг</h2><p>Данные будущего документа</p><ChecklistMeter count={filledRequired} total={totalRequired} label="Обязательные данные"/><dl className="document-data"><div><dt>Исполнитель</dt><dd>{formData.executorName||'Пока не указан'}</dd></div><div><dt>Заказчик</dt><dd>{formData.clientName||'Пока не указан'}</dd></div><div><dt>Услуга</dt><dd>{formData.service||'Добавьте описание'}</dd></div><div><dt>Сумма</dt><dd>{formData.amount?`${formatMoney(formData.amount)} ₽`:'Пока не указана'}</dd></div></dl><p>После заполнения обязательных данных можно собрать текст для проверки и скачивания.</p></div></aside>}
+      {!showPreview && <aside className="contract-empty"><div className="document-paper"><h2>{formData.docType==='agreement'?'Договор':'Акт'}<br/>оказания услуг</h2><p>Данные будущего документа</p><ChecklistMeter count={filledRequired} total={totalRequired} label="Обязательные данные"/><dl className="document-data"><div><dt>Исполнитель</dt><dd>{formData.executorName||'Пока не указан'}</dd></div><div><dt>Заказчик</dt><dd>{formData.clientName||'Пока не указан'}</dd></div><div><dt>Услуга</dt><dd>{formData.service||'Добавьте описание'}</dd></div><div><dt>Сумма</dt><dd>{formData.amount?`${formatMoney(formData.amount)} ₽`:'Пока не указана'}</dd></div></dl><p>Заполните обязательные поля, чтобы сформировать и скачать текст.</p></div></aside>}
       {showPreview && isReady && (
         <div className="animate-[resultAppear_300ms_ease-out_both]">
           <div className="rounded-[var(--radius-card)] border border-line bg-surface shadow-[var(--shadow-card-rest)] p-6">

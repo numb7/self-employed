@@ -46,7 +46,7 @@ export function HomePaymentStudio() {
       </> : <div className="studio-empty"><strong>{over?'Эта сумма больше годового лимита':amount===undefined?'Сколько вам заплатили?':'Какой остаток бонуса?'}</strong><p>{over?'Лимит самозанятости — 2,4 млн ₽ за год. Проверьте доход, прежде чем рассчитывать налог.':amount===undefined?'Введите сумму слева — покажем налог и деньги, которые останутся вам.':'Введите известный остаток бонуса или снимите галочку — рассчитаем без скидки.'}</p>{over&&<a href="/limit-dohoda">Проверить лимит</a>}</div>}
       </div>
       {ready && value > 0 && <button className="studio-replay" type="button" onClick={()=>setReplay(n=>n+1)}><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10a8 8 0 1 1 1 7M4 4v6h6" fill="none" stroke="currentColor" strokeWidth="1.5"/></svg>Повторить движение</button>}
-      <p className="studio-note">{ready ? `${example?'Пример расчёта. ':'Расчёт по значениям формы. '}Предварительный резерв${useBonus?' с учётом указанного бонуса':' без бонуса'}.` : 'Расчёт появится после проверки введённых данных.'} Итог за месяц — в «Мой налог».</p>
+      <p className="studio-note">{ready ? `${example?'Пример расчёта. ':'По указанным данным. '}Предварительный резерв${useBonus?' с учётом указанного бонуса':' без бонуса'}.` : 'Расчёт появится после проверки введённых данных.'} Итог за месяц — в «Мой налог».</p>
     </div>
   </div><PaymentGuide/></>;
 }

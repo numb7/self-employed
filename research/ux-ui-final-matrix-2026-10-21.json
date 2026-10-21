@@ -1,0 +1,758 @@
+[
+  {
+    "width": 1280,
+    "theme": "dark",
+    "route": "/",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1280,
+    "theme": "dark",
+    "route": "/otlozhit-na-nalog",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1280,
+    "theme": "dark",
+    "route": "/stavka-v-chas",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1280,
+    "theme": "dark",
+    "route": "/limit-dohoda",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1280,
+    "theme": "dark",
+    "route": "/ip-ili-samozanyatyy",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1280,
+    "theme": "dark",
+    "route": "/vychet-10000",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1280,
+    "theme": "dark",
+    "route": "/pensiya",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1280,
+    "theme": "dark",
+    "route": "/bolnichny",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1280,
+    "theme": "dark",
+    "route": "/chasy-289-fz",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1280,
+    "theme": "dark",
+    "route": "/koncentracia-dohoda",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1280,
+    "theme": "dark",
+    "route": "/risk-trudovyh",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1280,
+    "theme": "dark",
+    "route": "/master-vybora-rezhima",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1280,
+    "theme": "dark",
+    "route": "/dogovor-akt",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1280,
+    "theme": "dark",
+    "route": "/poleznoe",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1280,
+    "theme": "dark",
+    "route": "/metodika",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1280,
+    "theme": "dark",
+    "route": "/privacy",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1280,
+    "theme": "dark",
+    "route": "/disclaimer",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1280,
+    "theme": "dark",
+    "route": "/404",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1280,
+    "theme": "light",
+    "route": "/",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1280,
+    "theme": "light",
+    "route": "/otlozhit-na-nalog",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1280,
+    "theme": "light",
+    "route": "/stavka-v-chas",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1280,
+    "theme": "light",
+    "route": "/limit-dohoda",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1280,
+    "theme": "light",
+    "route": "/ip-ili-samozanyatyy",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1280,
+    "theme": "light",
+    "route": "/vychet-10000",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1280,
+    "theme": "light",
+    "route": "/pensiya",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1280,
+    "theme": "light",
+    "route": "/bolnichny",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1280,
+    "theme": "light",
+    "route": "/chasy-289-fz",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1280,
+    "theme": "light",
+    "route": "/koncentracia-dohoda",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1280,
+    "theme": "light",
+    "route": "/risk-trudovyh",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1280,
+    "theme": "light",
+    "route": "/master-vybora-rezhima",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1280,
+    "theme": "light",
+    "route": "/dogovor-akt",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1280,
+    "theme": "light",
+    "route": "/poleznoe",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1280,
+    "theme": "light",
+    "route": "/metodika",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1280,
+    "theme": "light",
+    "route": "/privacy",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1280,
+    "theme": "light",
+    "route": "/disclaimer",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1280,
+    "theme": "light",
+    "route": "/404",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1440,
+    "theme": "dark",
+    "route": "/",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1440,
+    "theme": "dark",
+    "route": "/otlozhit-na-nalog",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1440,
+    "theme": "dark",
+    "route": "/stavka-v-chas",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1440,
+    "theme": "dark",
+    "route": "/limit-dohoda",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1440,
+    "theme": "dark",
+    "route": "/ip-ili-samozanyatyy",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1440,
+    "theme": "dark",
+    "route": "/vychet-10000",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1440,
+    "theme": "dark",
+    "route": "/pensiya",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1440,
+    "theme": "dark",
+    "route": "/bolnichny",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1440,
+    "theme": "dark",
+    "route": "/chasy-289-fz",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1440,
+    "theme": "dark",
+    "route": "/koncentracia-dohoda",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1440,
+    "theme": "dark",
+    "route": "/risk-trudovyh",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1440,
+    "theme": "dark",
+    "route": "/master-vybora-rezhima",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1440,
+    "theme": "dark",
+    "route": "/dogovor-akt",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1440,
+    "theme": "dark",
+    "route": "/poleznoe",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1440,
+    "theme": "dark",
+    "route": "/metodika",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1440,
+    "theme": "dark",
+    "route": "/privacy",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1440,
+    "theme": "dark",
+    "route": "/disclaimer",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1440,
+    "theme": "dark",
+    "route": "/404",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1440,
+    "theme": "light",
+    "route": "/",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1440,
+    "theme": "light",
+    "route": "/otlozhit-na-nalog",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1440,
+    "theme": "light",
+    "route": "/stavka-v-chas",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1440,
+    "theme": "light",
+    "route": "/limit-dohoda",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1440,
+    "theme": "light",
+    "route": "/ip-ili-samozanyatyy",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1440,
+    "theme": "light",
+    "route": "/vychet-10000",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1440,
+    "theme": "light",
+    "route": "/pensiya",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1440,
+    "theme": "light",
+    "route": "/bolnichny",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1440,
+    "theme": "light",
+    "route": "/chasy-289-fz",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1440,
+    "theme": "light",
+    "route": "/koncentracia-dohoda",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1440,
+    "theme": "light",
+    "route": "/risk-trudovyh",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1440,
+    "theme": "light",
+    "route": "/master-vybora-rezhima",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1440,
+    "theme": "light",
+    "route": "/dogovor-akt",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1440,
+    "theme": "light",
+    "route": "/poleznoe",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1440,
+    "theme": "light",
+    "route": "/metodika",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1440,
+    "theme": "light",
+    "route": "/privacy",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1440,
+    "theme": "light",
+    "route": "/disclaimer",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1440,
+    "theme": "light",
+    "route": "/404",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1920,
+    "theme": "dark",
+    "route": "/",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1920,
+    "theme": "dark",
+    "route": "/otlozhit-na-nalog",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1920,
+    "theme": "dark",
+    "route": "/stavka-v-chas",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1920,
+    "theme": "dark",
+    "route": "/limit-dohoda",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1920,
+    "theme": "dark",
+    "route": "/ip-ili-samozanyatyy",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1920,
+    "theme": "dark",
+    "route": "/vychet-10000",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1920,
+    "theme": "dark",
+    "route": "/pensiya",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1920,
+    "theme": "dark",
+    "route": "/bolnichny",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1920,
+    "theme": "dark",
+    "route": "/chasy-289-fz",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1920,
+    "theme": "dark",
+    "route": "/koncentracia-dohoda",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1920,
+    "theme": "dark",
+    "route": "/risk-trudovyh",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1920,
+    "theme": "dark",
+    "route": "/master-vybora-rezhima",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1920,
+    "theme": "dark",
+    "route": "/dogovor-akt",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1920,
+    "theme": "dark",
+    "route": "/poleznoe",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1920,
+    "theme": "dark",
+    "route": "/metodika",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1920,
+    "theme": "dark",
+    "route": "/privacy",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1920,
+    "theme": "dark",
+    "route": "/disclaimer",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1920,
+    "theme": "dark",
+    "route": "/404",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1920,
+    "theme": "light",
+    "route": "/",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1920,
+    "theme": "light",
+    "route": "/otlozhit-na-nalog",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1920,
+    "theme": "light",
+    "route": "/stavka-v-chas",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1920,
+    "theme": "light",
+    "route": "/limit-dohoda",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1920,
+    "theme": "light",
+    "route": "/ip-ili-samozanyatyy",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1920,
+    "theme": "light",
+    "route": "/vychet-10000",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1920,
+    "theme": "light",
+    "route": "/pensiya",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1920,
+    "theme": "light",
+    "route": "/bolnichny",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1920,
+    "theme": "light",
+    "route": "/chasy-289-fz",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1920,
+    "theme": "light",
+    "route": "/koncentracia-dohoda",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1920,
+    "theme": "light",
+    "route": "/risk-trudovyh",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1920,
+    "theme": "light",
+    "route": "/master-vybora-rezhima",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1920,
+    "theme": "light",
+    "route": "/dogovor-akt",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1920,
+    "theme": "light",
+    "route": "/poleznoe",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1920,
+    "theme": "light",
+    "route": "/metodika",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1920,
+    "theme": "light",
+    "route": "/privacy",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1920,
+    "theme": "light",
+    "route": "/disclaimer",
+    "clipped": [],
+    "overflow": false
+  },
+  {
+    "width": 1920,
+    "theme": "light",
+    "route": "/404",
+    "clipped": [],
+    "overflow": false
+  }
+]

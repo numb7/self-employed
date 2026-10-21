@@ -18,7 +18,7 @@ const RISK_FACTORS: RiskFactor[] = [
   { id: 'continuity', label: 'Непрерывная работа вместо разового результата', group: 'work' },
   { id: 'schedule', label: 'Заказчик устанавливает график', group: 'control' },
   { id: 'office', label: 'Работа из помещения заказчика', group: 'control' },
-  { id: 'equipment', label: 'Оборудование или ПО предоставляет заказчик', group: 'control' },
+  { id: 'equipment', label: 'Оборудование или программы предоставляет заказчик', group: 'control' },
   { id: 'subordination', label: 'Подчинение внутренним правилам заказчика', group: 'control' },
   { id: 'integration', label: 'Корпоративная почта, пропуск или другие признаки штата', group: 'control' },
   { id: 'sameDuties', label: 'Те же обязанности, что у штатных сотрудников', group: 'control' },
