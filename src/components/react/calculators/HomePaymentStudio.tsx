@@ -10,7 +10,6 @@ import { AnimatedMoney } from '../ui/AnimatedMoney';
 
 export function HomePaymentStudio() {
   const id = useId();
-  const [replay,setReplay] = useState(0);
   const [amount, setAmount] = useState<number | undefined>(50000);
   const [example, setExample] = useState(true);
   const [useBonus,setUseBonus] = useState(false);
@@ -41,11 +40,10 @@ export function HomePaymentStudio() {
         <span className="studio-label">Вам остаётся</span>
         <strong className="studio-kept"><AnimatedMoney value={result.toKeep}/></strong>
         <p className="studio-result-caption">После налога, до ваших расходов</p>
-        {value > 0 && <PaymentSculpture rate={visualRate} replay={replay}/>}
+        {value > 0 && <PaymentSculpture rate={visualRate}/>}
         <div className="studio-tax-total"><div><span className="studio-dot"/>Отложите на налог <small>{result.deductionUsed > 0 ? 'со скидкой' : `${rate}%`}</small></div><strong><AnimatedMoney value={result.setAside}/></strong></div>
       </> : <div className="studio-empty"><strong>{over?'Эта сумма больше годового лимита':amount===undefined?'Сколько вам заплатили?':'Какой остаток бонуса?'}</strong><p>{over?'Лимит самозанятости — 2,4 млн ₽ за год. Проверьте доход, прежде чем рассчитывать налог.':amount===undefined?'Введите сумму слева — покажем налог и деньги, которые останутся вам.':'Введите известный остаток бонуса или снимите галочку — рассчитаем без скидки.'}</p>{over&&<a href="/limit-dohoda">Проверить лимит</a>}</div>}
       </div>
-      {ready && value > 0 && <button className="studio-replay" type="button" onClick={()=>setReplay(n=>n+1)}><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 10a8 8 0 1 1 1 7M4 4v6h6" fill="none" stroke="currentColor" strokeWidth="1.5"/></svg>Повторить движение</button>}
       <p className="studio-note">{ready ? `${example?'Пример расчёта. ':'По указанным данным. '}Предварительный резерв${useBonus?' с учётом указанного бонуса':' без бонуса'}.` : 'Расчёт появится после проверки введённых данных.'} Итог за месяц — в «Мой налог».</p>
     </div>
   </div><PaymentGuide/></>;

@@ -1,10 +1,10 @@
 import { useId, type CSSProperties } from 'react';
 
 /** A payment split into the actual tax share and the amount retained. */
-export function PaymentSculpture({rate, replay}:{rate:number;replay:number}) {
+export function PaymentSculpture({rate}:{rate:number}) {
   const id=useId().replace(/:/g,'');
   const split=420*(100-rate)/100;
-  return <div className="payment-sculpture" key={replay} aria-hidden="true" style={{'--tax-shift':`${rate*1.3+22}px`} as CSSProperties}>
+  return <div className="payment-sculpture" aria-hidden="true" style={{'--tax-shift':`${rate*1.3+22}px`} as CSSProperties}>
     <svg viewBox="0 0 520 216" fill="none">
       <defs>
         <linearGradient id={`${id}-paper`} x1="15" y1="25" x2="360" y2="170" gradientUnits="userSpaceOnUse"><stop stopColor="#fff"/><stop offset=".48" stopColor="#f9fbff"/><stop offset="1" stopColor="#dce9ff"/></linearGradient>
